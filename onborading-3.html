@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>CAMBA 온보딩 3</title>
+
+    <style>
+        /* =========================
+           기본 초기화
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #ffffff;
+
+            font-family:
+                Pretendard,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Apple SD Gothic Neo",
+                "Noto Sans KR",
+                Arial,
+                sans-serif;
+        }
+
+        /* =========================
+           모바일 앱 전체 화면
+        ========================= */
+
+        .onboarding {
+            position: relative;
+
+            width: 100%;
+            height: 812px;
+
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        /* =========================
+           텍스트 영역
+        ========================= */
+
+        .text-area {
+            position: absolute;
+            top: 102px;
+            left: 24px;
+            z-index: 3;
+
+            width: calc(100% - 48px);
+        }
+
+        .title {
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        /* 일상이 바쁠땐 실시간 */
+        .title-top {
+            display: block;
+
+            color: #6e84bd;
+
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+
+        /* 라이브로 대리만족 하세요 */
+        .title-bottom {
+            display: flex;
+            align-items: baseline;
+
+            line-height: 38px;
+            white-space: nowrap;
+        }
+
+        .title-strong {
+            color: #384b7b;
+
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -1.2px;
+        }
+
+        .title-light {
+            margin-left: 7px;
+
+            color: #6e84bd;
+
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        /* 설명 문구 */
+        .description {
+            margin-top: 24px;
+
+            color: #9aa9d1;
+
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: -0.6px;
+
+            word-break: keep-all;
+        }
+
+        .description-line {
+            display: block;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           메인 일러스트
+        ========================= */
+
+        .visual-area {
+            position: absolute;
+            top: 366px;
+            left: 0;
+            z-index: 1;
+
+            width: 100%;
+            height: 237px;
+
+            overflow: hidden;
+        }
+
+        .visual-image {
+            display: block;
+
+            width: 100%;
+            height: 237px;
+
+            object-fit: fill;
+        }
+
+        /* =========================
+           페이지 표시 점
+        ========================= */
+
+        .pagination {
+            position: absolute;
+            top: 664px;
+            left: 50%;
+            z-index: 4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+
+            transform: translateX(-50%);
+        }
+
+        .pagination-dot {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            background-color: #eef0f7;
+            border-radius: 50%;
+        }
+
+        /* 세 번째 점 활성화 */
+        .pagination-dot.active {
+            background-color: #506bb0;
+        }
+
+        /* =========================
+           시작하기 버튼
+        ========================= */
+
+        .start-button {
+            position: absolute;
+            top: 730px;
+            left: 24px;
+            z-index: 5;
+
+            display: block;
+
+            width: calc(100% - 48px);
+            height: 48px;
+
+            color: #ffffff;
+            background-color: #506bb0;
+            border-radius: 12px;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 48px;
+            text-align: center;
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .start-button:active {
+            background-color: #435d9e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="onboarding">
+
+        <!-- 제목과 설명 -->
+        <section class="text-area">
+
+            <h1 class="title">
+
+                <span class="title-top">
+                    일상이 바쁠땐 실시간
+                </span>
+
+                <span class="title-bottom">
+
+                    <span class="title-strong">
+                        라이브로 대리만족
+                    </span>
+
+                    <span class="title-light">
+                        하세요
+                    </span>
+
+                </span>
+
+            </h1>
+
+            <p class="description">
+
+                <span class="description-line">
+                    라이브로 나를 뽐내고 시청자들과 소통하는
+                </span>
+
+                <span class="description-line">
+                    즐거움!
+                </span>
+
+            </p>
+
+        </section>
+
+        <!-- 메인 일러스트 -->
+        <div class="visual-area">
+
+            <img
+                class="visual-image"
+                src="./images/work3 ill.svg"
+                alt="모닥불 앞에서 라이브 방송을 하는 곰 캐릭터"
+            >
+
+        </div>
+
+        <!-- 세 번째 페이지 표시 -->
+        <div
+            class="pagination"
+            aria-label="전체 3페이지 중 3페이지"
+        >
+
+            <span class="pagination-dot"></span>
+            <span class="pagination-dot"></span>
+
+            <span
+                class="pagination-dot active"
+                aria-current="step"
+            ></span>
+
+        </div>
+
+        <!-- 메인 화면으로 이동하는 하이퍼링크 -->
+        <a
+            href="./login.html"
+            class="start-button"
+        >
+            시작하기
+        </a>
+
+    </main>
+
+    <!-- 3초 후 메인 화면으로 자동 이동 -->
+    <script>
+        const nextPage = "./login.html";
+
+        setTimeout(function () {
+            window.location.href = nextPage;
+        }, 3000);
+    </script>
+
+</body>
+</html>

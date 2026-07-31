@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 제품 상세</title>
+
+    <style>
+        /* =========================
+           기본 설정
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        a,
+        label {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           제품 상세 전체 화면
+        ========================= */
+        .product-detail-page {
+            position: relative;
+
+            width: 100%;
+            height: 100svh;
+
+            overflow: hidden;
+            background-color: #f7f4ee;
+        }
+
+        /* 스크롤되는 본문 */
+        .product-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: calc(80px + env(safe-area-inset-bottom));
+            left: 0;
+
+            padding:
+                max(28px, env(safe-area-inset-top))
+                24px
+                40px;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+        }
+
+        .product-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================
+           상단 헤더
+        ========================= */
+        .detail-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 48px;
+
+            margin-bottom: 16px;
+        }
+
+        .header-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            background-color: transparent;
+
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 4px;
+        }
+
+        .header-icon {
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        /* =========================
+           제품 이미지 갤러리
+        ========================= */
+        .product-gallery {
+            position: relative;
+
+            width: 100%;
+            height: 250px;
+
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        /* 실제 라디오 버튼은 숨김 */
+        .gallery-control {
+            position: absolute;
+
+            width: 1px;
+            height: 1px;
+
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .gallery-window {
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .gallery-track {
+            display: flex;
+
+            width: 100%;
+            height: 100%;
+
+            transition: transform 0.35s ease;
+        }
+
+        .gallery-slide {
+            flex: 0 0 100%;
+
+            width: 100%;
+            height: 100%;
+        }
+
+        .gallery-image {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* 첫 번째 사진 */
+        #gallery-1:checked ~ .gallery-window .gallery-track {
+            transform: translateX(0);
+        }
+
+        /* 두 번째 사진 */
+        #gallery-2:checked ~ .gallery-window .gallery-track {
+            transform: translateX(-100%);
+        }
+
+        /* 세 번째 사진 */
+        #gallery-3:checked ~ .gallery-window .gallery-track {
+            transform: translateX(-200%);
+        }
+
+        /* =========================
+           사진 아래 페이지 점
+        ========================= */
+        .page-indicator {
+            position: absolute;
+            z-index: 10;
+
+            bottom: 28px;
+            left: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 12px;
+
+            transform: translateX(-50%);
+        }
+
+        .indicator-label {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background-color: #d8dde5;
+
+            cursor: pointer;
+        }
+
+        /* 선택된 사진에 맞춰 점 활성화 */
+        #gallery-1:checked ~ .page-indicator label:nth-child(1),
+        #gallery-2:checked ~ .page-indicator label:nth-child(2),
+        #gallery-3:checked ~ .page-indicator label:nth-child(3) {
+            background-color: #1f2a44;
+        }
+
+        /* =========================
+           제품 기본 정보
+        ========================= */
+        .product-summary {
+            margin-top: 12px;
+        }
+
+        .brand-label {
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .product-name {
+            margin-top: 8px;
+
+            color: #1f2a44;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: -0.5px;
+        }
+
+        .product-price {
+            margin-top: 6px;
+
+            color: #1f2a44;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        /* =========================
+           속성 선택 칩
+        ========================= */
+        .product-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 8px;
+
+            margin-top: 8px;
+        }
+
+        .option-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+            height: 36px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        .option-shape {
+            display: block;
+            flex-shrink: 0;
+
+            width: 12px;
+            height: 12px;
+
+            margin-right: 8px;
+        }
+
+        .square-shape {
+            border: 1px solid #7d91b2;
+            border-radius: 2px;
+        }
+
+        .black-shape {
+            border-radius: 50%;
+            background-color: #1f2a44;
+        }
+
+        .white-shape {
+            border: 1px solid #1f2a44;
+            border-radius: 50%;
+            background-color: #ffffff;
+        }
+
+        /* =========================
+           제품 상세 정보
+        ========================= */
+        .product-specification {
+            width: 100%;
+
+            margin-top: 10px;
+
+            border-top: 1px solid #d8dde5;
+        }
+
+        .spec-row {
+            display: grid;
+            grid-template-columns: 88px 1fr;
+            align-items: center;
+
+            min-height: 40px;
+
+            border-bottom: 1px solid #d8dde5;
+        }
+
+        .spec-title {
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 18px;
+        }
+
+        .spec-value {
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        /* =========================
+           제품 설명
+        ========================= */
+        .description-section {
+            padding-top: 12px;
+        }
+
+        .description-title {
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+        }
+
+        .description-text {
+            margin-top: 8px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 20px;
+
+            word-break: keep-all;
+        }
+
+        /* =========================
+           하단 고정 버튼
+        ========================= */
+        .bottom-actions {
+            position: fixed;
+            z-index: 20;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            display: flex;
+
+            width: 100%;
+
+            padding:
+                8px
+                24px
+                calc(12px + env(safe-area-inset-bottom));
+
+            gap: 10px;
+
+            background-color: #f7f4ee;
+        }
+
+        .action-button {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+
+            height: 56px;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 22px;
+
+            cursor: pointer;
+        }
+
+        .compare-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        .store-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .action-button:active,
+        .header-button:active,
+        .indicator-label:active {
+            opacity: 0.88;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="product-detail-page">
+
+        <div class="product-content">
+
+            <!-- 상단 내비게이션 -->
+            <header class="detail-header">
+
+                <a
+                    class="header-button"
+                    href="./search.html"
+                    aria-label="이전 화면"
+                >
+                    <img
+                        class="header-icon"
+                        src="./icons/back_previous.svg"
+                        alt=""
+                    >
+                </a>
+
+                <div class="header-actions">
+
+                    <button
+                        class="header-button"
+                        type="button"
+                        aria-label="제품 공유"
+                    >
+                        <img
+                            class="header-icon"
+                            src="./icons/mi_share.svg"
+                            alt=""
+                        >
+                    </button>
+
+                    <button
+                        class="header-button"
+                        type="button"
+                        aria-label="관심 제품 저장"
+                    >
+                        <img
+                            class="header-icon"
+                            src="./icons/like.svg"
+                            alt=""
+                        >
+                    </button>
+
+                </div>
+
+            </header>
+
+            <!-- 이미지 갤러리 -->
+            <section
+                class="product-gallery"
+                aria-label="제품 이미지"
+            >
+
+                <!-- 사진 선택 버튼 -->
+                <input
+                    class="gallery-control"
+                    type="radio"
+                    name="product-gallery"
+                    id="gallery-1"
+                    checked
+                >
+
+                <input
+                    class="gallery-control"
+                    type="radio"
+                    name="product-gallery"
+                    id="gallery-2"
+                >
+
+                <input
+                    class="gallery-control"
+                    type="radio"
+                    name="product-gallery"
+                    id="gallery-3"
+                >
+
+                <!-- 사진 3장 -->
+                <div class="gallery-window">
+
+                    <div class="gallery-track">
+
+                        <div class="gallery-slide">
+
+                            <img
+                                class="gallery-image"
+                                src="./images/1_recommend.png"
+                                alt="클래식 스퀘어 프레임 왼쪽 측면"
+                            >
+
+                        </div>
+
+                        <div class="gallery-slide">
+
+                            <img
+                                class="gallery-image"
+                                src="./images/1_recommend-1.png"
+                                alt="클래식 스퀘어 프레임 정면"
+                            >
+
+                        </div>
+
+                        <div class="gallery-slide">
+
+                            <img
+                                class="gallery-image"
+                                src="./images/1_recommend-2.png"
+                                alt="클래식 스퀘어 프레임 오른쪽 측면"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- 점을 클릭하면 해당 사진 표시 -->
+                <div
+                    class="page-indicator"
+                    aria-label="제품 사진 선택"
+                >
+
+                    <label
+                        class="indicator-label"
+                        for="gallery-1"
+                        aria-label="첫 번째 사진 보기"
+                    ></label>
+
+                    <label
+                        class="indicator-label"
+                        for="gallery-2"
+                        aria-label="두 번째 사진 보기"
+                    ></label>
+
+                    <label
+                        class="indicator-label"
+                        for="gallery-3"
+                        aria-label="세 번째 사진 보기"
+                    ></label>
+
+                </div>
+
+            </section>
+
+            <!-- 제품 기본 정보 -->
+            <section class="product-summary">
+
+                <p class="brand-label">
+                    BRAND
+                </p>
+
+                <h1 class="product-name">
+                    클래식 스퀘어 프레임
+                </h1>
+
+                <p class="product-price">
+                    ₩249,000
+                </p>
+
+                <div class="product-options">
+
+                    <div class="option-chip">
+                        <span class="option-shape square-shape"></span>
+                        스퀘어
+                    </div>
+
+                    <div class="option-chip">
+                        <span class="option-shape black-shape"></span>
+                        블랙
+                    </div>
+
+                    <div class="option-chip">
+                        <span class="option-shape white-shape"></span>
+                        아세테이트
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- 상세 정보 -->
+            <section class="product-specification">
+
+                <div class="spec-row">
+                    <p class="spec-title">사이즈</p>
+                    <p class="spec-value">M / 52-18-145</p>
+                </div>
+
+                <div class="spec-row">
+                    <p class="spec-title">추천 얼굴형</p>
+                    <p class="spec-value">계란형, 둥근형</p>
+                </div>
+
+                <div class="spec-row">
+                    <p class="spec-title">착용 목적</p>
+                    <p class="spec-value">일상, 패션</p>
+                </div>
+
+            </section>
+
+            <!-- 제품 설명 -->
+            <section class="description-section">
+
+                <h2 class="description-title">
+                    제품 설명
+                </h2>
+
+                <p class="description-text">
+                    볼드한 스퀘어 실루엣과<br>
+                    광택 있는 아세테이트 소재가<br>
+                    세련된 인상을 완성합니다.<br>
+                    가볍고 안정적인 착용감을 제공합니다.
+                </p>
+
+            </section>
+
+        </div>
+
+        <!-- 하단 버튼 -->
+        <nav class="bottom-actions">
+
+            <a
+                class="action-button compare-button"
+                href="./compare.html"
+            >
+                비교에 추가
+            </a>
+
+            <a
+                class="action-button store-button"
+                href="./store-finder.html"
+            >
+                매장 찾기
+            </a>
+
+        </nav>
+
+    </main>
+</body>
+</html>

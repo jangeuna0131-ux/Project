@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE Splash</title>
+
+    <style>
+        /* 모든 요소의 기본 여백 제거 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            /* iOS에서 글자 크기를 자동으로 키우는 현상 방지 */
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+            background-color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            /* 모바일 터치 시 회색 강조 효과 제거 */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 모바일 App 전용 스플래시 화면 */
+        .splash {
+            position: relative;
+
+            width: 100%;
+
+            /* 구형 모바일 브라우저용 기본값 */
+            height: 100vh;
+
+            /* iOS·안드로이드 모바일 브라우저 높이 대응 */
+            height: 100svh;
+
+            overflow: hidden;
+            background-color: #1f2a44;
+        }
+
+        /* 스플래시 중앙 콘텐츠 */
+        .splash-content {
+            position: absolute;
+            top: 208px;
+            left: 50%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            width: 100%;
+
+            transform: translateX(-50%);
+        }
+
+        /* G 얼굴 심볼 */
+        .symbol-logo {
+            display: block;
+
+            width: 102px;
+            height: 116px;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* GAZE 브랜드명 */
+        .brand-name {
+            margin-top: 72px;
+
+            color: #ffffff;
+
+            font-family:
+                "Playfair Display",
+                "Times New Roman",
+                serif;
+
+            font-size: 44px;
+            font-weight: 400;
+            line-height: 52px;
+            letter-spacing: 12px;
+
+            /* 마지막 글자 뒤 여백을 시각적으로 보정 */
+            text-indent: 12px;
+            text-align: center;
+        }
+
+        /* 영문 슬로건 */
+        .brand-tagline {
+            margin-top: 8px;
+
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 4px;
+
+            text-indent: 4px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* 한글 서비스 설명 */
+        .splash-description {
+            margin-top: 52px;
+
+            color: #ffffff;
+
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: -0.4px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="splash">
+
+        <div class="splash-content">
+
+            <!-- G 얼굴 심볼 SVG -->
+            <img
+                class="symbol-logo"
+                src="./images/gaze-symbol-white.svg"
+                alt="GAZE 얼굴 심볼 로고"
+            >
+
+            <!-- 브랜드명 -->
+            <h1 class="brand-name">
+                GAZE
+            </h1>
+
+            <!-- 영문 슬로건 -->
+            <p class="brand-tagline">
+                FIND YOUR PERFECT LOOK
+            </p>
+
+            <!-- 한글 설명 -->
+            <p class="splash-description">
+                나에게 맞는 아이웨어 탐색
+            </p>
+
+        </div>
+
+    </main>
+    <script>
+    setTimeout(function () {
+        window.location.href = "./on-1.html";
+    }, 3000);
+</script>
+</body>
+</html>

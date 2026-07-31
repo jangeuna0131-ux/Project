@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 저장 목록</title>
+
+    <style>
+        /* =========================
+           기본 설정
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           저장 화면 전체
+        ========================= */
+        .saved-page {
+            position: relative;
+
+            width: 100%;
+            height: 100svh;
+
+            overflow: hidden;
+            background-color: #f7f4ee;
+        }
+
+        /* =========================
+           스크롤 본문
+        ========================= */
+        .saved-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: calc(72px + env(safe-area-inset-bottom));
+            left: 0;
+
+            padding:
+                max(44px, calc(env(safe-area-inset-top) + 20px))
+                24px
+                24px;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+        }
+
+        .saved-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================
+           상단 제목
+        ========================= */
+        .saved-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+        }
+
+        .saved-title {
+            color: #1f2a44;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: -0.4px;
+        }
+
+        .saved-count {
+            margin-top: 4px;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        .edit-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 58px;
+            height: 36px;
+
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           상단 탭
+        ========================= */
+        .saved-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            gap: 6px;
+
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .saved-tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 36px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+
+            white-space: nowrap;
+        }
+
+        .saved-tab.active {
+            border-color: #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        /* =========================
+           저장 제품 목록
+        ========================= */
+        .saved-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .saved-card {
+            display: grid;
+            grid-template-columns: 164px minmax(0, 1fr);
+
+            gap: 8px;
+
+            width: 100%;
+            min-height: 132px;
+
+            padding: 8px 12px 8px 14px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        /* 제품 이미지 */
+        .saved-image-link {
+            display: block;
+
+            width: 164px;
+            height: 108px;
+
+            overflow: hidden;
+            align-self: center;
+
+            background-color: #f7f4ee;
+        }
+
+        .saved-image {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* 제품 정보 */
+        .saved-info {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+            padding-top: 2px;
+        }
+
+        .saved-heart {
+            display: block;
+
+            width: 18px;
+            height: 18px;
+
+            object-fit: contain;
+        }
+
+        .product-name {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+            letter-spacing: -0.3px;
+
+            word-break: keep-all;
+        }
+
+        .product-price {
+            margin-top: 2px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* 비교에 추가 */
+        .compare-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: fit-content;
+            min-width: 104px;
+            height: 32px;
+
+            margin-top: 4px;
+            padding: 0 12px;
+
+            border: 1px solid #1f2a44;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        /* =========================
+           빈 상태 안내 카드
+        ========================= */
+        .empty-card {
+            display: grid;
+            grid-template-columns: 48px minmax(0, 1fr);
+
+            gap: 12px;
+
+            width: 100%;
+            margin-top: 12px;
+            padding: 16px;
+
+            border-radius: 16px;
+
+            background-color: #d8dde5;
+        }
+
+        .empty-icon {
+            display: block;
+
+            width: 48px;
+            height: 48px;
+
+            margin-top: 4px;
+
+            object-fit: contain;
+        }
+
+        .empty-title {
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .empty-description {
+            margin-top: 2px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+
+            word-break: keep-all;
+        }
+
+        .browse-button {
+            display: flex;
+            grid-column: 1 / -1;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 40px;
+
+            margin-top: 4px;
+
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* =========================
+           하단 공통 탭바
+        ========================= */
+        .bottom-navigation {
+            position: fixed;
+            z-index: 30;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            display: flex;
+
+            width: 100%;
+            height: calc(72px + env(safe-area-inset-bottom));
+
+            padding-bottom: env(safe-area-inset-bottom);
+
+            border-top: 1px solid #d8dde5;
+
+            background-color: #ffffff;
+        }
+
+        .nav-item {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+
+            color: #cbd2dc;
+        }
+
+        .nav-icon {
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+            opacity: 0.55;
+        }
+
+        .nav-label {
+            margin-top: 4px;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        /* 현재 저장 탭 */
+        .nav-item.active {
+            color: #1f2a44;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        .saved-tab:active,
+        .compare-link:active,
+        .browse-button:active,
+        .edit-button:active,
+        .nav-item:active {
+            opacity: 0.82;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="saved-page">
+
+        <!-- 스크롤되는 저장 목록 -->
+        <div class="saved-content">
+
+            <!-- 상단 제목 -->
+            <header class="saved-header">
+
+                <div>
+
+                    <h1 class="saved-title">
+                        저장
+                    </h1>
+
+                    <p class="saved-count">
+                        관심 제품 3개
+                    </p>
+
+                </div>
+
+                <button
+                    class="edit-button"
+                    type="button"
+                >
+                    편집
+                </button>
+
+            </header>
+
+            <!-- 저장 카테고리 탭 -->
+            <nav
+                class="saved-tabs"
+                aria-label="저장 목록 분류"
+            >
+
+                <a
+                    class="saved-tab active"
+                    href="./saved.html"
+                    aria-current="page"
+                >
+                    관심제품
+                </a>
+
+                <a
+                    class="saved-tab"
+                    href="./compare.html"
+                >
+                    비교 제품
+                </a>
+
+                <!-- 아직 최근 본 제품 화면이 없으므로 제품 상세로 연결 -->
+                <a
+                    class="saved-tab"
+                    href="./product-detail.html"
+                >
+                    최근 본 제품
+                </a>
+
+            </nav>
+
+            <!-- 저장 제품 목록 -->
+            <section class="saved-list">
+
+                <!-- 제품 1 -->
+                <article class="saved-card">
+
+                    <a
+                        class="saved-image-link"
+                        href="./product-detail.html"
+                        aria-label="슬림 캣아이 프레임 상세보기"
+                    >
+                        <img
+                            class="saved-image"
+                            src="./images/13.png"
+                            alt="슬림 캣아이 프레임"
+                        >
+                    </a>
+
+                    <div class="saved-info">
+
+                        <img
+                            class="saved-heart"
+                            src="./icons/blacklike.svg"
+                            alt="저장된 제품"
+                        >
+
+                        <a
+                            class="product-name"
+                            href="./product-detail.html"
+                        >
+                            슬림 캣아이 프레임
+                        </a>
+
+                        <p class="product-price">
+                            ₩ 250,000
+                        </p>
+
+                        <a
+                            class="compare-link"
+                            href="./compare.html"
+                        >
+                            비교에 추가
+                        </a>
+
+                    </div>
+
+                </article>
+
+                <!-- 제품 2 -->
+                <article class="saved-card">
+
+                    <a
+                        class="saved-image-link"
+                        href="./product-detail.html"
+                        aria-label="토터스 셸 캣아이 상세보기"
+                    >
+                        <img
+                            class="saved-image"
+                            src="./images/14.png"
+                            alt="토터스 셸 캣아이"
+                        >
+                    </a>
+
+                    <div class="saved-info">
+
+                        <img
+                            class="saved-heart"
+                            src="./icons/blacklike.svg"
+                            alt="저장된 제품"
+                        >
+
+                        <a
+                            class="product-name"
+                            href="./product-detail.html"
+                        >
+                            토터스 셸 캣아이
+                        </a>
+
+                        <p class="product-price">
+                            ₩ 279,000
+                        </p>
+
+                        <a
+                            class="compare-link"
+                            href="./compare.html"
+                        >
+                            비교에 추가
+                        </a>
+
+                    </div>
+
+                </article>
+
+                <!-- 제품 3 -->
+                <article class="saved-card">
+
+                    <a
+                        class="saved-image-link"
+                        href="./product-detail.html"
+                        aria-label="볼드 캣아이 프레임 상세보기"
+                    >
+                        <img
+                            class="saved-image"
+                            src="./images/15.png"
+                            alt="볼드 캣아이 프레임"
+                        >
+                    </a>
+
+                    <div class="saved-info">
+
+                        <img
+                            class="saved-heart"
+                            src="./icons/blacklike.svg"
+                            alt="저장된 제품"
+                        >
+
+                        <a
+                            class="product-name"
+                            href="./product-detail.html"
+                        >
+                            볼드 캣아이 프레임
+                        </a>
+
+                        <p class="product-price">
+                            ₩ 249,000
+                        </p>
+
+                        <a
+                            class="compare-link"
+                            href="./compare.html"
+                        >
+                            비교에 추가
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- 제품이 없을 때 사용하는 안내 UI -->
+            <section class="empty-card">
+
+                <img
+                    class="empty-icon"
+                    src="./icons/biglike.svg"
+                    alt=""
+                >
+
+                <div>
+
+                    <h2 class="empty-title">
+                        저장한 제품이 없으신가요?
+                    </h2>
+
+                    <p class="empty-description">
+                        마음에 드는 아이웨어를 저장하고<br>
+                        쉽게 비교해 보세요.
+                    </p>
+
+                </div>
+
+                <a
+                    class="browse-button"
+                    href="./search.html"
+                >
+                    제품 둘러보기
+                </a>
+
+            </section>
+
+        </div>
+
+        <!-- 하단 공통 탭바 -->
+        <nav
+            class="bottom-navigation"
+            aria-label="하단 메뉴"
+        >
+
+            <a
+                class="nav-item"
+                href="./home.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/home.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    홈
+                </span>
+            </a>
+
+            <a
+                class="nav-item"
+                href="./search.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    탐색
+                </span>
+            </a>
+
+            <a
+                class="nav-item active"
+                href="./saved.html"
+                aria-current="page"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/like2.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    저장
+                </span>
+            </a>
+
+          <a
+    class="nav-item"
+    href="./my.html"
+>
+    <img
+        class="nav-icon"
+        src="./icons/user.svg"
+        alt=""
+    >
+
+    <span class="nav-label">
+        마이
+    </span>
+</a>
+
+        </nav>
+
+    </main>
+</body>
+</html>

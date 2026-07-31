@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- iOS·안드로이드 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 매장 찾기</title>
+
+    <style>
+        /* =========================
+           기본 설정
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           모바일 App 전체 화면
+        ========================= */
+        .store-finder-page {
+            width: 100%;
+            height: 100svh;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+
+            scrollbar-width: none;
+        }
+
+        .store-finder-page::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 실제 콘텐츠 */
+        .store-content {
+            width: 100%;
+
+            padding:
+                max(36px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                calc(32px + env(safe-area-inset-bottom));
+        }
+
+        /* =========================
+           상단 헤더
+        ========================= */
+        .page-header {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 44px;
+        }
+
+        .back-button {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            margin-left: -12px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .back-icon {
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .page-title {
+            margin-left: 4px;
+
+            color: #1f2a44;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: -0.4px;
+        }
+
+        /* =========================
+           매장 검색창
+        ========================= */
+        .store-search {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 48px;
+
+            margin-top: 18px;
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            display: block;
+            flex-shrink: 0;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+
+            padding-left: 16px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+
+            caret-color: #1f2a44;
+        }
+
+        .search-input::placeholder {
+            color: #7d91b2;
+            opacity: 1;
+        }
+
+        .search-input:focus::placeholder {
+            opacity: 0.45;
+        }
+
+        /* =========================
+           지도 이미지
+        ========================= */
+        .map-area {
+            width: 100%;
+            height: 256px;
+
+            margin-top: 16px;
+
+            overflow: hidden;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .map-image {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* =========================
+           매장 목록
+        ========================= */
+        .store-list {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            margin-top: 8px;
+
+            gap: 12px;
+        }
+
+        /* 개별 매장 카드 */
+        .store-card {
+            width: 100%;
+
+            padding: 14px 16px 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        /* 매장 필터 */
+        .store-filter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .filter-select {
+            width: 106px;
+            height: 32px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+            outline: none;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .filter-select:focus {
+            border-color: #7d91b2;
+        }
+
+        /* 매장 정보 */
+        .store-main {
+            display: grid;
+            grid-template-columns: 98px minmax(0, 1fr);
+            align-items: center;
+
+            width: 100%;
+
+            gap: 16px;
+        }
+
+        .store-main:active {
+            opacity: 0.88;
+        }
+
+        .store-image {
+            display: block;
+
+            width: 98px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .store-info {
+            min-width: 0;
+        }
+
+        .store-name {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+            letter-spacing: -0.3px;
+
+            white-space: nowrap;
+        }
+
+        .store-meta {
+            display: flex;
+            align-items: center;
+
+            margin-top: 8px;
+
+            gap: 8px;
+        }
+
+        .store-distance {
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        .stock-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 24px;
+            padding: 0 8px;
+
+            border-radius: 4px;
+
+            background-color: #8da0be;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        .store-address,
+        .store-hours {
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        .store-address {
+            margin-top: 6px;
+        }
+
+        .store-hours {
+            margin-top: 2px;
+        }
+
+        .back-button:active {
+            opacity: 0.88;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="store-finder-page">
+
+        <div class="store-content">
+
+            <!-- 상단 제목 -->
+            <header class="page-header">
+
+                <a
+                    class="back-button"
+                    href="./product-detail.html"
+                    aria-label="제품 상세 화면으로 돌아가기"
+                >
+                    <img
+                        class="back-icon"
+                        src="./icons/back_previous.svg"
+                        alt=""
+                    >
+                </a>
+
+                <h1 class="page-title">
+                    매장 찾기
+                </h1>
+
+            </header>
+
+            <!-- 지역 또는 매장 검색 -->
+            <label class="store-search">
+
+                <img
+                    class="search-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <input
+                    class="search-input"
+                    type="search"
+                    name="store-search"
+                    placeholder="지역 또는 매장 검색"
+                    autocomplete="off"
+                    aria-label="지역 또는 매장 검색"
+                >
+
+            </label>
+
+            <!-- 정적 지도 이미지 -->
+            <section
+                class="map-area"
+                aria-label="GAZE 매장 위치 지도"
+            >
+                <img
+                    class="map-image"
+                    src="./images/map.png"
+                    alt="현재 위치와 GAZE 매장이 표시된 지도"
+                >
+            </section>
+
+            <!-- 매장 목록 -->
+            <section
+                class="store-list"
+                aria-label="주변 매장 목록"
+            >
+
+                <!-- 강남점 -->
+                <article class="store-card">
+
+                    <div class="store-filter">
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 지역"
+                        >
+                            <option selected>강남구</option>
+                            <option>서초구</option>
+                            <option>송파구</option>
+                            <option>마포구</option>
+                        </select>
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 정렬 방식"
+                        >
+                            <option selected>거리순</option>
+                            <option>재고순</option>
+                            <option>인기순</option>
+                        </select>
+
+                    </div>
+
+                    <!-- 강남점 클릭 시 피팅 예약 화면으로 이동 -->
+                    <a
+                        class="store-main"
+                        href="./fitting-reservation.html"
+                        aria-label="GAZE Optical 강남점 피팅 예약하기"
+                    >
+
+                        <img
+                            class="store-image"
+                            src="./images/Frame 32.png"
+                            alt="GAZE Optical 강남점 외관"
+                        >
+
+                        <div class="store-info">
+
+                            <h2 class="store-name">
+                                GAZE Optical 강남점
+                            </h2>
+
+                            <div class="store-meta">
+
+                                <span class="store-distance">
+                                    0.8km
+                                </span>
+
+                                <span class="stock-badge">
+                                    재고 확인 가능
+                                </span>
+
+                            </div>
+
+                            <p class="store-address">
+                                서울 강남구 강남대로 123
+                            </p>
+
+                            <p class="store-hours">
+                                매일 10:30 - 20:00
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                </article>
+
+                <!-- 신사점 -->
+                <article class="store-card">
+
+                    <div class="store-filter">
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 지역"
+                        >
+                            <option selected>강남구</option>
+                            <option>서초구</option>
+                            <option>송파구</option>
+                            <option>마포구</option>
+                        </select>
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 정렬 방식"
+                        >
+                            <option selected>거리순</option>
+                            <option>재고순</option>
+                            <option>인기순</option>
+                        </select>
+
+                    </div>
+
+                    <div class="store-main">
+
+                        <img
+                            class="store-image"
+                            src="./images/Frame 32-1.png"
+                            alt="GAZE Optical 신사점 외관"
+                        >
+
+                        <div class="store-info">
+
+                            <h2 class="store-name">
+                                GAZE Optical 신사점
+                            </h2>
+
+                            <div class="store-meta">
+
+                                <span class="store-distance">
+                                    1.6km
+                                </span>
+
+                                <span class="stock-badge">
+                                    재고 확인 가능
+                                </span>
+
+                            </div>
+
+                            <p class="store-address">
+                                서울 강남구 도산대로 45
+                            </p>
+
+                            <p class="store-hours">
+                                매일 11:00 - 20:30
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </div>
+
+    </main>
+</body>
+</html>

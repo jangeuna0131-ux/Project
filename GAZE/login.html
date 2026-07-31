@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 로그인</title>
+
+    <style>
+        /* 기본 여백 제거 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* 모바일 App 전용 로그인 화면 */
+        .login-page {
+            width: 100%;
+            height: 100svh;
+
+            padding:
+                max(48px, env(safe-area-inset-top))
+                24px
+                max(34px, env(safe-area-inset-bottom));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+        }
+
+        /* 로고 영역 */
+        .brand-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        .brand-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+        }
+
+        /* G 얼굴 심볼 */
+        .brand-symbol {
+            display: block;
+
+            width: 58px;
+            height: 68px;
+
+            object-fit: contain;
+        }
+
+        /* GAZE 브랜드 글자 */
+        .brand-name {
+            margin-left: 14px;
+
+            color: #1f2a44;
+
+            font-family:
+                "Times New Roman",
+                Georgia,
+                serif;
+
+            font-size: 44px;
+            font-weight: 400;
+            line-height: 52px;
+            letter-spacing: 10px;
+            text-indent: 10px;
+
+            white-space: nowrap;
+        }
+
+        /* 영문 슬로건 */
+        .brand-tagline {
+            margin-top: -4px;
+            margin-left: 64px;
+
+            color: #1f2a44;
+
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 4px;
+
+            white-space: nowrap;
+        }
+
+        /* 환영 문구 */
+        .welcome-area {
+            margin-top: 32px;
+
+            text-align: center;
+        }
+
+        .welcome-title {
+            color: #1f2a44;
+
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: -0.8px;
+        }
+
+        .welcome-description {
+            margin-top: 8px;
+
+            color: #2f3640;
+
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 22px;
+            letter-spacing: -0.3px;
+        }
+
+        /* 로그인 입력 영역 */
+        .login-form {
+            width: 100%;
+            margin-top: 28px;
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        .form-group + .form-group {
+            margin-top: 12px;
+        }
+
+        .form-label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        /* 입력창 */
+        .input-box {
+            position: relative;
+
+            width: 100%;
+        }
+
+        .form-input {
+            display: block;
+
+            width: 100%;
+            height: 48px;
+
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+            outline: none;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+
+            caret-color: #1f2a44;
+        }
+
+        .form-input::placeholder {
+            color: #7d91b2;
+            opacity: 1;
+        }
+
+        .form-input:focus {
+            border-color: #7d91b2;
+
+            box-shadow: 0 0 0 2px rgba(125, 145, 178, 0.14);
+        }
+
+        /* 비밀번호 입력창 오른쪽 공간 */
+        .password-input {
+            padding-right: 52px;
+        }
+
+        /* 비밀번호 눈 아이콘 */
+        .password-icon {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            transform: translateY(-50%);
+            object-fit: contain;
+
+            pointer-events: none;
+        }
+
+        /* 비밀번호 찾기 */
+        .forgot-link-wrap {
+            margin-top: 10px;
+
+            text-align: right;
+        }
+
+        .forgot-link {
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+
+            text-decoration: none;
+        }
+
+        /* 로그인 버튼 */
+        .login-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 56px;
+
+            margin-top: 14px;
+
+            border: 0;
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            cursor: pointer;
+        }
+
+        .login-button:active {
+            opacity: 0.88;
+        }
+
+        /* 구분선 */
+        .divider {
+            display: flex;
+            align-items: center;
+
+            width: calc(100% - 36px);
+            margin: 28px auto 20px;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background-color: #d8dde5;
+        }
+
+        .divider span {
+            padding: 0 14px;
+        }
+
+        /* 소셜 로그인 */
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+
+            width: 100%;
+
+            gap: 16px;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: calc((100% - 32px) / 3);
+            height: 48px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+
+            cursor: pointer;
+        }
+
+        .social-button:active {
+            background-color: #f0efed;
+        }
+
+        .social-icon {
+            display: block;
+
+            width: 28px;
+            height: 28px;
+
+            object-fit: contain;
+        }
+
+        /* 회원가입 문구 */
+        .signup-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 32px;
+
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .signup-question {
+            color: #2f3640;
+        }
+
+        .signup-link {
+            margin-left: 12px;
+
+            color: #111111;
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+        /* 게스트 버튼 */
+        .guest-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 56px;
+
+            margin-top: 32px;
+
+            border: 1px solid #1f2a44;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            text-decoration: none;
+        }
+
+        .guest-button:active {
+            background-color: #f0efed;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-page">
+
+        <!-- GAZE 로고 -->
+        <header class="brand-area">
+
+            <div class="brand-main">
+
+                <img
+                    class="brand-symbol"
+                    src="./images/1_symbol.svg"
+                    alt="GAZE 얼굴 심볼 로고"
+                >
+
+                <p class="brand-name">
+                    GAZE
+                </p>
+
+            </div>
+
+            <p class="brand-tagline">
+                당신에게 꼭 맞는 아이웨어를 찾아보세요
+            </p>
+
+        </header>
+
+        <!-- 로그인 안내 -->
+        <section class="welcome-area">
+
+            <h1 class="welcome-title">
+                다시 오신 것을 환영해요
+            </h1>
+
+            <p class="welcome-description">
+                로그인하고 나만의 스타일 여정을 이어가세요.
+            </p>
+
+        </section>
+
+        <!--
+            HTML 정적 구현이므로 실제 회원 인증은 하지 않음.
+            필수 입력 후 로그인 버튼을 누르면 home.html로 이동함.
+        -->
+        <form
+            class="login-form"
+            action="home.html"
+            method="get"
+        >
+
+            <!-- 이메일 -->
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="user-email"
+                >
+                    이메일
+                </label>
+
+                <div class="input-box">
+
+                 <!-- 이메일 -->
+<input
+    class="form-input"
+    id="user-email"
+    name="email"
+    type="email"
+    autocomplete="off"
+    inputmode="email"
+    required
+>
+
+                </div>
+
+            </div>
+
+            <!-- 비밀번호 -->
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="user-password"
+                >
+                    비밀번호
+                </label>
+
+                <div class="input-box">
+
+               <input
+    class="form-input password-input"
+    id="user-password"
+    name="password"
+    type="password"
+    autocomplete="off"
+    minlength="4"
+    required
+>
+
+                    <img
+                        class="password-icon"
+                        src="./icons/red-eye.svg"
+                        alt=""
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- 비밀번호 찾기 -->
+            <div class="forgot-link-wrap">
+
+                <a
+                    class="forgot-link"
+                    href="#"
+                >
+                    비밀번호를 잊으셨나요?
+                </a>
+
+            </div>
+
+            <!-- 로그인 -->
+            <button
+                class="login-button"
+                type="submit"
+            >
+                로그인
+            </button>
+
+        </form>
+
+        <!-- 소셜 로그인 구분 -->
+        <div class="divider">
+            <span>또는</span>
+        </div>
+
+        <!-- 소셜 로그인 -->
+        <section
+            class="social-login"
+            aria-label="소셜 로그인"
+        >
+
+            <button
+                class="social-button"
+                type="button"
+                aria-label="Apple 계정으로 로그인"
+            >
+                <img
+                    class="social-icon"
+                    src="./icons/apple.svg"
+                    alt=""
+                >
+            </button>
+
+            <button
+                class="social-button"
+                type="button"
+                aria-label="Google 계정으로 로그인"
+            >
+                <img
+                    class="social-icon"
+                    src="./icons/google.svg"
+                    alt=""
+                >
+            </button>
+
+            <button
+                class="social-button"
+                type="button"
+                aria-label="Facebook 계정으로 로그인"
+            >
+                <img
+                    class="social-icon"
+                    src="./icons/facebook.svg"
+                    alt=""
+                >
+            </button>
+
+        </section>
+
+        <!-- 회원가입 -->
+        <div class="signup-area">
+
+            <span class="signup-question">
+                계정이 없으신가요?
+            </span>
+
+    <a
+    class="signup-link"
+    href="./signup.html"
+>
+    회원가입
+</a>
+
+        </div>
+
+        <!-- 게스트 진입 -->
+        <a
+            class="guest-button"
+            href="home.html"
+        >
+            게스트로 둘러보기
+        </a>
+
+    </main>
+</body>
+</html>

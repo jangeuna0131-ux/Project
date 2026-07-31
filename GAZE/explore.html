@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 탐색</title>
+
+    <style>
+        /* =========================
+           기본 설정
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input,
+        summary {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+        }
+
+        /* =========================
+           모바일 App 화면
+        ========================= */
+        .search-page {
+            position: relative;
+
+            width: 100%;
+            height: 100svh;
+
+            overflow: hidden;
+            background-color: #f7f4ee;
+        }
+
+        /* =========================
+           스크롤되는 본문
+        ========================= */
+        .search-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: calc(72px + env(safe-area-inset-bottom));
+            left: 0;
+
+            padding:
+                max(44px, calc(env(safe-area-inset-top) + 20px))
+                24px
+                144px;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .search-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================
+           검색창
+        ========================= */
+        .search-box {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 48px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .search-box:focus-within {
+            border-color: #7d91b2;
+
+            box-shadow:
+                0 0 0 2px rgba(125, 145, 178, 0.12);
+        }
+
+        .search-icon {
+            flex-shrink: 0;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+
+            padding: 0 16px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 400;
+
+            caret-color: #1f2a44;
+        }
+
+        .search-input::placeholder {
+            color: #7d91b2;
+            opacity: 1;
+        }
+
+        /* 검색창 오른쪽 스캔 아이콘 */
+        .scan-button {
+            position: relative;
+            flex-shrink: 0;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .scan-corner {
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            border-color: #1f2a44;
+            border-style: solid;
+        }
+
+        .scan-corner.top-left {
+            top: 12px;
+            left: 12px;
+
+            border-width: 2px 0 0 2px;
+            border-radius: 3px 0 0 0;
+        }
+
+        .scan-corner.top-right {
+            top: 12px;
+            right: 12px;
+
+            border-width: 2px 2px 0 0;
+            border-radius: 0 3px 0 0;
+        }
+
+        .scan-corner.bottom-left {
+            bottom: 12px;
+            left: 12px;
+
+            border-width: 0 0 2px 2px;
+            border-radius: 0 0 0 3px;
+        }
+
+        .scan-corner.bottom-right {
+            right: 12px;
+            bottom: 12px;
+
+            border-width: 0 2px 2px 0;
+            border-radius: 0 0 3px 0;
+        }
+
+        /* =========================
+           공통 섹션
+        ========================= */
+        .search-section {
+            margin-top: 12px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            color: #1f2a44;
+
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.4px;
+        }
+
+        .section-action {
+            min-width: 44px;
+            min-height: 44px;
+
+            border: 0;
+            background-color: transparent;
+            color: #7d91b2;
+
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 16px;
+        }
+
+        /* =========================
+           검색어 칩
+        ========================= */
+        .chip-list {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+        .keyword-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 36px;
+            padding: 0 10px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        .keyword-chip:active {
+            background-color: #f0efed;
+        }
+
+        .chip-close {
+            width: 12px;
+            height: 12px;
+
+            margin-left: 6px;
+
+            object-fit: contain;
+        }
+
+        /* =========================
+           안경 / 선글라스 선택 탭
+        ========================= */
+        .category-tabs {
+            display: flex;
+
+            width: 100%;
+            height: 40px;
+
+            margin-top: 12px;
+
+            gap: 10px;
+        }
+
+        .category-button {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+
+            height: 40px;
+
+            border: 1px solid #1f2a44;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition:
+                background-color 0.15s ease,
+                color 0.15s ease,
+                opacity 0.15s ease;
+        }
+
+        /* 현재 선택된 안경 또는 선글라스 */
+        .category-button.active {
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .category-button:active {
+            opacity: 0.82;
+        }
+
+        /* =========================
+           필터 제목
+        ========================= */
+        .filter-section {
+            margin-top: 8px;
+        }
+
+        .filter-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+        }
+
+        /* =========================
+           필터 행 공통
+        ========================= */
+        .filter-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            min-height: 44px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        .filter-row:active {
+            background-color: #f0efed;
+        }
+
+        .filter-left {
+            display: flex;
+            flex: 1;
+            align-items: center;
+
+            min-width: 0;
+        }
+
+        .filter-icon {
+            flex-shrink: 0;
+
+            width: 20px;
+            height: 20px;
+
+            margin-right: 8px;
+
+            object-fit: contain;
+        }
+
+        .filter-name {
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        .filter-value {
+            margin-left: auto;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .filter-plus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 24px;
+            height: 24px;
+
+            margin-left: 8px;
+
+            color: #7d91b2;
+
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 24px;
+        }
+
+        /* =========================
+           가격 아코디언
+        ========================= */
+        .price-accordion {
+            width: 100%;
+        }
+
+        .price-accordion summary {
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .price-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .price-accordion[open] .price-summary {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .filter-toggle::before {
+            content: "+";
+        }
+
+        .price-accordion[open] .filter-toggle::before {
+            content: "−";
+        }
+
+        .price-panel {
+            width: 100%;
+
+            padding: 16px 8px;
+
+            border: 1px solid #d8dde5;
+            border-top: 0;
+            border-radius: 0 0 16px 16px;
+
+            background-color: #d3d8e1;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 12px;
+        }
+
+        .price-input-card {
+            flex: 1;
+
+            min-width: 0;
+            height: 76px;
+
+            padding: 12px 10px;
+
+            border: 1px solid #e6e9ee;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .price-input-label {
+            display: block;
+
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        .price-input {
+            width: 100%;
+            height: 28px;
+
+            margin-top: 4px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: #7d91b2;
+
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .price-divider {
+            flex-shrink: 0;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 가격 빠른 선택 */
+        .price-chip-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 4px;
+
+            margin-top: 16px;
+        }
+
+        .price-chip {
+            min-width: 0;
+            height: 36px;
+
+            padding: 0 4px;
+
+            border: 1px solid #e4e7ec;
+            border-radius: 10px;
+
+            background-color: #ffffff;
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 500;
+
+            white-space: nowrap;
+        }
+
+        .price-chip:active {
+            background-color: #edf0f4;
+        }
+
+        /* =========================
+           하단 필터 버튼
+        ========================= */
+        .filter-actions {
+            position: fixed;
+            z-index: 20;
+
+            right: 24px;
+            bottom: calc(72px + env(safe-area-inset-bottom));
+            left: 24px;
+
+            display: flex;
+
+            gap: 10px;
+
+            padding: 8px 0 4px;
+
+            background-color: #f7f4ee;
+        }
+
+        .filter-action-button {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+
+            height: 44px;
+
+            border: 1px solid #1f2a44;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .filter-action-button:active {
+            opacity: 0.8;
+        }
+
+        /* =========================
+           하단 공통 탭바
+        ========================= */
+        .bottom-navigation {
+            position: fixed;
+            z-index: 30;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            display: flex;
+
+            width: 100%;
+            height: calc(72px + env(safe-area-inset-bottom));
+
+            padding-bottom: env(safe-area-inset-bottom);
+
+            border-top: 1px solid #d8dde5;
+
+            background-color: #ffffff;
+        }
+
+        .nav-item {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+
+            color: #cbd2dc;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+            opacity: 0.55;
+        }
+
+        .nav-label {
+            margin-top: 4px;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        /* 현재 탐색 탭 */
+        .nav-item.active {
+            color: #1f2a44;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="search-page">
+
+        <!-- 스크롤되는 본문 -->
+        <div class="search-content">
+
+            <!-- 검색창 -->
+            <div class="search-box">
+
+                <img
+                    class="search-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <input
+                    class="search-input"
+                    type="search"
+                    placeholder="프레임, 브랜드, 스타일 검색"
+                    aria-label="아이웨어 검색"
+                    autocomplete="off"
+                    enterkeyhint="search"
+                >
+
+                <button
+                    class="scan-button"
+                    type="button"
+                    aria-label="이미지로 검색"
+                >
+                    <span class="scan-corner top-left"></span>
+                    <span class="scan-corner top-right"></span>
+                    <span class="scan-corner bottom-left"></span>
+                    <span class="scan-corner bottom-right"></span>
+                </button>
+
+            </div>
+
+            <!-- 최근 검색어 -->
+            <section class="search-section">
+
+                <div class="section-heading">
+
+                    <h2 class="section-title">
+                        최근 검색어
+                    </h2>
+
+                    <button
+                        class="section-action"
+                        type="button"
+                    >
+                        전체 삭제
+                    </button>
+
+                </div>
+
+                <div class="chip-list">
+
+                    <button class="keyword-chip" type="button">
+                        라운드 선글라스
+
+                        <img
+                            class="chip-close"
+                            src="./icons/close.svg"
+                            alt="삭제"
+                        >
+                    </button>
+
+                    <button class="keyword-chip" type="button">
+                        티타늄 프레임
+
+                        <img
+                            class="chip-close"
+                            src="./icons/close.svg"
+                            alt="삭제"
+                        >
+                    </button>
+
+                    <button class="keyword-chip" type="button">
+                        젠틀몬스터
+
+                        <img
+                            class="chip-close"
+                            src="./icons/close.svg"
+                            alt="삭제"
+                        >
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- 추천 검색어 -->
+            <section class="search-section">
+
+                <div class="section-heading">
+
+                    <h2 class="section-title">
+                        추천 검색어
+                    </h2>
+
+                </div>
+
+                <div class="chip-list">
+
+                    <button class="keyword-chip" type="button">
+                        빈티지 라운드
+
+                        <img
+                            class="chip-close"
+                            src="./icons/close.svg"
+                            alt="삭제"
+                        >
+                    </button>
+
+                    <button class="keyword-chip" type="button">
+                        미니멀 프레임
+
+                        <img
+                            class="chip-close"
+                            src="./icons/close.svg"
+                            alt="삭제"
+                        >
+                    </button>
+
+                    <button class="keyword-chip" type="button">
+                        블루라이트 차단
+
+                        <img
+                            class="chip-close"
+                            src="./icons/close.svg"
+                            alt="삭제"
+                        >
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- 안경 / 선글라스 선택 -->
+            <div
+                class="category-tabs"
+                role="group"
+                aria-label="제품 종류 선택"
+            >
+
+                <button
+                    class="category-button active"
+                    type="button"
+                    data-category="glasses"
+                    aria-pressed="true"
+                >
+                    안경
+                </button>
+
+                <button
+                    class="category-button"
+                    type="button"
+                    data-category="sunglasses"
+                    aria-pressed="false"
+                >
+                    선글라스
+                </button>
+
+            </div>
+
+            <!-- 필터 -->
+            <section class="filter-section">
+
+                <div class="filter-heading">
+
+                    <h2 class="section-title">
+                        필터
+                    </h2>
+
+                    <button
+                        class="section-action"
+                        type="button"
+                    >
+                        초기화
+                    </button>
+
+                </div>
+
+                <div class="filter-list">
+
+                    <!-- 가격 아코디언 -->
+                    <details class="price-accordion">
+
+                        <summary class="filter-row price-summary">
+
+                            <span class="filter-left">
+
+                                <img
+                                    class="filter-icon"
+                                    src="./icons/filter-price.svg"
+                                    alt=""
+                                >
+
+                                <span class="filter-name">
+                                    가격
+                                </span>
+
+                            </span>
+
+                            <span class="filter-value">
+                                ₩0 - ₩500,000
+                            </span>
+
+                            <span
+                                class="filter-plus filter-toggle"
+                                aria-hidden="true"
+                            ></span>
+
+                        </summary>
+
+                        <div class="price-panel">
+
+                            <div class="price-range">
+
+                                <label class="price-input-card">
+
+                                    <span class="price-input-label">
+                                        최소가격
+                                    </span>
+
+                                    <input
+                                        class="price-input"
+                                        type="text"
+                                        value="₩0"
+                                        aria-label="최소가격"
+                                    >
+
+                                </label>
+
+                                <span class="price-divider">
+                                    ~
+                                </span>
+
+                                <label class="price-input-card">
+
+                                    <span class="price-input-label">
+                                        최대가격
+                                    </span>
+
+                                    <input
+                                        class="price-input"
+                                        type="text"
+                                        value="₩500,000"
+                                        aria-label="최대가격"
+                                    >
+
+                                </label>
+
+                            </div>
+
+                            <div class="price-chip-list">
+
+                                <button class="price-chip" type="button">
+                                    10만원 이하
+                                </button>
+
+                                <button class="price-chip" type="button">
+                                    10만원 이상
+                                </button>
+
+                                <button class="price-chip" type="button">
+                                    20만원 이상
+                                </button>
+
+                                <button class="price-chip" type="button">
+                                    30만원 이상
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </details>
+
+                    <!-- 브랜드 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-brand.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">브랜드</span>
+                        </span>
+
+                        <span class="filter-value">
+                            전체 브랜드
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 프레임 형태 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-frame.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">프레임 형태</span>
+                        </span>
+
+                        <span class="filter-value">
+                            모든 형태
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 컬러 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-color.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">컬러</span>
+                        </span>
+
+                        <span class="filter-value">
+                            모든 컬러
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 소재 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-material.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">소재</span>
+                        </span>
+
+                        <span class="filter-value">
+                            모든 소재
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 사이즈 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-size.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">사이즈</span>
+                        </span>
+
+                        <span class="filter-value">
+                            모든 사이즈
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 얼굴형 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-face.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">얼굴형</span>
+                        </span>
+
+                        <span class="filter-value">
+                            모든 얼굴형
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 착용 목적 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-purpose.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">착용 목적</span>
+                        </span>
+
+                        <span class="filter-value">
+                            모든 목적
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                    <!-- 정렬 -->
+                    <button class="filter-row" type="button">
+
+                        <span class="filter-left">
+                            <img
+                                class="filter-icon"
+                                src="./icons/filter-sort.svg"
+                                alt=""
+                            >
+                            <span class="filter-name">정렬</span>
+                        </span>
+
+                        <span class="filter-value">
+                            추천순
+                        </span>
+
+                        <span class="filter-plus">+</span>
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- 고정 필터 버튼 -->
+        <div class="filter-actions">
+<a
+    class="filter-action-button"
+    href="./products.html"
+>
+    필터적용
+</a>
+
+            <button
+                class="filter-action-button"
+                type="reset"
+            >
+                초기화
+            </button>
+
+        </div>
+
+        <!-- 하단 공통 탭바 -->
+        <nav
+            class="bottom-navigation"
+            aria-label="하단 메뉴"
+        >
+
+            <a
+                class="nav-item"
+                href="./home.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/home.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    홈
+                </span>
+            </a>
+
+            <a
+                class="nav-item active"
+                href="./explore.html"
+                aria-current="page"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    탐색
+                </span>
+            </a>
+
+            <a
+                class="nav-item"
+                href="./saved.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/12_saved.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    저장
+                </span>
+            </a>
+
+            <a
+                class="nav-item"
+                href="./my.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/13_my.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    마이
+                </span>
+            </a>
+
+        </nav>
+
+    </main>
+
+    <!-- 안경 / 선글라스 선택 JavaScript -->
+    <script>
+        const categoryButtons =
+            document.querySelectorAll(".category-button");
+
+        /*
+            현재 탐색 화면 안에서 선택했던 종류를 저장한다.
+            새로고침해도 안경 또는 선글라스 선택 상태가 유지된다.
+        */
+        const savedCategory =
+            sessionStorage.getItem("gaze-selected-category");
+
+        if (savedCategory) {
+            categoryButtons.forEach(function (button) {
+                const isSelected =
+                    button.dataset.category === savedCategory;
+
+                button.classList.toggle("active", isSelected);
+
+                button.setAttribute(
+                    "aria-pressed",
+                    String(isSelected)
+                );
+            });
+        }
+
+        categoryButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+
+                /* 모든 버튼의 선택 상태 제거 */
+                categoryButtons.forEach(function (item) {
+                    item.classList.remove("active");
+
+                    item.setAttribute(
+                        "aria-pressed",
+                        "false"
+                    );
+                });
+
+                /* 클릭한 버튼만 선택 */
+                button.classList.add("active");
+
+                button.setAttribute(
+                    "aria-pressed",
+                    "true"
+                );
+
+                /* 현재 선택한 종류 저장 */
+                sessionStorage.setItem(
+                    "gaze-selected-category",
+                    button.dataset.category
+                );
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -12,7 +12,10 @@
     <title>CAMBAK 로그인</title>
 
     <style>
-        /* 기본 초기화 */
+        /* =========================
+           기본 초기화
+        ========================= */
+
         * {
             margin: 0;
             padding: 0;
@@ -22,11 +25,13 @@
         html,
         body {
             width: 100%;
-            height: 100%;
+            min-height: 100%;
         }
 
         body {
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+
             background-color: #ffffff;
 
             font-family:
@@ -58,21 +63,26 @@
             text-decoration: none;
         }
 
-        /* 모바일 앱 전체 화면 */
+        /* =========================
+           모바일 앱 전체 화면
+        ========================= */
+
         .login-app {
             position: relative;
 
             width: 100%;
-            height: 812px;
+            max-width: 375px;
+            min-height: 812px;
 
-            overflow: hidden;
+            margin: 0 auto;
+
             background-color: #ffffff;
         }
 
         /* 로그인 콘텐츠 */
         .login-wrap {
             width: 100%;
-            padding: 75px 24px 0;
+            padding: 75px 24px 48px;
         }
 
         /* =========================
@@ -153,6 +163,8 @@
             font-size: 16px;
             font-weight: 700;
             text-align: center;
+
+            cursor: pointer;
         }
 
         .btn-login {
@@ -266,7 +278,9 @@
 </head>
 
 <body>
+
     <main class="login-app">
+
         <div class="login-wrap">
 
             <!-- CAMBAK 로고 -->
@@ -282,6 +296,7 @@
 
                 <!-- 아이디 -->
                 <div class="input-group">
+
                     <label
                         class="input-label"
                         for="userId"
@@ -296,10 +311,12 @@
                         name="userId"
                         autocomplete="username"
                     >
+
                 </div>
 
                 <!-- 비밀번호 -->
                 <div class="input-group">
+
                     <label
                         class="input-label"
                         for="userPassword"
@@ -314,13 +331,15 @@
                         name="userPassword"
                         autocomplete="current-password"
                     >
+
                 </div>
 
                 <!-- 로그인 및 회원가입 -->
                 <div class="button-group">
+
                     <button
                         class="btn btn-login"
-                        type="submit"
+                        type="button"
                     >
                         로그인
                     </button>
@@ -331,6 +350,7 @@
                     >
                         회원가입
                     </button>
+
                 </div>
 
             </form>
@@ -340,6 +360,7 @@
                 class="account-links"
                 aria-label="계정 관련 메뉴"
             >
+
                 <a href="#">아이디 찾기</a>
 
                 <span class="divider">|</span>
@@ -349,10 +370,12 @@
                 <span class="divider">|</span>
 
                 <a href="#">둘러보기</a>
+
             </nav>
 
             <!-- 간편 로그인 -->
             <section class="social-login">
+
                 <div class="social-title">
                     <span>간편로그인</span>
                 </div>
@@ -408,9 +431,12 @@
                     </a>
 
                 </div>
+
             </section>
 
         </div>
+
     </main>
+
 </body>
 </html>

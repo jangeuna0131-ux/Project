@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>CAMBAK 검색결과</title>
+
+    <style>
+        /* =========================
+           기본 초기화
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #eeeeee;
+
+            color: #191919;
+
+            font-family:
+                Pretendard,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Apple SD Gothic Neo",
+                "Noto Sans KR",
+                Arial,
+                sans-serif;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            border: 0;
+            outline: 0;
+            background: none;
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+        }
+
+        /* =========================
+           모바일 앱 전체 프레임
+        ========================= */
+
+        .search-app {
+            position: relative;
+
+            width: 100%;
+            max-width: 375px;
+            height: 100svh;
+
+            margin: 0 auto;
+
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        /* =========================
+           상단 내비게이션
+        ========================= */
+
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 80px;
+
+            background-color: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 40px;
+            height: 40px;
+
+            transform: translateY(-50%);
+        }
+
+        .back-icon {
+            width: 20px;
+            height: 20px;
+
+            object-fit: contain;
+        }
+
+        .page-title {
+            font-size: 19px;
+            font-weight: 700;
+            line-height: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        /* =========================
+           검색결과 스크롤 영역
+        ========================= */
+
+        .result-list {
+            position: absolute;
+            top: 80px;
+            right: 0;
+            bottom: 76px;
+            left: 0;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            background-color: #ffffff;
+
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 검색결과 카드 */
+        .result-item {
+            position: relative;
+
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 14px;
+
+            min-height: 149px;
+            padding: 25px 24px 22px;
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .result-image {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            object-fit: cover;
+        }
+
+        .result-content {
+            min-width: 0;
+            padding-right: 8px;
+        }
+
+        .result-title {
+            padding-right: 30px;
+
+            color: #181818;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.4px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result-address {
+            margin-top: 2px;
+            padding-right: 22px;
+
+            color: #333333;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+            letter-spacing: -0.3px;
+
+            word-break: keep-all;
+        }
+
+        /* 북마크 */
+        .bookmark-button {
+            position: absolute;
+            top: 26px;
+            right: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 28px;
+            height: 28px;
+        }
+
+        .bookmark-icon {
+            width: 20px;
+            height: 20px;
+
+            object-fit: contain;
+        }
+
+        /* 태그와 거리 */
+        .result-bottom {
+            position: absolute;
+            right: 24px;
+            bottom: 23px;
+            left: 138px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .tag-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            min-width: 0;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 26px;
+            padding: 0 10px;
+
+            color: #ffffff;
+            background-color: #5a76bd;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 26px;
+            white-space: nowrap;
+        }
+
+        .distance {
+            color: #5270ba;
+
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           하단 공통 탭바
+        ========================= */
+
+        .bottom-nav {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+
+            height: 76px;
+            padding: 8px 8px 6px;
+
+            background-color: #ffffff;
+            border-top: 1px solid #e9e9e9;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .nav-name {
+            margin-top: 4px;
+
+            color: #111111;
+
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 18px;
+        }
+
+        .nav-link.active .nav-name {
+            color: #5270ba;
+        }
+
+        /* =========================
+           작은 화면 대응
+        ========================= */
+
+        @media (max-width: 360px) {
+            .result-item {
+                grid-template-columns: 92px 1fr;
+                gap: 12px;
+
+                padding-right: 20px;
+                padding-left: 20px;
+            }
+
+            .result-image {
+                width: 92px;
+                height: 92px;
+            }
+
+            .bookmark-button {
+                right: 20px;
+            }
+
+            .result-bottom {
+                right: 20px;
+                left: 124px;
+            }
+
+            .tag {
+                padding: 0 8px;
+                font-size: 12px;
+            }
+
+            .distance {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="search-app">
+
+        <!-- 상단 내비게이션 -->
+        <header class="top-bar">
+
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+                aria-label="이전 화면으로 이동"
+            >
+                <img
+                    class="back-icon"
+                    src="./icons/arrow.svg"
+                    alt=""
+                >
+            </button>
+
+            <h1 class="page-title">
+                검색결과
+            </h1>
+
+        </header>
+
+        <!-- 검색결과 목록 -->
+        <section
+            class="result-list"
+            aria-label="차박 장소 검색결과"
+        >
+
+            <!-- 검색결과 1 -->
+            <article class="result-item">
+
+                <img
+                    class="result-image"
+                    src="./images/main.png"
+                    alt="망원한강공원"
+                >
+
+                <div class="result-content">
+
+                    <h2 class="result-title">
+                        망원한강공원
+                    </h2>
+
+                    <p class="result-address">
+                        서울 마포구 망원동 205-4
+                    </p>
+
+                </div>
+
+                <button
+                    class="bookmark-button"
+                    type="button"
+                    aria-label="망원한강공원 저장"
+                >
+                    <img
+                        class="bookmark-icon"
+                        src="./icons/icons.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="result-bottom">
+
+                    <div class="tag-group">
+                        <span class="tag">차크닉</span>
+                        <span class="tag">주차장</span>
+                    </div>
+
+                    <span class="distance">
+                        11.1km
+                    </span>
+
+                </div>
+
+            </article>
+
+            <!-- 검색결과 2 -->
+            <article class="result-item">
+
+                <img
+                    class="result-image"
+                    src="./images/main-1.png"
+                    alt="광교호수공원"
+                >
+
+                <div class="result-content">
+
+                    <h2 class="result-title">
+                        광교호수공원
+                    </h2>
+
+                    <p class="result-address">
+                        서울 마포구 망원동 205-4
+                    </p>
+
+                </div>
+
+                <button
+                    class="bookmark-button"
+                    type="button"
+                    aria-label="광교호수공원 저장"
+                >
+                    <img
+                        class="bookmark-icon"
+                        src="./icons/icons.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="result-bottom">
+
+                    <div class="tag-group">
+                        <span class="tag">도심</span>
+                        <span class="tag">주차장</span>
+                    </div>
+
+                    <span class="distance">
+                        26km
+                    </span>
+
+                </div>
+
+            </article>
+
+            <!-- 검색결과 3 -->
+            <article class="result-item">
+
+                <img
+                    class="result-image"
+                    src="./images/main-2.png"
+                    alt="강릉 안반데기"
+                >
+
+                <div class="result-content">
+
+                    <h2 class="result-title">
+                        강릉 안반데기
+                    </h2>
+
+                    <p class="result-address">
+                        대기리 2214-207
+                    </p>
+
+                </div>
+
+                <button
+                    class="bookmark-button"
+                    type="button"
+                    aria-label="강릉 안반데기 저장"
+                >
+                    <img
+                        class="bookmark-icon"
+                        src="./icons/icons.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="result-bottom">
+
+                    <div class="tag-group">
+                        <span class="tag">오션뷰</span>
+                        <span class="tag">주차장</span>
+                    </div>
+
+                    <span class="distance">
+                        108km
+                    </span>
+
+                </div>
+
+            </article>
+
+            <!-- 검색결과 4 -->
+            <article class="result-item">
+
+                <img
+                    class="result-image"
+                    src="./images/main-3.png"
+                    alt="화성 궁평항"
+                >
+
+                <div class="result-content">
+
+                    <h2 class="result-title">
+                        화성 궁평항
+                    </h2>
+
+                    <p class="result-address">
+                        경기도 화성시 서신면<br>
+                        궁평항로 1049-24
+                    </p>
+
+                </div>
+
+                <button
+                    class="bookmark-button"
+                    type="button"
+                    aria-label="화성 궁평항 저장"
+                >
+                    <img
+                        class="bookmark-icon"
+                        src="./icons/icons.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="result-bottom">
+
+                    <div class="tag-group">
+                        <span class="tag">차크닉</span>
+                        <span class="tag">주차장</span>
+                    </div>
+
+                    <span class="distance">
+                        58km
+                    </span>
+
+                </div>
+
+            </article>
+
+            <!-- 검색결과 5 -->
+            <article class="result-item">
+
+                <img
+                    class="result-image"
+                    src="./images/main-4.png"
+                    alt="서귀포 돈내코"
+                >
+
+                <div class="result-content">
+
+                    <h2 class="result-title">
+                        서귀포 돈내코
+                    </h2>
+
+                    <p class="result-address">
+                        제주특별자치도<br>
+                        서귀포시 돈내코로 114
+                    </p>
+
+                </div>
+
+                <button
+                    class="bookmark-button"
+                    type="button"
+                    aria-label="서귀포 돈내코 저장"
+                >
+                    <img
+                        class="bookmark-icon"
+                        src="./icons/icons.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="result-bottom">
+
+                    <div class="tag-group">
+                        <span class="tag">이색</span>
+                        <span class="tag">주차장</span>
+                    </div>
+
+                    <span class="distance">
+                        483km
+                    </span>
+
+                </div>
+
+            </article>
+
+            <!-- 검색결과 6 -->
+            <article class="result-item">
+
+                <img
+                    class="result-image"
+                    src="./images/main-5.png"
+                    alt="영종도 마시안해변"
+                >
+
+                <div class="result-content">
+
+                    <h2 class="result-title">
+                        영종도 마시안해변
+                    </h2>
+
+                    <p class="result-address">
+                        덕교동 662-9
+                    </p>
+
+                </div>
+
+                <button
+                    class="bookmark-button"
+                    type="button"
+                    aria-label="영종도 마시안해변 저장"
+                >
+                    <img
+                        class="bookmark-icon"
+                        src="./icons/icons.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="result-bottom">
+
+                    <div class="tag-group">
+                        <span class="tag">수도권</span>
+                        <span class="tag">주차장</span>
+                    </div>
+
+                    <span class="distance">
+                        32km
+                    </span>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- 하단 공통 탭바 -->
+        <nav
+            class="bottom-nav"
+            aria-label="하단 메뉴"
+        >
+
+            <a
+                href="./home.html"
+                class="nav-link"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/home.non.png"
+                    alt=""
+                >
+                <span class="nav-name">홈</span>
+            </a>
+
+            <a
+                href="./search.html"
+                class="nav-link active"
+            >
+                <img
+                    class="nav-icon"
+                    src="icons/search.on.svg"
+                    alt=""
+                >
+                <span class="nav-name">검색</span>
+            </a>
+
+            <a
+                href="./group.html"
+                class="nav-link"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/community.svg"
+                    alt=""
+                >
+                <span class="nav-name">모임</span>
+            </a>
+
+            <a
+                href="./live.html"
+                class="nav-link"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/live.svg"
+                    alt=""
+                >
+                <span class="nav-name">LIVE</span>
+            </a>
+
+            <a
+                href="./my.html"
+                class="nav-link"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/user.svg"
+                    alt=""
+                >
+                <span class="nav-name">MY</span>
+            </a>
+
+        </nav>
+
+    </main>
+
+    <!-- 이전 버튼 기능 -->
+    <script>
+        const backButton = document.getElementById("backButton");
+
+        backButton.addEventListener("click", function () {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = "./home.html";
+            }
+        });
+    </script>
+
+</body>
+</html>

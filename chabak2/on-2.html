@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>CAMBA 온보딩 2</title>
+
+    <style>
+        /* =========================
+           기본 초기화
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            background-color: #ffffff;
+
+            font-family:
+                Pretendard,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Apple SD Gothic Neo",
+                "Noto Sans KR",
+                Arial,
+                sans-serif;
+        }
+
+        /* =========================
+           모바일 앱 전체 화면
+        ========================= */
+
+        .onboarding {
+            position: relative;
+
+            width: 100%;
+            max-width: 375px;
+            height: 812px;
+            min-height: 812px;
+
+            margin: 0 auto;
+
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        /* =========================
+           안내 문구
+        ========================= */
+
+        .guide-text {
+            position: absolute;
+            top: 236px;
+            left: 24px;
+            z-index: 2;
+
+            width: calc(100% - 48px);
+
+            color: #9aa9d1;
+
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: -0.6px;
+
+            white-space: nowrap;
+        }
+
+        /* =========================
+           메인 일러스트
+        ========================= */
+
+        .visual-area {
+            position: absolute;
+            top: 332px;
+            left: 0;
+            z-index: 1;
+
+            width: 100%;
+            height: 289px;
+
+            overflow: hidden;
+        }
+
+        .visual-image {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: fill;
+        }
+
+        /* =========================
+           페이지 표시 점
+        ========================= */
+
+        .pagination {
+            position: absolute;
+            top: 664px;
+            left: 50%;
+            z-index: 3;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+
+            transform: translateX(-50%);
+        }
+
+        .pagination-dot {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            background-color: #eef0f7;
+            border-radius: 50%;
+        }
+
+        /* 두 번째 점 활성화 */
+        .pagination-dot.active {
+            background-color: #506bb0;
+        }
+
+        /* =========================
+           시작하기 버튼
+        ========================= */
+
+        .start-button {
+            position: absolute;
+            right: 24px;
+            bottom: 34px;
+            left: 24px;
+            z-index: 10;
+
+            display: block;
+            height: 48px;
+
+            color: #ffffff;
+            background-color: #506bb0;
+            border-radius: 12px;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 48px;
+            text-align: center;
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .start-button:active {
+            background-color: #435d9e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="onboarding">
+
+        <!-- 안내 문구 -->
+        <p class="guide-text">
+            차박에 필요한 물품들을 용도별로 둘러봐요
+        </p>
+
+        <!-- 메인 일러스트 -->
+        <div class="visual-area">
+            <img
+                class="visual-image"
+                src="./images/work2 ill.svg"
+                alt="차박 물품이 담긴 상자를 들고 있는 곰 캐릭터"
+            >
+        </div>
+
+        <!-- 온보딩 페이지 표시 -->
+        <div
+            class="pagination"
+            aria-label="전체 3페이지 중 2페이지"
+        >
+            <span class="pagination-dot"></span>
+            <span class="pagination-dot active"></span>
+            <span class="pagination-dot"></span>
+        </div>
+
+        <!-- 클릭하면 온보딩 3으로 이동 -->
+        <a
+            href="./on-3.html"
+            class="start-button"
+        >
+            시작하기
+        </a>
+
+    </main>
+
+    <!-- 3초 후 온보딩 3으로 자동 이동 -->
+    <script>
+        setTimeout(function () {
+            window.location.href = "./on-3.html";
+        }, 3000);
+    </script>
+
+</body>
+</html>

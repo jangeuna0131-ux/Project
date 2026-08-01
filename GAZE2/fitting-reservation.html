@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- iOS·안드로이드 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 피팅 예약</title>
+
+    <style>
+        /* ========================================
+           기본 설정
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        input,
+        textarea,
+        button {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ========================================
+           피팅 예약 전체 화면
+        ======================================== */
+        .reservation-page {
+            position: relative;
+
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+
+            overflow: hidden;
+            background-color: #f7f4ee;
+        }
+
+        .reservation-form {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 스크롤되는 본문 */
+        .reservation-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: calc(88px + env(safe-area-inset-bottom));
+            left: 0;
+
+            padding:
+                max(36px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                40px;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .reservation-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ========================================
+           상단 헤더
+        ======================================== */
+        .page-header {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 44px;
+        }
+
+        .back-button {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            margin-left: -12px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .back-icon {
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .page-title {
+            margin-left: 4px;
+
+            color: #1f2a44;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: -0.4px;
+        }
+
+        /* ========================================
+           예약 단계
+        ======================================== */
+        .reservation-step {
+            margin-top: 28px;
+
+            color: #aeb9b1;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .reservation-step strong {
+            color: #1f2a44;
+            font-weight: 500;
+        }
+
+        /* ========================================
+           예약 제품 카드
+        ======================================== */
+        .product-card {
+            display: grid;
+            grid-template-columns: 124px minmax(0, 1fr);
+            align-items: center;
+
+            width: 100%;
+            min-height: 128px;
+
+            margin-top: 8px;
+            padding: 16px;
+
+            gap: 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .product-image-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 124px;
+            height: 88px;
+
+            overflow: hidden;
+        }
+
+        .product-image {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .product-info {
+            min-width: 0;
+        }
+
+        .product-name {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .product-price {
+            margin-top: 4px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .product-material {
+            color: #7d91b2;
+            font-weight: 500;
+        }
+
+        .store-name {
+            margin-top: 6px;
+
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+        }
+
+        /* 날짜와 시간이 선택되지 않은 기본 안내 */
+        .selection-guide {
+            margin-top: 4px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        /* ========================================
+           공통 입력 섹션
+        ======================================== */
+        .form-section {
+            width: 100%;
+            margin-top: 32px;
+        }
+
+        .section-title {
+            margin-bottom: 8px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* 실제 라디오 버튼은 화면 밖으로 숨김 */
+        .choice-input {
+            position: absolute;
+
+            width: 1px;
+            height: 1px;
+
+            opacity: 0;
+        }
+
+        /* ========================================
+           방문 날짜
+        ======================================== */
+        .date-picker {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+
+            width: 100%;
+            padding: 8px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 14px;
+
+            background-color: #ffffff;
+        }
+
+        .date-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            height: 52px;
+
+            border-radius: 12px;
+
+            color: #1f2a44;
+
+            cursor: pointer;
+        }
+
+        .date-day {
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        .date-number {
+            margin-top: 4px;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* 사용자가 선택한 날짜만 활성화 */
+        #date-9:checked ~ .date-picker label[for="date-9"],
+        #date-10:checked ~ .date-picker label[for="date-10"],
+        #date-11:checked ~ .date-picker label[for="date-11"],
+        #date-12:checked ~ .date-picker label[for="date-12"],
+        #date-13:checked ~ .date-picker label[for="date-13"],
+        #date-14:checked ~ .date-picker label[for="date-14"],
+        #date-15:checked ~ .date-picker label[for="date-15"] {
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        /* ========================================
+           방문 시간
+        ======================================== */
+        .time-picker {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+
+            gap: 12px;
+        }
+
+        .time-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 56px;
+            height: 32px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+
+            cursor: pointer;
+        }
+
+        /* 사용자가 선택한 시간만 활성화 */
+        #time-1100:checked ~ .time-picker label[for="time-1100"],
+        #time-1330:checked ~ .time-picker label[for="time-1330"],
+        #time-1500:checked ~ .time-picker label[for="time-1500"],
+        #time-1630:checked ~ .time-picker label[for="time-1630"] {
+            border-color: #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .more-time-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 32px;
+            margin-left: auto;
+
+            border: 0;
+
+            background-color: transparent;
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 500;
+
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .more-arrow {
+            margin-left: 2px;
+
+            color: #7d91b2;
+            font-size: 12px;
+        }
+
+        /* ========================================
+           방문자 정보
+        ======================================== */
+        .visitor-fields {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+
+            gap: 8px;
+        }
+
+        .visitor-row {
+            display: grid;
+            grid-template-columns: 56px minmax(0, 1fr);
+            align-items: center;
+
+            width: 100%;
+            min-height: 48px;
+
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .field-label {
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        .field-input {
+            width: 100%;
+            height: 46px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: #111111;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+
+            caret-color: #1f2a44;
+        }
+
+        /* ========================================
+           요청사항
+        ======================================== */
+        .request-box {
+            width: 100%;
+            min-height: 68px;
+
+            padding: 10px 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .request-label {
+            display: block;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .request-input {
+            display: block;
+
+            width: 100%;
+            height: 32px;
+
+            margin-top: 2px;
+
+            border: 0;
+            outline: 0;
+            resize: none;
+
+            background-color: transparent;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 20px;
+
+            caret-color: #1f2a44;
+        }
+
+        /* ========================================
+           하단 고정 예약 버튼
+        ======================================== */
+        .reservation-action {
+            position: fixed;
+            z-index: 20;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+
+            padding:
+                8px
+                24px
+                calc(12px + env(safe-area-inset-bottom));
+
+            background-color: #f7f4ee;
+        }
+
+        .reservation-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 56px;
+
+            border: 0;
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            cursor: pointer;
+        }
+
+        .reservation-button:active,
+        .back-button:active,
+        .date-label:active,
+        .time-label:active {
+            opacity: 0.86;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="reservation-page">
+
+        <!-- 입력 완료 후 예약 완료 화면으로 이동 -->
+        <form
+            class="reservation-form"
+            action="./reservation-complete.html"
+            method="get"
+        >
+
+            <div class="reservation-content">
+
+                <!-- 상단 헤더 -->
+                <header class="page-header">
+
+                    <a
+                        class="back-button"
+                        href="./store-finder.html"
+                        aria-label="매장 찾기 화면으로 돌아가기"
+                    >
+                        <img
+                            class="back-icon"
+                            src="./icons/back_previous.svg"
+                            alt=""
+                        >
+                    </a>
+
+                    <h1 class="page-title">
+                        피팅 예약
+                    </h1>
+
+                </header>
+
+                <!-- 진행 단계 -->
+                <p class="reservation-step">
+                    <strong>1. 정보 입력</strong>
+                    &gt; 2. 예약 확인
+                    &gt; 3. 완료
+                </p>
+
+                <!-- 예약 제품 -->
+                <section class="product-card">
+
+                    <div class="product-image-box">
+
+                        <img
+                            class="product-image"
+                            src="./images/2_sunglasses.png"
+                            alt="라운드 프레임 선글라스"
+                        >
+
+                    </div>
+
+                    <div class="product-info">
+
+                        <h2 class="product-name">
+                            ROUND FRAME
+                        </h2>
+
+                        <p class="product-price">
+                            ₩290,000
+                            <span class="product-material">
+                                · 아세테이트
+                            </span>
+                        </p>
+
+                        <p class="store-name">
+                            GAZE Optical 강남점
+                        </p>
+
+                        <p class="selection-guide">
+                            방문 날짜와 시간을 선택해 주세요.
+                        </p>
+
+                    </div>
+
+                </section>
+
+                <!-- 방문 날짜 -->
+                <section class="form-section">
+
+                    <h2 class="section-title">
+                        방문 날짜
+                    </h2>
+
+                    <!-- checked 없음 -->
+                    <input
+                        class="choice-input"
+                        id="date-9"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 9일"
+                        required
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="date-10"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 10일"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="date-11"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 11일"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="date-12"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 12일"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="date-13"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 13일"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="date-14"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 14일"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="date-15"
+                        name="visit-date"
+                        type="radio"
+                        value="7월 15일"
+                    >
+
+                    <div class="date-picker">
+
+                        <label class="date-label" for="date-9">
+                            <span class="date-day">수</span>
+                            <span class="date-number">9</span>
+                        </label>
+
+                        <label class="date-label" for="date-10">
+                            <span class="date-day">목</span>
+                            <span class="date-number">10</span>
+                        </label>
+
+                        <label class="date-label" for="date-11">
+                            <span class="date-day">금</span>
+                            <span class="date-number">11</span>
+                        </label>
+
+                        <label class="date-label" for="date-12">
+                            <span class="date-day">토</span>
+                            <span class="date-number">12</span>
+                        </label>
+
+                        <label class="date-label" for="date-13">
+                            <span class="date-day">일</span>
+                            <span class="date-number">13</span>
+                        </label>
+
+                        <label class="date-label" for="date-14">
+                            <span class="date-day">월</span>
+                            <span class="date-number">14</span>
+                        </label>
+
+                        <label class="date-label" for="date-15">
+                            <span class="date-day">화</span>
+                            <span class="date-number">15</span>
+                        </label>
+
+                    </div>
+
+                </section>
+
+                <!-- 방문 시간 -->
+                <section class="form-section">
+
+                    <h2 class="section-title">
+                        방문 시간
+                    </h2>
+
+                    <!-- checked 없음 -->
+                    <input
+                        class="choice-input"
+                        id="time-1100"
+                        name="visit-time"
+                        type="radio"
+                        value="11:00"
+                        required
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="time-1330"
+                        name="visit-time"
+                        type="radio"
+                        value="13:30"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="time-1500"
+                        name="visit-time"
+                        type="radio"
+                        value="15:00"
+                    >
+
+                    <input
+                        class="choice-input"
+                        id="time-1630"
+                        name="visit-time"
+                        type="radio"
+                        value="16:30"
+                    >
+
+                    <div class="time-picker">
+
+                        <label class="time-label" for="time-1100">
+                            11:00
+                        </label>
+
+                        <label class="time-label" for="time-1330">
+                            13:30
+                        </label>
+
+                        <label class="time-label" for="time-1500">
+                            15:00
+                        </label>
+
+                        <label class="time-label" for="time-1630">
+                            16:30
+                        </label>
+
+                        <button
+                            class="more-time-button"
+                            type="button"
+                        >
+                            더보기
+                            <span class="more-arrow">⌄</span>
+                        </button>
+
+                    </div>
+
+                </section>
+
+                <!-- 방문자 정보 -->
+                <section class="form-section">
+
+                    <h2 class="section-title">
+                        방문자 정보
+                    </h2>
+
+                    <div class="visitor-fields">
+
+                        <!-- 기본 이름 없음 -->
+                        <label class="visitor-row">
+
+                            <span class="field-label">
+                                이름
+                            </span>
+
+                            <input
+                                class="field-input"
+                                type="text"
+                                name="visitor-name"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </label>
+
+                        <!-- 기본 연락처 없음 -->
+                        <label class="visitor-row">
+
+                            <span class="field-label">
+                                연락처
+                            </span>
+
+                            <input
+                                class="field-input"
+                                type="tel"
+                                name="visitor-phone"
+                                autocomplete="tel"
+                                inputmode="tel"
+                                required
+                            >
+
+                        </label>
+
+                        <!-- 기본 요청사항 없음 -->
+                        <label class="request-box">
+
+                            <span class="request-label">
+                                요청사항 (선택)
+                            </span>
+
+                            <textarea
+                                class="request-input"
+                                name="request"
+                            ></textarea>
+
+                        </label>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- 하단 예약 버튼 -->
+            <div class="reservation-action">
+
+                <button
+                    class="reservation-button"
+                    type="submit"
+                >
+                    피팅 예약하기
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+</body>
+</html>

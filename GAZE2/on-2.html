@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- iOS·안드로이드 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE Onboarding 2</title>
+
+    <style>
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* 모바일 App 온보딩 전체 화면 */
+        .onboarding {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+
+            padding:
+                max(56px, calc(env(safe-area-inset-top) + 32px))
+                24px
+                max(24px, calc(env(safe-area-inset-bottom) + 16px));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+
+            scrollbar-width: none;
+            overscroll-behavior-y: none;
+        }
+
+        .onboarding::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 제품 비교 카드 영역 */
+        .compare-area {
+            display: flex;
+
+            width: 100%;
+
+            gap: 16px;
+        }
+
+        /* 제품 카드 */
+        .product-card {
+            flex: 1;
+            min-width: 0;
+            height: 336px;
+
+            padding: 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        /* BEST MATCH */
+        .best-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 28px;
+            padding: 0 8px;
+
+            border-radius: 4px;
+
+            background-color: #7d91b2;
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        /* 제품 이미지 */
+        .product-image-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 112px;
+
+            margin-top: 16px;
+        }
+
+        .product-image {
+            display: block;
+
+            width: 100%;
+            max-width: 124px;
+            height: 100%;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* 구분선 */
+        .product-line {
+            width: 100%;
+            height: 1px;
+
+            margin-top: 4px;
+
+            border: 0;
+            background-color: #d8dde5;
+        }
+
+        /* 제품명 */
+        .product-name {
+            margin-top: 12px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        /* 가격 */
+        .product-price {
+            margin-top: 6px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* 소재와 사이즈 */
+        .product-info {
+            margin-top: 6px;
+
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+
+            white-space: nowrap;
+        }
+
+        .product-info + .product-info {
+            margin-top: 4px;
+        }
+
+        /* 컬러칩 */
+        .color-list {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-top: 6px;
+        }
+
+        .color-dot {
+            display: block;
+            flex-shrink: 0;
+
+            width: 12px;
+            height: 12px;
+
+            border-radius: 50%;
+        }
+
+        .color-dot.navy {
+            background-color: #1f2a44;
+        }
+
+        .color-dot.taupe {
+            background-color: #b7a59a;
+        }
+
+        .color-dot.sage {
+            background-color: #aeb9b1;
+        }
+
+        /* 온보딩 설명 */
+        .onboarding-text {
+            width: 100%;
+
+            margin-top: 48px;
+
+            text-align: center;
+        }
+
+        .onboarding-title {
+            color: #1f2a44;
+
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 30px;
+            letter-spacing: -0.8px;
+        }
+
+        .onboarding-description {
+            margin-top: 12px;
+
+            color: #2f3640;
+
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 22px;
+            letter-spacing: -0.4px;
+
+            word-break: keep-all;
+        }
+
+        /* 온보딩 페이지 표시 */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            margin-top: 52px;
+
+            gap: 28px;
+        }
+
+        .pagination-dot {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+            background-color: #cbd2dc;
+        }
+
+        .pagination-dot.active {
+            background-color: #1f2a44;
+        }
+
+        /* 하단 버튼 */
+        .button-area {
+            display: flex;
+
+            width: 100%;
+
+            margin-top: auto;
+            padding-top: 32px;
+
+            gap: 10px;
+        }
+
+        .onboarding-button {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+
+            height: 56px;
+
+            border-radius: 12px;
+
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            text-decoration: none;
+        }
+
+        .previous-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        .next-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .onboarding-button:active {
+            opacity: 0.86;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="onboarding">
+
+        <!-- 제품 비교 카드 -->
+        <section class="compare-area">
+
+            <!-- 첫 번째 제품 -->
+            <article class="product-card">
+
+                <span class="best-badge">
+                    BEST MATCH
+                </span>
+
+                <div class="product-image-box">
+
+                    <img
+                        class="product-image"
+                        src="./images/2_sunglasses.png"
+                        alt="라운드 프레임 선글라스"
+                    >
+
+                </div>
+
+                <hr class="product-line">
+
+                <h2 class="product-name">
+                    ROUND FRAME
+                </h2>
+
+                <p class="product-price">
+                    ₩219,000
+                </p>
+
+                <p class="product-info">
+                    아세테이트
+                </p>
+
+                <p class="product-info">
+                    중간 사이즈
+                </p>
+
+                <div
+                    class="color-list"
+                    aria-label="라운드 프레임 색상"
+                >
+                    <span class="color-dot navy"></span>
+                    <span class="color-dot taupe"></span>
+                    <span class="color-dot sage"></span>
+                </div>
+
+            </article>
+
+            <!-- 두 번째 제품 -->
+            <article class="product-card">
+
+                <span class="best-badge">
+                    BEST MATCH
+                </span>
+
+                <div class="product-image-box">
+
+                    <img
+                        class="product-image"
+                        src="./images/1_sunglasses.png"
+                        alt="캣아이 프레임 선글라스"
+                    >
+
+                </div>
+
+                <hr class="product-line">
+
+                <h2 class="product-name">
+                    CAT-FRAME
+                </h2>
+
+                <p class="product-price">
+                    ₩199,000
+                </p>
+
+                <p class="product-info">
+                    티타늄
+                </p>
+
+                <p class="product-info">
+                    작은 사이즈
+                </p>
+
+                <div
+                    class="color-list"
+                    aria-label="캣아이 프레임 색상"
+                >
+                    <span class="color-dot navy"></span>
+                    <span class="color-dot taupe"></span>
+                    <span class="color-dot sage"></span>
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- 설명 -->
+        <section class="onboarding-text">
+
+            <h1 class="onboarding-title">
+                차이를 한눈에 비교
+            </h1>
+
+            <p class="onboarding-description">
+                가격, 프레임 형태, 소재, 사이즈를<br>
+                같은 기준으로 비교해요.
+            </p>
+
+        </section>
+
+        <!-- 두 번째 화면 표시 -->
+        <div
+            class="pagination"
+            aria-label="온보딩 진행 상태"
+        >
+            <span class="pagination-dot"></span>
+            <span class="pagination-dot active"></span>
+            <span class="pagination-dot"></span>
+        </div>
+
+        <!-- 이전·다음 -->
+        <nav class="button-area">
+
+            <a
+                class="onboarding-button previous-button"
+                href="./on-1.html"
+            >
+                이전
+            </a>
+
+            <a
+                class="onboarding-button next-button"
+                href="./on-3.html"
+            >
+                다음
+            </a>
+
+        </nav>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 제품 상세</title>
+
+    <style>
+        :root {
+            --primary: #1f2a44;
+            --text: #2f3640;
+            --background: #f7f4ee;
+            --surface: #ffffff;
+            --border: #d8dde5;
+            --secondary: #7d91b2;
+            --bottom-height: 96px;
+        }
+
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #ffffff;
+            color: var(--primary);
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        img {
+            display: block;
+        }
+
+        /* 모바일 앱 전체 */
+        .product-page {
+            position: relative;
+
+            width: 100%;
+            max-width: 440px;
+            height: 100vh;
+            height: 100svh;
+
+            overflow: hidden;
+
+            background-color: var(--background);
+        }
+
+        /* 스크롤되는 본문 */
+        .product-content {
+            width: 100%;
+            height: 100%;
+
+            padding:
+                max(20px, calc(env(safe-area-inset-top) + 12px))
+                16px
+                calc(var(--bottom-height) + 32px + env(safe-area-inset-bottom));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .product-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 상단 헤더 */
+        .product-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 48px;
+
+            margin-bottom: 12px;
+        }
+
+        .back-button,
+        .header-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .back-button {
+            margin-left: -8px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 4px;
+
+            margin-right: -8px;
+        }
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        /* 제품 이미지 스와이프 */
+        .product-gallery {
+            position: relative;
+
+            width: 100%;
+            height: 282px;
+
+            overflow: hidden;
+
+            border-radius: 12px;
+
+            background-color: var(--surface);
+        }
+
+        .gallery-window {
+            width: 100%;
+            height: 100%;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+
+            overscroll-behavior-x: contain;
+            touch-action: pan-x;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .gallery-window::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-track {
+            display: flex;
+
+            width: 300%;
+            height: 100%;
+        }
+
+        .gallery-slide {
+            flex: 0 0 calc(100% / 3);
+
+            width: calc(100% / 3);
+            height: 100%;
+
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* 갤러리 페이지 점 */
+        .gallery-indicator {
+            position: absolute;
+            z-index: 10;
+
+            bottom: 20px;
+            left: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            transform: translateX(-50%);
+
+            pointer-events: none;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background-color: rgba(216, 221, 229, 0.95);
+
+            transition:
+                width 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .indicator-dot.active {
+            width: 10px;
+            height: 10px;
+
+            background-color: var(--primary);
+        }
+
+        /* 제품 기본 정보 */
+        .product-basic-info {
+            width: 100%;
+
+            padding-top: 16px;
+        }
+
+        .brand-name {
+            color: var(--secondary);
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .product-name {
+            margin-top: 12px;
+
+            color: var(--primary);
+
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: -0.7px;
+        }
+
+        .product-price {
+            margin-top: 8px;
+
+            color: var(--primary);
+
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 28px;
+        }
+
+        /* 제품 특징 칩 */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 16px;
+
+            gap: 8px;
+        }
+
+        .feature-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+            height: 48px;
+
+            padding: 0 8px;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background-color: var(--surface);
+            color: var(--text);
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+
+            white-space: nowrap;
+        }
+
+        .feature-symbol {
+            display: block;
+            flex-shrink: 0;
+
+            width: 14px;
+            height: 14px;
+
+            margin-right: 8px;
+        }
+
+        .square-symbol {
+            border: 1px solid var(--secondary);
+            border-radius: 2px;
+        }
+
+        .black-symbol {
+            border-radius: 50%;
+
+            background-color: var(--primary);
+        }
+
+        .round-symbol {
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+        }
+
+        /* 상세 정보 */
+        .product-details {
+            width: 100%;
+
+            margin-top: 16px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 88px minmax(0, 1fr);
+            align-items: center;
+
+            width: 100%;
+            min-height: 52px;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-label {
+            color: var(--text);
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .detail-value {
+            color: var(--secondary);
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+
+            word-break: keep-all;
+        }
+
+        /* 제품 설명 */
+        .description-section {
+            width: 100%;
+
+            padding-top: 16px;
+        }
+
+        .description-title {
+            color: var(--text);
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .description-text {
+            margin-top: 8px;
+
+            color: var(--secondary);
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+
+        /* 하단 버튼 */
+        .bottom-actions {
+            position: absolute;
+            z-index: 100;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+
+            padding:
+                12px
+                16px
+                calc(12px + env(safe-area-inset-bottom));
+
+            gap: 12px;
+
+            border-top: 1px solid var(--border);
+
+            background-color: rgba(247, 244, 238, 0.98);
+
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .bottom-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 56px;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        .compare-button {
+            border: 1px solid var(--primary);
+
+            background-color: var(--surface);
+            color: var(--primary);
+        }
+
+        .store-button {
+            border: 1px solid var(--primary);
+
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* 터치 효과 */
+        .back-button:active,
+        .header-action:active,
+        .bottom-button:active {
+            opacity: 0.72;
+        }
+
+        @media (max-width: 360px) {
+            .product-content {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+
+            .product-gallery {
+                height: 264px;
+            }
+
+            .bottom-actions {
+                padding-right: 12px;
+                padding-left: 12px;
+
+                gap: 8px;
+            }
+
+            .feature-chip {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="product-page">
+
+        <!-- 스크롤 본문 -->
+        <div class="product-content">
+
+            <!-- 상단 헤더 -->
+            <header class="product-header">
+
+                <!--
+                    이전 페이지 기록이 있으면 실제 뒤로가기
+                    직접 product-detail.html을 열었으면 home-1.html 이동
+                -->
+                <a
+                    class="back-button"
+                    href="./home-1.html"
+                    aria-label="이전 화면으로 돌아가기"
+                    id="backButton"
+                >
+                    <img
+                        class="header-icon"
+                        src="./icons/back_previous.svg"
+                        alt=""
+                    >
+                </a>
+
+                <div class="header-actions">
+
+                    <button
+                        class="header-action"
+                        type="button"
+                        aria-label="제품 공유"
+                        id="shareButton"
+                    >
+                        <img
+                            class="header-icon"
+                            src="./icons/mi_share.svg"
+                            alt=""
+                        >
+                    </button>
+
+                    <button
+                        class="header-action"
+                        type="button"
+                        aria-label="관심 제품 저장"
+                        aria-pressed="false"
+                        id="heartButton"
+                    >
+                        <img
+                            class="header-icon"
+                            src="./icons/like.svg"
+                            alt=""
+                            id="heartIcon"
+                        >
+                    </button>
+
+                </div>
+
+            </header>
+
+            <!-- 손가락으로 좌우 스와이프하는 이미지 -->
+            <section
+                class="product-gallery"
+                aria-label="제품 이미지"
+            >
+
+                <div
+                    class="gallery-window"
+                    id="productGallery"
+                >
+
+                    <div class="gallery-track">
+
+                        <div class="gallery-slide">
+                            <img
+                                class="gallery-image"
+                                src="./images/1_recommend.png"
+                                alt="클래식 스퀘어 프레임 첫 번째 이미지"
+                            >
+                        </div>
+
+                        <div class="gallery-slide">
+                            <img
+                                class="gallery-image"
+                                src="./images/1_recommend-1.png"
+                                alt="클래식 스퀘어 프레임 두 번째 이미지"
+                            >
+                        </div>
+
+                        <div class="gallery-slide">
+                            <img
+                                class="gallery-image"
+                                src="./images/1_recommend-2.png"
+                                alt="클래식 스퀘어 프레임 세 번째 이미지"
+                            >
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="gallery-indicator"
+                    aria-hidden="true"
+                >
+                    <span class="indicator-dot active"></span>
+                    <span class="indicator-dot"></span>
+                    <span class="indicator-dot"></span>
+                </div>
+
+            </section>
+
+            <!-- 제품 이름과 가격 -->
+            <section class="product-basic-info">
+
+                <p class="brand-name">
+                    BRAND
+                </p>
+
+                <h1 class="product-name">
+                    클래식 스퀘어 프레임
+                </h1>
+
+                <p class="product-price">
+                    ₩249,000
+                </p>
+
+                <!-- 제품 특징 -->
+                <div class="feature-list">
+
+                    <div class="feature-chip">
+                        <span class="feature-symbol square-symbol"></span>
+                        스퀘어
+                    </div>
+
+                    <div class="feature-chip">
+                        <span class="feature-symbol black-symbol"></span>
+                        블랙
+                    </div>
+
+                    <div class="feature-chip">
+                        <span class="feature-symbol round-symbol"></span>
+                        아세테이트
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- 상세 정보 -->
+            <section class="product-details">
+
+                <div class="detail-row">
+
+                    <p class="detail-label">
+                        사이즈
+                    </p>
+
+                    <p class="detail-value">
+                        M / 52-18-145
+                    </p>
+
+                </div>
+
+                <div class="detail-row">
+
+                    <p class="detail-label">
+                        추천 얼굴형
+                    </p>
+
+                    <p class="detail-value">
+                        계란형, 둥근형
+                    </p>
+
+                </div>
+
+                <div class="detail-row">
+
+                    <p class="detail-label">
+                        착용 목적
+                    </p>
+
+                    <p class="detail-value">
+                        일상, 패션
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- 제품 설명 -->
+            <section class="description-section">
+
+                <h2 class="description-title">
+                    제품 설명
+                </h2>
+
+                <p class="description-text">
+                    볼드한 스퀘어 실루엣과<br>
+                    광택 있는 아세테이트 소재가<br>
+                    세련된 인상을 완성합니다.<br>
+                    가볍고 안정적인 착용감을 제공합니다.
+                </p>
+
+            </section>
+
+        </div>
+
+        <!-- 하단 고정 버튼 -->
+        <nav
+            class="bottom-actions"
+            aria-label="제품 상세 메뉴"
+        >
+
+            <a
+                class="bottom-button compare-button"
+                href="./compare.html"
+            >
+                비교에 추가
+            </a>
+
+            <a
+                class="bottom-button store-button"
+                href="./store-finder.html"
+            >
+                매장 찾기
+            </a>
+
+        </nav>
+
+    </main>
+
+    <script>
+        /* ========================================
+           뒤로가기
+        ======================================== */
+        const backButton =
+            document.getElementById("backButton");
+
+        backButton.addEventListener("click", function (event) {
+            /*
+                product-detail.html에 다른 페이지에서 들어온 경우에는
+                그 페이지로 돌아감.
+                파일을 직접 실행해서 이전 주소가 없으면 home-1.html 이동.
+            */
+            if (
+                document.referrer &&
+                document.referrer !== window.location.href
+            ) {
+                event.preventDefault();
+                window.history.back();
+            }
+        });
+
+        /* ========================================
+           제품 이미지 스와이프와 페이지 점
+        ======================================== */
+        const gallery =
+            document.getElementById("productGallery");
+
+        const indicatorDots =
+            document.querySelectorAll(".indicator-dot");
+
+        function updateGalleryIndicator() {
+            const slideWidth = gallery.clientWidth;
+
+            if (slideWidth === 0) {
+                return;
+            }
+
+            const currentIndex = Math.round(
+                gallery.scrollLeft / slideWidth
+            );
+
+            indicatorDots.forEach(function (dot, index) {
+                dot.classList.toggle(
+                    "active",
+                    index === currentIndex
+                );
+            });
+        }
+
+        gallery.addEventListener(
+            "scroll",
+            updateGalleryIndicator,
+            { passive: true }
+        );
+
+        window.addEventListener(
+            "resize",
+            updateGalleryIndicator
+        );
+
+        /* ========================================
+           빈 하트 ↔ 채운 하트
+        ======================================== */
+        const heartButton =
+            document.getElementById("heartButton");
+
+        const heartIcon =
+            document.getElementById("heartIcon");
+
+        heartButton.addEventListener("click", function () {
+            const isSaved =
+                heartButton.getAttribute("aria-pressed") === "true";
+
+            if (isSaved) {
+                heartIcon.src = "./icons/like.svg";
+
+                heartButton.setAttribute(
+                    "aria-pressed",
+                    "false"
+                );
+
+                heartButton.setAttribute(
+                    "aria-label",
+                    "관심 제품 저장"
+                );
+            } else {
+                heartIcon.src = "./icons/blacklike.svg";
+
+                heartButton.setAttribute(
+                    "aria-pressed",
+                    "true"
+                );
+
+                heartButton.setAttribute(
+                    "aria-label",
+                    "관심 제품 저장 취소"
+                );
+            }
+        });
+
+        /* ========================================
+           제품 공유
+        ======================================== */
+        const shareButton =
+            document.getElementById("shareButton");
+
+        shareButton.addEventListener("click", async function () {
+            const shareData = {
+                title: "클래식 스퀘어 프레임",
+                text: "GAZE 클래식 스퀘어 프레임",
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(
+                        window.location.href
+                    );
+
+                    alert("제품 주소가 복사되었습니다.");
+                }
+            } catch (error) {
+                /*
+                    사용자가 공유창을 닫은 경우에도
+                    화면이 멈추지 않도록 별도 처리하지 않음
+                */
+            }
+        });
+    </script>
+</body>
+</html>

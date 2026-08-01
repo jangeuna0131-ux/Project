@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE Home</title>
+
+    <style>
+        :root {
+            --primary: #1f2a44;
+            --text: #2f3640;
+            --background: #f7f4ee;
+            --surface: #ffffff;
+            --border: #d8dde5;
+            --secondary: #7d91b2;
+            --disabled: #cbd2dc;
+            --tabbar-height: 72px;
+        }
+
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: var(--background);
+            color: var(--primary);
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        img {
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* 모바일 App 전체 */
+        .app {
+            position: relative;
+
+            width: 100%;
+            height: 100svh;
+
+            overflow: hidden;
+            background-color: var(--background);
+        }
+
+        /* 스크롤 본문 */
+        .app-content {
+            width: 100%;
+            height: 100%;
+
+            padding-top: max(16px, env(safe-area-inset-top));
+            padding-right: 16px;
+            padding-bottom: calc(
+                var(--tabbar-height) + 24px + env(safe-area-inset-bottom)
+            );
+            padding-left: 16px;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .app-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 상단 헤더 */
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 48px;
+        }
+
+        .brand-name {
+            color: var(--primary);
+
+            font-family:
+                "Playfair Display",
+                "Times New Roman",
+                Georgia,
+                serif;
+
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 36px;
+            letter-spacing: 7px;
+            white-space: nowrap;
+        }
+
+        .header-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            margin-right: -10px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        /* 메인 배너 */
+        .hero-banner {
+            position: relative;
+
+            width: 100%;
+            height: 208px;
+
+            overflow: hidden;
+            border-radius: 8px;
+
+            background-color: #222222;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero-banner::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(10, 15, 25, 0.52) 0%,
+                    rgba(10, 15, 25, 0.18) 52%,
+                    rgba(10, 15, 25, 0) 80%
+                );
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 48px;
+            left: 24px;
+            z-index: 1;
+        }
+
+        .hero-title {
+            color: #ffffff;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        .recommend-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 44px;
+
+            margin-top: 16px;
+            padding: 0 12px;
+
+            border-radius: 8px;
+
+            background-color: rgba(31, 42, 68, 0.94);
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .recommend-button:active {
+            opacity: 0.88;
+        }
+
+        /* 검색창 */
+        .search-form {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 48px;
+
+            margin-top: 12px;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background-color: var(--surface);
+        }
+
+        .search-icon-box {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 48px;
+            height: 48px;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            height: 46px;
+
+            padding: 0 8px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: var(--primary);
+
+            font-size: 13px;
+            line-height: 20px;
+
+            caret-color: var(--primary);
+        }
+
+        .search-input::placeholder {
+            color: var(--secondary);
+            opacity: 1;
+        }
+
+        .search-form:focus-within {
+            border-color: var(--secondary);
+
+            box-shadow:
+                0 0 0 2px rgba(125, 145, 178, 0.12);
+        }
+
+        .scan-button {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 48px;
+            height: 48px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .scan-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        /* 공통 섹션 */
+        .home-section {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            min-height: 24px;
+
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            color: var(--primary);
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .view-all {
+            display: inline-flex;
+            align-items: center;
+
+            min-height: 24px;
+
+            color: var(--secondary);
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        /* 얼굴형별 추천 */
+        .face-category-list {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+
+            width: 100%;
+            gap: 8px;
+        }
+
+        .face-category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            min-width: 0;
+            height: 64px;
+            padding: 0;
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            background-color: transparent;
+            color: var(--secondary);
+
+            text-decoration: none;
+        }
+
+        .face-category:active {
+            background-color: #ffffff;
+        }
+
+        .face-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .face-label {
+            margin-top: 4px;
+
+            color: var(--secondary);
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        /* 추천 제품 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+            gap: 12px;
+        }
+
+        .product-card {
+            position: relative;
+
+            min-width: 0;
+            min-height: 152px;
+
+            padding: 8px;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background-color: var(--surface);
+        }
+
+        .product-link {
+            display: block;
+        }
+
+        .product-image-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 80px;
+
+            overflow: hidden;
+            border-radius: 8px;
+
+            background-color: #ffffff;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .product-info {
+            min-width: 0;
+
+            padding-top: 8px;
+            padding-right: 28px;
+            padding-left: 4px;
+        }
+
+        .product-name {
+            overflow: hidden;
+
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product-model {
+            margin-top: 2px;
+
+            color: var(--text);
+
+            font-size: 11px;
+            line-height: 16px;
+        }
+
+        .product-price {
+            margin-top: 2px;
+
+            color: var(--primary);
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .product-save-button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .product-heart-icon {
+            width: 12px;
+            height: 12px;
+
+            object-fit: contain;
+        }
+
+        /* 인기 제품 */
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+            gap: 12px;
+        }
+
+        .popular-card {
+            display: block;
+
+            width: 100%;
+            min-width: 0;
+
+            border: 0;
+            background-color: transparent;
+
+            overflow: visible;
+        }
+
+        .popular-image {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            object-fit: contain;
+        }
+
+        /* 하단 탭바 */
+        .bottom-tabbar {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            width: 100%;
+            min-height: var(--tabbar-height);
+
+            padding-bottom: env(safe-area-inset-bottom);
+
+            border-top: 1px solid var(--border);
+
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+            height: var(--tabbar-height);
+
+            color: var(--disabled);
+
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 14px;
+        }
+
+        .tab-icon {
+            width: 24px;
+            height: 24px;
+
+            margin-bottom: 4px;
+
+            object-fit: contain;
+            opacity: 0.28;
+        }
+
+        .tab-item.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .tab-item.active .tab-icon {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+
+        <div class="app-content">
+
+            <!-- 상단 헤더 -->
+            <header class="top-header">
+
+                <p class="brand-name">
+                    GAZE
+                </p>
+
+                <button
+                    class="header-button"
+                    type="button"
+                    aria-label="알림 보기"
+                >
+                    <img
+                        class="header-icon"
+                        src="./icons/01_bell.svg"
+                        alt=""
+                    >
+                </button>
+
+            </header>
+
+            <!-- 메인 배너 -->
+            <section class="hero-banner">
+
+                <img
+                    class="hero-image"
+                    src="./images/01_home-banner.jpg"
+                    alt="선글라스를 착용하고 커피를 들고 있는 여성"
+                >
+
+                <div class="hero-content">
+
+                    <h1 class="hero-title">
+                        나에게 어울리는<br>
+                        프레임 찾기
+                    </h1>
+
+                    <a
+                        class="recommend-button"
+                        href="./explore.html"
+                    >
+                        맞춤 추천 시작하기
+                    </a>
+
+                </div>
+
+            </section>
+
+            <!-- 검색창 -->
+            <form
+                class="search-form"
+                action="./explore.html"
+                method="get"
+            >
+
+                <span class="search-icon-box">
+                    <img
+                        class="search-icon"
+                        src="./icons/02_search.svg"
+                        alt=""
+                    >
+                </span>
+
+                <input
+                    class="search-input"
+                    type="search"
+                    name="keyword"
+                    placeholder="프레임, 브랜드, 스타일 검색"
+                    aria-label="아이웨어 검색"
+                    autocomplete="off"
+                    enterkeyhint="search"
+                >
+
+                <button
+                    class="scan-button"
+                    type="button"
+                    aria-label="이미지로 검색"
+                >
+                    <img
+                        class="scan-icon"
+                        src="./icons/03_scan.svg"
+                        alt=""
+                    >
+                </button>
+
+            </form>
+
+            <!-- 얼굴형별 추천 -->
+            <section class="home-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        얼굴형별 추천
+                    </h2>
+
+                    <a
+                        class="view-all"
+                        href="./explore.html"
+                    >
+                        전체 보기
+                    </a>
+
+                </div>
+
+                <!--
+                    라디오 버튼과 wrapper div를 모두 제거했다.
+                    다섯 요소가 grid의 직접 자식이라 한 줄로 정렬된다.
+                -->
+                <div class="face-category-list">
+
+                    <!-- 라운드 클릭 시 home-1.html 이동 -->
+                    <a
+                        class="face-category"
+                        href="./home-1.html"
+                    >
+                        <img
+                            class="face-icon"
+                            src="./icons/04_face-round.svg"
+                            alt=""
+                        >
+
+                        <span class="face-label">
+                            라운드
+                        </span>
+                    </a>
+
+                    <button
+                        class="face-category"
+                        type="button"
+                    >
+                        <img
+                            class="face-icon"
+                            src="./icons/05_face-square.svg"
+                            alt=""
+                        >
+
+                        <span class="face-label">
+                            스퀘어
+                        </span>
+                    </button>
+
+                    <button
+                        class="face-category"
+                        type="button"
+                    >
+                        <img
+                            class="face-icon"
+                            src="./icons/06_face-oval.svg"
+                            alt=""
+                        >
+
+                        <span class="face-label">
+                            오벌
+                        </span>
+                    </button>
+
+                    <button
+                        class="face-category"
+                        type="button"
+                    >
+                        <img
+                            class="face-icon"
+                            src="./icons/07_face-heart.svg"
+                            alt=""
+                        >
+
+                        <span class="face-label">
+                            하트
+                        </span>
+                    </button>
+
+                    <button
+                        class="face-category"
+                        type="button"
+                    >
+                        <img
+                            class="face-icon"
+                            src="./icons/08_category.svg"
+                            alt=""
+                        >
+
+                        <span class="face-label">
+                            전체
+                        </span>
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- 추천 아이웨어 -->
+            <section class="home-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        추천 아이웨어
+                    </h2>
+
+                    <a
+                        class="view-all"
+                        href="./products.html"
+                    >
+                        전체 보기
+                    </a>
+
+                </div>
+
+                <div class="product-grid">
+
+                    <!-- 추천 제품 1 -->
+                    <article class="product-card">
+
+                        <a
+                            class="product-link"
+                            href="./product-detail.html"
+                        >
+
+                            <div class="product-image-box">
+                                <img
+                                    class="product-image"
+                                    src="./images/02_recommend-glasses-01.png"
+                                    alt="브라운 클래식 스퀘어 프레임"
+                                >
+                            </div>
+
+                            <div class="product-info">
+
+                                <p class="product-name">
+                                    클래식 스퀘어 프레임
+                                </p>
+
+                                <p class="product-model">
+                                    Life 01
+                                </p>
+
+                                <p class="product-price">
+                                    ₩249,000
+                                </p>
+
+                            </div>
+
+                        </a>
+
+                        <button
+                            class="product-save-button"
+                            type="button"
+                            aria-label="첫 번째 제품 저장"
+                        >
+                            <img
+                                class="product-heart-icon"
+                                src="./icons/09_product-heart.svg"
+                                alt=""
+                            >
+                        </button>
+
+                    </article>
+
+                    <!-- 추천 제품 2 -->
+                    <article class="product-card">
+
+                        <a
+                            class="product-link"
+                            href="./product-detail.html"
+                        >
+
+                            <div class="product-image-box">
+                                <img
+                                    class="product-image"
+                                    src="./images/03_recommend-glasses-02.png"
+                                    alt="카키 클래식 스퀘어 프레임"
+                                >
+                            </div>
+
+                            <div class="product-info">
+
+                                <p class="product-name">
+                                    클래식 스퀘어 프레임
+                                </p>
+
+                                <p class="product-model">
+                                    Life 01
+                                </p>
+
+                                <p class="product-price">
+                                    ₩219,000
+                                </p>
+
+                            </div>
+
+                        </a>
+
+                        <button
+                            class="product-save-button"
+                            type="button"
+                            aria-label="두 번째 제품 저장"
+                        >
+                            <img
+                                class="product-heart-icon"
+                                src="./icons/09_product-heart.svg"
+                                alt=""
+                            >
+                        </button>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+            <!-- 지금 인기 있는 제품 -->
+            <section class="home-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        지금 인기 있는 제품
+                    </h2>
+
+                    <a
+                        class="view-all"
+                        href="./products.html"
+                    >
+                        전체 보기
+                    </a>
+
+                </div>
+
+                <div class="popular-grid">
+
+                    <a
+                        class="popular-card"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="popular-image"
+                            src="./images/04_popular-glasses-01.png"
+                            alt="브라운 인기 선글라스"
+                        >
+                    </a>
+
+                    <a
+                        class="popular-card"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="popular-image"
+                            src="./images/05_popular-glasses-02.png"
+                            alt="그레이 인기 선글라스"
+                        >
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- 하단 탭바 -->
+        <nav
+            class="bottom-tabbar"
+            aria-label="주요 메뉴"
+        >
+
+            <a
+                class="tab-item active"
+                href="./home.html"
+                aria-current="page"
+            >
+                <img
+                    class="tab-icon"
+                    src="./icons/10_home.svg"
+                    alt=""
+                >
+                <span>홈</span>
+            </a>
+
+            <a
+                class="tab-item"
+                href="./explore.html"
+            >
+                <img
+                    class="tab-icon"
+                    src="./icons/11_explore.svg"
+                    alt=""
+                >
+                <span>탐색</span>
+            </a>
+
+            <a
+                class="tab-item"
+                href="./saved.html"
+            >
+                <img
+                    class="tab-icon"
+                    src="./icons/12_saved.svg"
+                    alt=""
+                >
+                <span>저장</span>
+            </a>
+
+            <a
+                class="tab-item"
+                href="./my.html"
+            >
+                <img
+                    class="tab-icon"
+                    src="./icons/13_my.svg"
+                    alt=""
+                >
+                <span>마이</span>
+            </a>
+
+        </nav>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 회원가입</title>
+
+    <style>
+        /* 기본 여백 제거 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            /* iOS 글자 자동 확대 방지 */
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        input,
+        button {
+            font-family: inherit;
+        }
+
+        /* 모바일 App 전용 회원가입 화면 */
+        .signup-page {
+            position: relative;
+
+            width: 100%;
+            height: 100svh;
+
+            padding:
+                max(40px, env(safe-area-inset-top))
+                24px
+                max(20px, env(safe-area-inset-bottom));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+        }
+
+        /* 뒤로가기 버튼 */
+        .back-button {
+            position: absolute;
+            top: max(72px, calc(env(safe-area-inset-top) + 32px));
+            left: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            background-color: transparent;
+
+            text-decoration: none;
+        }
+
+        .back-icon {
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        /* 상단 브랜드 영역 */
+        .brand-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        .brand-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+        }
+
+        /* GAZE 얼굴 심볼 */
+        .brand-symbol {
+            display: block;
+
+            width: 58px;
+            height: 68px;
+
+            object-fit: contain;
+        }
+
+        /* GAZE 글자 */
+        .brand-name {
+            margin-left: 14px;
+
+            color: #1f2a44;
+
+            font-family:
+                "Times New Roman",
+                Georgia,
+                serif;
+
+            font-size: 44px;
+            font-weight: 400;
+            line-height: 52px;
+            letter-spacing: 10px;
+            text-indent: 10px;
+
+            white-space: nowrap;
+        }
+
+        /* 브랜드 설명 */
+        .brand-tagline {
+            margin-top: -2px;
+            margin-left: 72px;
+
+            color: #1f2a44;
+
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 4px;
+
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* 회원가입 안내 */
+        .signup-intro {
+            margin-top: 36px;
+
+            text-align: center;
+        }
+
+        .signup-title {
+            color: #1f2a44;
+
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: -0.8px;
+        }
+
+        .signup-description {
+            margin-top: 8px;
+
+            color: #2f3640;
+
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 22px;
+            letter-spacing: -0.3px;
+        }
+
+        /* 회원가입 입력 영역 */
+        .signup-form {
+            width: 100%;
+            margin-top: 36px;
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        .form-group + .form-group {
+            margin-top: 12px;
+        }
+
+        .password-group {
+            margin-top: 36px;
+        }
+
+        .form-label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .input-box {
+            position: relative;
+
+            width: 100%;
+        }
+
+        /* 입력창 */
+        .form-input {
+            display: block;
+
+            width: 100%;
+            height: 48px;
+
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+            outline: none;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+
+            caret-color: #1f2a44;
+        }
+
+        .form-input::placeholder {
+            color: #7d91b2;
+            opacity: 1;
+        }
+
+        .form-input:focus {
+            border-color: #7d91b2;
+
+            box-shadow:
+                0 0 0 2px rgba(125, 145, 178, 0.14);
+        }
+
+        /* 비밀번호 입력창 */
+        .password-input {
+            padding-right: 52px;
+        }
+
+        /* 비밀번호 눈 아이콘 */
+        .password-eye {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            transform: translateY(-50%);
+            object-fit: contain;
+
+            pointer-events: none;
+        }
+
+        /* 회원가입 버튼 */
+        .signup-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 56px;
+
+            margin-top: 12px;
+
+            border: 0;
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            cursor: pointer;
+        }
+
+        .signup-button:active {
+            opacity: 0.88;
+        }
+
+        /* 구분선 */
+        .divider {
+            display: flex;
+            align-items: center;
+
+            width: calc(100% - 36px);
+            margin: 28px auto 20px;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background-color: #d8dde5;
+        }
+
+        .divider span {
+            padding: 0 14px;
+        }
+
+        /* 소셜 회원가입 */
+        .social-signup {
+            display: flex;
+            justify-content: space-between;
+
+            width: 100%;
+
+            gap: 16px;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: calc((100% - 32px) / 3);
+            height: 48px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+
+            cursor: pointer;
+        }
+
+        .social-button:active {
+            background-color: #f0efed;
+        }
+
+        .social-icon {
+            display: block;
+
+            width: 28px;
+            height: 28px;
+
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="signup-page">
+
+        <!-- 로그인 화면으로 돌아가기 -->
+        <a
+            class="back-button"
+            href="./login.html"
+            aria-label="로그인 화면으로 돌아가기"
+        >
+            <img
+                class="back-icon"
+                src="./icons/back_previous.svg"
+                alt=""
+            >
+        </a>
+
+        <!-- GAZE 브랜드 -->
+        <header class="brand-area">
+
+            <div class="brand-main">
+
+                <img
+                    class="brand-symbol"
+                    src="./images/1_symbol.svg"
+                    alt="GAZE 얼굴 심볼 로고"
+                >
+
+                <p class="brand-name">
+                    GAZE
+                </p>
+
+            </div>
+
+            <p class="brand-tagline">
+                당신에게 꼭 맞는 아이웨어를<br>
+                찾아보세요
+            </p>
+
+        </header>
+
+        <!-- 회원가입 안내 -->
+        <section class="signup-intro">
+
+            <h1 class="signup-title">
+                함께할 계정을 만들어보세요
+            </h1>
+
+            <p class="signup-description">
+                회원가입하고 나만의 스타일 여정을 이어가세요.
+            </p>
+
+        </section>
+
+        <!-- 회원가입 입력 폼 -->
+        <form
+            class="signup-form"
+            action="./home.html"
+            method="get"
+        >
+
+            <!-- 이름 -->
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="user-name"
+                >
+                    이름
+                </label>
+
+                <div class="input-box">
+
+                    <input
+                        class="form-input"
+                        id="user-name"
+                        name="name"
+                        type="text"
+                        placeholder="이름을 입력하세요"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- 이메일 -->
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="user-email"
+                >
+                    이메일
+                </label>
+
+                <div class="input-box">
+
+                    <input
+                        class="form-input"
+                        id="user-email"
+                        name="email"
+                        type="email"
+                        placeholder="이메일도 입력하세요"
+                        autocomplete="email"
+                        inputmode="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- 비밀번호 -->
+            <div class="form-group password-group">
+
+                <label
+                    class="form-label"
+                    for="user-password"
+                >
+                    비밀번호
+                </label>
+
+                <div class="input-box">
+
+                    <input
+                        class="form-input password-input"
+                        id="user-password"
+                        name="password"
+                        type="password"
+                        placeholder="비밀번호를 입력하세요"
+                        autocomplete="new-password"
+                        minlength="4"
+                        required
+                    >
+
+                    <img
+                        class="password-eye"
+                        src="./icons/red-eye.svg"
+                        alt=""
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- 비밀번호 확인 -->
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="password-confirm"
+                >
+                    비밀번호 확인
+                </label>
+
+                <div class="input-box">
+
+                    <input
+                        class="form-input password-input"
+                        id="password-confirm"
+                        name="password-confirm"
+                        type="password"
+                        placeholder="비밀번호를 다시 입력하세요"
+                        autocomplete="new-password"
+                        minlength="4"
+                        required
+                    >
+
+                    <img
+                        class="password-eye"
+                        src="./icons/red-eye.svg"
+                        alt=""
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- 회원가입 -->
+            <button
+                class="signup-button"
+                type="submit"
+            >
+                회원가입
+            </button>
+
+        </form>
+
+        <!-- 소셜 회원가입 구분 -->
+        <div class="divider">
+            <span>또는</span>
+        </div>
+
+        <!-- 소셜 회원가입 -->
+        <section
+            class="social-signup"
+            aria-label="소셜 계정으로 회원가입"
+        >
+
+            <button
+                class="social-button"
+                type="button"
+                aria-label="Apple 계정으로 회원가입"
+            >
+                <img
+                    class="social-icon"
+                    src="./icons/apple.svg"
+                    alt=""
+                >
+            </button>
+
+            <button
+                class="social-button"
+                type="button"
+                aria-label="Google 계정으로 회원가입"
+            >
+                <img
+                    class="social-icon"
+                    src="./icons/google.svg"
+                    alt=""
+                >
+            </button>
+
+            <button
+                class="social-button"
+                type="button"
+                aria-label="Facebook 계정으로 회원가입"
+            >
+                <img
+                    class="social-icon"
+                    src="./icons/facebook.svg"
+                    alt=""
+                >
+            </button>
+
+        </section>
+
+    </main>
+</body>
+</html>

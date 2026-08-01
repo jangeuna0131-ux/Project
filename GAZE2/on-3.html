@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- iOS·안드로이드 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE Onboarding 3</title>
+
+    <style>
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* 모바일 App 온보딩 전체 화면 */
+        .onboarding {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+
+            padding:
+                max(44px, calc(env(safe-area-inset-top) + 24px))
+                24px
+                max(24px, calc(env(safe-area-inset-bottom) + 16px));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+
+            scrollbar-width: none;
+            overscroll-behavior-y: none;
+        }
+
+        .onboarding::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 지도와 매장 정보 */
+        .store-area {
+            width: 100%;
+        }
+
+        /* 지도 이미지 */
+        .map-image {
+            display: block;
+
+            width: 100%;
+            height: 216px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px 16px 0 0;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* 매장 정보 카드 */
+        .store-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            min-height: 112px;
+
+            padding: 14px 16px;
+
+            border: 1px solid #d8dde5;
+            border-top: 0;
+            border-radius: 0 0 12px 12px;
+
+            background-color: #ffffff;
+        }
+
+        .store-info {
+            min-width: 0;
+            padding-right: 12px;
+        }
+
+        .store-name {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        .store-address,
+        .store-phone {
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        .store-address {
+            margin-top: 6px;
+        }
+
+        .store-phone {
+            margin-top: 6px;
+        }
+
+        /* 매장 사진 */
+        .store-image {
+            display: block;
+            flex-shrink: 0;
+
+            width: 96px;
+            height: 80px;
+
+            border-radius: 10px;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* 재고·예약 정보 */
+        .status-area {
+            display: flex;
+
+            width: 100%;
+            margin-top: 16px;
+
+            gap: 12px;
+        }
+
+        .status-card {
+            display: flex;
+            align-items: center;
+
+            width: calc((100% - 12px) / 2);
+            height: 60px;
+
+            padding: 10px 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        /* 아이콘 배경 */
+        .icon-circle {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 32px;
+
+            margin-right: 10px;
+
+            border-radius: 50%;
+            background-color: #edf0f4;
+        }
+
+        .status-icon {
+            display: block;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .status-text {
+            min-width: 0;
+        }
+
+        .status-title {
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 18px;
+
+            white-space: nowrap;
+        }
+
+        .status-description {
+            margin-top: 4px;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        /* 온보딩 설명 */
+        .onboarding-text {
+            width: 100%;
+
+            margin-top: 44px;
+
+            text-align: center;
+        }
+
+        .onboarding-title {
+            color: #1f2a44;
+
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 30px;
+            letter-spacing: -0.8px;
+
+            word-break: keep-all;
+        }
+
+        .onboarding-description {
+            margin-top: 12px;
+
+            color: #2f3640;
+
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 22px;
+            letter-spacing: -0.4px;
+
+            word-break: keep-all;
+        }
+
+        /* 페이지 표시 점 */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            margin-top: 40px;
+
+            gap: 28px;
+        }
+
+        .pagination-dot {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+            background-color: #cbd2dc;
+        }
+
+        /* 세 번째 화면 활성화 */
+        .pagination-dot.active {
+            background-color: #1f2a44;
+        }
+
+        /* 하단 버튼 */
+        .button-area {
+            display: flex;
+
+            width: 100%;
+
+            margin-top: auto;
+            padding-top: 28px;
+
+            gap: 10px;
+        }
+
+        .onboarding-button {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+
+            height: 56px;
+
+            border-radius: 12px;
+
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            text-decoration: none;
+        }
+
+        /* 이전 버튼 */
+        .previous-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        /* 시작하기 버튼 */
+        .start-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .onboarding-button:active {
+            opacity: 0.86;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="onboarding">
+
+        <!-- 지도와 매장 정보 -->
+        <section class="store-area">
+
+            <!-- 지도 -->
+            <img
+                class="map-image"
+                src="./images/1_map.png"
+                alt="GAZE 매장 위치가 표시된 지도"
+            >
+
+            <!-- 매장 정보 -->
+            <article class="store-card">
+
+                <div class="store-info">
+
+                    <h2 class="store-name">
+                        GAZE 신사 플래그십 스토어
+                    </h2>
+
+                    <p class="store-address">
+                        강남구 도산대로 123
+                    </p>
+
+                    <p class="store-phone">
+                        02-1234-5678
+                    </p>
+
+                </div>
+
+                <img
+                    class="store-image"
+                    src="./images/1_icy.png"
+                    alt="GAZE 신사 플래그십 스토어 외관"
+                >
+
+            </article>
+
+            <!-- 재고와 예약 상태 -->
+            <div class="status-area">
+
+                <!-- 재고 있음 -->
+                <div class="status-card">
+
+                    <span class="icon-circle">
+
+                        <img
+                            class="status-icon"
+                            src="./icons/search.svg"
+                            alt=""
+                        >
+
+                    </span>
+
+                    <div class="status-text">
+
+                        <p class="status-title">
+                            재고 있음
+                        </p>
+
+                        <p class="status-description">
+                            3개 모델
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- 예약 가능 -->
+                <div class="status-card">
+
+                    <span class="icon-circle">
+
+                        <img
+                            class="status-icon"
+                            src="./icons/calendar.svg"
+                            alt=""
+                        >
+
+                    </span>
+
+                    <div class="status-text">
+
+                        <p class="status-title">
+                            오늘 예약 가능
+                        </p>
+
+                        <p class="status-description">
+                            오후 3:00
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 설명 -->
+        <section class="onboarding-text">
+
+            <h1 class="onboarding-title">
+                매장에서 직접 써보고 결정
+            </h1>
+
+            <p class="onboarding-description">
+                판매 매장과 재고를 확인하고, 원하는<br>
+                시간에 피팅을 예약해요.
+            </p>
+
+        </section>
+
+        <!-- 세 번째 페이지 표시 -->
+        <div
+            class="pagination"
+            aria-label="온보딩 진행 상태"
+        >
+            <span class="pagination-dot"></span>
+            <span class="pagination-dot"></span>
+            <span class="pagination-dot active"></span>
+        </div>
+
+        <!-- 이전·시작하기 -->
+        <nav class="button-area">
+
+            <a
+                class="onboarding-button previous-button"
+                href="./on-2.html"
+            >
+                이전
+            </a>
+
+            <a
+                class="onboarding-button start-button"
+                href="./login.html"
+            >
+                시작하기
+            </a>
+
+        </nav>
+
+    </main>
+</body>
+</html>

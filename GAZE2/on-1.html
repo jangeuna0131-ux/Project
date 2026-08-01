@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- iOS·안드로이드 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE Onboarding 1</title>
+
+    <style>
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* 모바일 App 온보딩 전체 화면 */
+        .onboarding {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+
+            scrollbar-width: none;
+            overscroll-behavior-y: none;
+        }
+
+        .onboarding::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 상단 사진 */
+        .onboarding-image {
+            display: block;
+            flex-shrink: 0;
+
+            width: 100%;
+            height: clamp(360px, 54svh, 438px);
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* 하단 콘텐츠 */
+        .onboarding-content {
+            display: flex;
+            flex-shrink: 0;
+            flex-direction: column;
+            align-items: center;
+
+            width: 100%;
+            min-height: 374px;
+
+            padding:
+                32px
+                24px
+                max(36px, calc(env(safe-area-inset-bottom) + 20px));
+
+            text-align: center;
+            background-color: #f7f4ee;
+        }
+
+        /* 제목 */
+        .onboarding-title {
+            color: #1f2a44;
+
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 28px;
+            letter-spacing: -0.6px;
+
+            word-break: keep-all;
+        }
+
+        /* 설명 */
+        .onboarding-description {
+            margin-top: 12px;
+
+            color: #2f3640;
+
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 21px;
+            letter-spacing: -0.4px;
+
+            word-break: keep-all;
+        }
+
+        /* 페이지 표시 점 */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            margin-top: 64px;
+
+            gap: 28px;
+        }
+
+        .pagination-dot {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+            background-color: #cbd2dc;
+        }
+
+        /* 첫 번째 페이지 활성화 */
+        .pagination-dot.active {
+            background-color: #1f2a44;
+        }
+
+        /* 다음 버튼 */
+        .next-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 56px;
+
+            margin-top: auto;
+            padding-top: 0;
+
+            border: 1px solid #1f2a44;
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+
+            text-decoration: none;
+        }
+
+        .next-button:active {
+            opacity: 0.86;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="onboarding">
+
+        <!-- 상단 온보딩 사진 -->
+        <img
+            class="onboarding-image"
+            src="./images/Splash.png"
+            alt="선글라스를 착용하고 커피를 들고 있는 여성"
+        >
+
+        <!-- 하단 온보딩 콘텐츠 -->
+        <section class="onboarding-content">
+
+            <h1 class="onboarding-title">
+                내 얼굴과 스타일에 맞게
+            </h1>
+
+            <p class="onboarding-description">
+                얼굴형·선호 스타일·착용 목적을<br>
+                바탕으로 어울리는 아이웨어를<br>
+                추천해요.
+            </p>
+
+            <!-- 첫 번째 온보딩 화면 표시 -->
+            <div
+                class="pagination"
+                aria-label="온보딩 진행 상태"
+            >
+                <span class="pagination-dot active"></span>
+                <span class="pagination-dot"></span>
+                <span class="pagination-dot"></span>
+            </div>
+
+            <!-- 다음 화면으로 이동 -->
+            <a
+                class="next-button"
+                href="./on-2.html"
+            >
+                다음
+            </a>
+
+        </section>
+
+    </main>
+</body>
+</html>

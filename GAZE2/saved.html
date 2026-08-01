@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 저장</title>
+
+    <style>
+        /* =========================
+           기본 설정
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        img {
+            display: block;
+        }
+
+        /* =========================
+           모바일 앱 전체
+        ========================= */
+        .saved-page {
+            position: relative;
+
+            width: 100%;
+            max-width: 440px;
+            height: 100vh;
+            height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+        }
+
+        /* =========================
+           스크롤 본문
+        ========================= */
+        .saved-content {
+            width: 100%;
+            height: 100%;
+
+            padding:
+                max(40px, calc(env(safe-area-inset-top) + 20px))
+                24px
+                calc(120px + env(safe-area-inset-bottom));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .saved-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================
+           상단 영역
+        ========================= */
+        .saved-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            width: 100%;
+        }
+
+        .page-title {
+            color: #1f2a44;
+
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: -0.8px;
+        }
+
+        .saved-count {
+            margin-top: 8px;
+
+            color: #2f3640;
+
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .edit-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 64px;
+            height: 44px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 14px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           탭
+        ========================= */
+        .saved-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 16px;
+            gap: 8px;
+        }
+
+        .tab-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 48px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 14px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 500;
+
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            border-color: #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        /* =========================
+           탭 내용
+        ========================= */
+        .tab-panel {
+            display: none;
+
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* =========================
+           관심 제품 목록
+        ========================= */
+        .saved-list {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            gap: 12px;
+        }
+
+        .saved-card {
+            display: grid;
+            grid-template-columns: 48% minmax(0, 1fr);
+            align-items: center;
+
+            width: 100%;
+            min-height: 140px;
+
+            padding: 12px;
+            gap: 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .product-image-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 116px;
+
+            overflow: hidden;
+
+            border-radius: 4px;
+            background-color: #f7f4ee;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .product-info {
+            min-width: 0;
+        }
+
+        /* 빈 하트 */
+        .heart-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 32px;
+
+            margin-left: -6px;
+
+            border: 0;
+            background-color: transparent;
+
+            cursor: pointer;
+        }
+
+        .heart-icon {
+            width: 22px;
+            height: 22px;
+
+            object-fit: contain;
+        }
+
+        .product-name {
+            display: block;
+
+            margin-top: 2px;
+
+            overflow: hidden;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            margin-top: 4px;
+
+            color: #1f2a44;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        .compare-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 120px;
+            height: 40px;
+
+            margin-top: 8px;
+
+            border: 1px solid #1f2a44;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           비교 제품
+        ========================= */
+        .compare-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            min-height: 88px;
+
+            padding: 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .compare-card-info {
+            min-width: 0;
+            padding-right: 12px;
+        }
+
+        .compare-card-title {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .compare-card-description {
+            margin-top: 4px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .compare-page-button {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 84px;
+            height: 40px;
+
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           최근 본 제품
+        ========================= */
+        .recent-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+            gap: 12px;
+        }
+
+        .recent-card {
+            display: block;
+
+            min-width: 0;
+            padding: 10px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .recent-image-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 112px;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+        }
+
+        .recent-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+        }
+
+        .recent-name {
+            margin-top: 8px;
+
+            overflow: hidden;
+
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .recent-price {
+            margin-top: 2px;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .browse-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 48px;
+
+            margin-top: 20px;
+
+            border-radius: 12px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           하단 내비게이션
+        ========================= */
+        .bottom-navigation {
+            position: absolute;
+            z-index: 999;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            width: 100%;
+            min-height: 88px;
+
+            padding:
+                8px
+                16px
+                calc(8px + env(safe-area-inset-bottom));
+
+            border-top: 1px solid #d8dde5;
+
+            background-color: rgba(255, 255, 255, 0.97);
+
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+
+            pointer-events: auto;
+        }
+
+        .nav-item {
+            position: relative;
+            z-index: 1000;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+            min-height: 64px;
+
+            color: #c7cdd6;
+
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .nav-icon {
+            width: 25px;
+            height: 25px;
+
+            object-fit: contain;
+
+            opacity: 0.45;
+        }
+
+        .nav-label {
+            margin-top: 5px;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        .nav-item.active {
+            color: #1f2a44;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        /* 터치 */
+        .edit-button:active,
+        .tab-button:active,
+        .heart-button:active,
+        .compare-button:active,
+        .compare-page-button:active,
+        .browse-button:active,
+        .nav-item:active {
+            opacity: 0.7;
+        }
+
+        .heart-button:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <main class="saved-page">
+
+        <div class="saved-content">
+
+            <!-- 상단 -->
+            <header class="saved-header">
+
+                <div>
+                    <h1 class="page-title">
+                        저장
+                    </h1>
+
+                    <p class="saved-count">
+                        관심 제품 3개
+                    </p>
+                </div>
+
+                <button
+                    class="edit-button"
+                    type="button"
+                >
+                    편집
+                </button>
+
+            </header>
+
+            <!-- 탭 -->
+            <nav
+                class="saved-tabs"
+                aria-label="저장 제품 분류"
+            >
+                <button
+                    class="tab-button active"
+                    type="button"
+                    data-panel="favoritePanel"
+                >
+                    관심제품
+                </button>
+
+                <button
+                    class="tab-button"
+                    type="button"
+                    data-panel="comparePanel"
+                >
+                    비교 제품
+                </button>
+
+                <button
+                    class="tab-button"
+                    type="button"
+                    data-panel="recentPanel"
+                >
+                    최근 본 제품
+                </button>
+            </nav>
+
+            <!-- 관심제품 -->
+            <section
+                class="tab-panel active"
+                id="favoritePanel"
+            >
+                <div class="saved-list">
+
+                    <!-- 제품 1 -->
+                    <article class="saved-card">
+
+                        <a
+                            class="product-image-link"
+                            href="./product-detail.html"
+                        >
+                            <img
+                                class="product-image"
+                                src="./images/13.png"
+                                alt="슬림 캣아이 프레임"
+                            >
+                        </a>
+
+                        <div class="product-info">
+
+                            <button
+                                class="heart-button"
+                                type="button"
+                                aria-pressed="false"
+                                aria-label="관심 제품 저장"
+                            >
+                                <img
+                                    class="heart-icon"
+                                    src="./icons/like.svg"
+                                    alt=""
+                                >
+                            </button>
+
+                            <a
+                                class="product-name"
+                                href="./product-detail.html"
+                            >
+                                슬림 캣아이 프레임
+                            </a>
+
+                            <p class="product-price">
+                                ₩ 250,000
+                            </p>
+
+                            <a
+                                class="compare-button"
+                                href="./compare.html"
+                            >
+                                비교에 추가
+                            </a>
+
+                        </div>
+                    </article>
+
+                    <!-- 제품 2 -->
+                    <article class="saved-card">
+
+                        <a
+                            class="product-image-link"
+                            href="./product-detail.html"
+                        >
+                            <img
+                                class="product-image"
+                                src="./images/14.png"
+                                alt="토터스 셸 캣아이"
+                            >
+                        </a>
+
+                        <div class="product-info">
+
+                            <button
+                                class="heart-button"
+                                type="button"
+                                aria-pressed="false"
+                                aria-label="관심 제품 저장"
+                            >
+                                <img
+                                    class="heart-icon"
+                                    src="./icons/like.svg"
+                                    alt=""
+                                >
+                            </button>
+
+                            <a
+                                class="product-name"
+                                href="./product-detail.html"
+                            >
+                                토터스 셸 캣아이
+                            </a>
+
+                            <p class="product-price">
+                                ₩ 279,000
+                            </p>
+
+                            <a
+                                class="compare-button"
+                                href="./compare.html"
+                            >
+                                비교에 추가
+                            </a>
+
+                        </div>
+                    </article>
+
+                    <!-- 제품 3 -->
+                    <article class="saved-card">
+
+                        <a
+                            class="product-image-link"
+                            href="./product-detail.html"
+                        >
+                            <img
+                                class="product-image"
+                                src="./images/15.png"
+                                alt="볼드 캣아이 프레임"
+                            >
+                        </a>
+
+                        <div class="product-info">
+
+                            <button
+                                class="heart-button"
+                                type="button"
+                                aria-pressed="false"
+                                aria-label="관심 제품 저장"
+                            >
+                                <img
+                                    class="heart-icon"
+                                    src="./icons/like.svg"
+                                    alt=""
+                                >
+                            </button>
+
+                            <a
+                                class="product-name"
+                                href="./product-detail.html"
+                            >
+                                볼드 캣아이 프레임
+                            </a>
+
+                            <p class="product-price">
+                                ₩ 249,000
+                            </p>
+
+                            <a
+                                class="compare-button"
+                                href="./compare.html"
+                            >
+                                비교에 추가
+                            </a>
+
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- 비교 제품 -->
+            <section
+                class="tab-panel"
+                id="comparePanel"
+            >
+                <article class="compare-card">
+
+                    <div class="compare-card-info">
+
+                        <h2 class="compare-card-title">
+                            비교 중인 제품 2개
+                        </h2>
+
+                        <p class="compare-card-description">
+                            선택한 제품의 특징을 비교해보세요.
+                        </p>
+
+                    </div>
+
+                    <a
+                        class="compare-page-button"
+                        href="./compare.html"
+                    >
+                        비교하기
+                    </a>
+
+                </article>
+            </section>
+
+            <!-- 최근 본 제품 -->
+            <section
+                class="tab-panel"
+                id="recentPanel"
+            >
+                <div class="recent-list">
+
+                    <a
+                        class="recent-card"
+                        href="./product-detail.html"
+                    >
+                        <div class="recent-image-box">
+                            <img
+                                class="recent-image"
+                                src="./images/13.png"
+                                alt="슬림 캣아이 프레임"
+                            >
+                        </div>
+
+                        <p class="recent-name">
+                            슬림 캣아이 프레임
+                        </p>
+
+                        <p class="recent-price">
+                            ₩250,000
+                        </p>
+                    </a>
+
+                    <a
+                        class="recent-card"
+                        href="./product-detail.html"
+                    >
+                        <div class="recent-image-box">
+                            <img
+                                class="recent-image"
+                                src="./images/14.png"
+                                alt="토터스 셸 캣아이"
+                            >
+                        </div>
+
+                        <p class="recent-name">
+                            토터스 셸 캣아이
+                        </p>
+
+                        <p class="recent-price">
+                            ₩279,000
+                        </p>
+                    </a>
+
+                </div>
+
+                <!-- 탐색 화면으로 이동 -->
+                <a
+                    class="browse-button"
+                    href="./explore.html"
+                >
+                    제품 둘러보기
+                </a>
+            </section>
+
+        </div>
+
+        <!-- 하단 내비게이션 -->
+        <nav
+            class="bottom-navigation"
+            aria-label="주요 메뉴"
+        >
+
+            <a
+                class="nav-item"
+                href="./home.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/home.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    홈
+                </span>
+            </a>
+
+            <!-- 탐색 연결 -->
+            <a
+                class="nav-item"
+                href="./explore.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    탐색
+                </span>
+            </a>
+
+            <a
+                class="nav-item active"
+                href="./saved.html"
+                aria-current="page"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/like2.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    저장
+                </span>
+            </a>
+
+            <!-- 마이 아이콘 13_my.svg -->
+            <a
+                class="nav-item"
+                href="./my.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/13_my.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    마이
+                </span>
+            </a>
+
+        </nav>
+
+    </main>
+
+    <script>
+        /* 탭 전환 */
+        const tabButtons =
+            document.querySelectorAll(".tab-button");
+
+        const tabPanels =
+            document.querySelectorAll(".tab-panel");
+
+        tabButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                const panelId =
+                    button.getAttribute("data-panel");
+
+                tabButtons.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                tabPanels.forEach(function (panel) {
+                    panel.classList.remove("active");
+                });
+
+                button.classList.add("active");
+
+                document
+                    .getElementById(panelId)
+                    .classList.add("active");
+            });
+        });
+
+        /* 빈 하트 ↔ 채운 하트 */
+        const heartButtons =
+            document.querySelectorAll(".heart-button");
+
+        heartButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                const heartIcon =
+                    button.querySelector(".heart-icon");
+
+                const isFilled =
+                    button.getAttribute("aria-pressed") === "true";
+
+                if (isFilled) {
+                    heartIcon.src =
+                        "./icons/like.svg";
+
+                    button.setAttribute(
+                        "aria-pressed",
+                        "false"
+                    );
+
+                    button.setAttribute(
+                        "aria-label",
+                        "관심 제품 저장"
+                    );
+                } else {
+                    heartIcon.src =
+                        "./icons/blacklike.svg";
+
+                    button.setAttribute(
+                        "aria-pressed",
+                        "true"
+                    );
+
+                    button.setAttribute(
+                        "aria-label",
+                        "관심 제품 저장 취소"
+                    );
+                }
+            });
+        });
+    </script>
+</body>
+</html>

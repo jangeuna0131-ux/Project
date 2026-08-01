@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 추천 검색 결과</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            min-height: 100svh;
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+        }
+
+        .app {
+            width: 100%;
+            height: 100svh;
+            overflow: hidden;
+            background-color: #f7f4ee;
+        }
+
+        .results-content {
+            width: 100%;
+            height: 100%;
+
+            padding:
+                max(40px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                calc(40px + env(safe-area-inset-bottom));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .results-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .top-header {
+            display: grid;
+            grid-template-columns: 20px minmax(0, 1fr) 24px;
+            align-items: center;
+            gap: 8px;
+
+            width: 100%;
+        }
+
+        .back-button,
+        .bell-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .back-button {
+            width: 20px;
+            height: 48px;
+        }
+
+        .back-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .bell-button {
+            width: 24px;
+            height: 48px;
+        }
+
+        .bell-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 48px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+
+            padding: 0 8px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .search-input::placeholder {
+            color: #7d91b2;
+            opacity: 1;
+        }
+
+        .search-clear {
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            width: 24px;
+            height: 24px;
+
+            border: 0;
+            background-color: transparent;
+            color: #7d91b2;
+
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .search-clear.show {
+            display: flex;
+        }
+
+        .control-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .control-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+            height: 36px;
+
+            padding: 0 8px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .control-button:active {
+            background-color: #f0efed;
+        }
+
+        .control-svg {
+            width: 16px;
+            height: 16px;
+            margin-left: 8px;
+            object-fit: contain;
+        }
+
+        .filter-chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 36px;
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        .filter-chip-close {
+            margin-left: 8px;
+
+            color: #1f2a44;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .result-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        .result-count {
+            color: #7d91b2;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .sort-current-button {
+            display: flex;
+            align-items: center;
+
+            border: 0;
+            background-color: transparent;
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .sort-arrow {
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+            object-fit: contain;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 16px;
+
+            width: 100%;
+        }
+
+        .product-card {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+            min-height: 252px;
+
+            padding: 12px 12px 10px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .recommend-badge {
+            position: absolute;
+            z-index: 2;
+            top: 8px;
+            left: 12px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 68px;
+            height: 22px;
+            padding: 0 8px;
+
+            border-radius: 6px 0 6px 0;
+
+            background-color: #7d91b2;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .heart-button {
+            position: absolute;
+            z-index: 3;
+            top: 8px;
+            right: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 28px;
+            height: 28px;
+
+            border: 0;
+            background-color: transparent;
+            color: #1f2a44;
+
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .heart-button.active {
+            color: #c84a4a;
+        }
+
+        .product-image-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 104px;
+            margin-top: 14px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 88px;
+            object-fit: contain;
+        }
+
+        .product-info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .product-brand {
+            margin-top: 4px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product-name {
+            margin-top: 2px;
+
+            color: #2f3640;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product-price {
+            margin-top: 2px;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .recommend-reason {
+            display: flex;
+            align-items: center;
+
+            min-height: 24px;
+
+            color: #2f3640;
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        .check-icon {
+            width: 14px;
+            height: 14px;
+            margin-right: 4px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .reason-text {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .compare-option {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            min-height: 24px;
+            padding-top: 4px;
+
+            border-top: 1px solid #d8dde5;
+
+            color: #1f2a44;
+            font-size: 11px;
+            font-weight: 400;
+
+            cursor: pointer;
+        }
+
+        .compare-checkbox {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 13px;
+            height: 13px;
+            margin-right: 8px;
+
+            border: 1px solid #7d91b2;
+            border-radius: 3px;
+
+            background-color: #ffffff;
+        }
+
+        .compare-checkbox:checked + .custom-checkbox {
+            border-color: #1f2a44;
+            background-color: #1f2a44;
+        }
+
+        .compare-checkbox:checked + .custom-checkbox::before {
+            content: "✓";
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .sort-overlay {
+            position: fixed;
+            z-index: 50;
+            inset: 0;
+
+            display: none;
+            background-color: rgba(0, 0, 0, 0.28);
+        }
+
+        .sort-overlay.open {
+            display: block;
+        }
+
+        .sort-panel {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+
+            padding: 20px 24px calc(24px + env(safe-area-inset-bottom));
+            border-radius: 24px 24px 0 0;
+
+            background-color: #ffffff;
+        }
+
+        .sort-title {
+            margin-bottom: 12px;
+
+            color: #1f2a44;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .sort-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 48px;
+
+            border: 0;
+            border-bottom: 1px solid #f0efed;
+
+            background-color: transparent;
+            color: #2f3640;
+
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .sort-option.selected {
+            color: #1f2a44;
+            font-weight: 700;
+        }
+
+        .sort-option.selected::after {
+            content: "✓";
+            color: #1f2a44;
+            font-size: 14px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+
+        <div class="results-content">
+
+            <header class="top-header">
+
+                <a
+                    class="back-button"
+                    href="./explore.html"
+                    aria-label="탐색 화면으로 돌아가기"
+                >
+                    <img
+                        class="back-icon"
+                        src="./icons/back_previous.svg"
+                        alt=""
+                    >
+                </a>
+
+                <div class="search-box">
+
+                    <img
+                        class="search-icon"
+                        src="./icons/02_search.svg"
+                        alt=""
+                    >
+
+                    <input
+                        id="searchInput"
+                        class="search-input"
+                        type="search"
+                        value=""
+                        placeholder="프레임, 브랜드, 스타일 검색"
+                        aria-label="상품 검색"
+                    >
+
+                    <button
+                        id="searchClearButton"
+                        class="search-clear"
+                        type="button"
+                        aria-label="검색어 삭제"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+                <button
+                    class="bell-button"
+                    type="button"
+                    aria-label="알림"
+                >
+                    <img
+                        class="bell-icon"
+                        src="./icons/01_bell.svg"
+                        alt=""
+                    >
+                </button>
+
+            </header>
+
+            <div class="control-row">
+
+                <a
+                    class="control-button"
+                    href="./explore.html"
+                >
+                    필터
+                    <img
+                        class="control-svg"
+                        src="./icons/ph_sliders-horizontal-bold.svg"
+                        alt=""
+                    >
+                </a>
+
+                <button
+                    id="sortOpenButton"
+                    class="control-button"
+                    type="button"
+                >
+                    정렬
+                    <img
+                        class="control-svg"
+                        src="./icons/mingcute_down-line.svg"
+                        alt=""
+                    >
+                </button>
+
+                <button
+                    id="compareButton"
+                    class="control-button"
+                    type="button"
+                >
+                    비교
+                    <img
+                        class="control-svg"
+                        src="./icons/tabler_columns.svg"
+                        alt=""
+                    >
+                </button>
+
+            </div>
+
+            <div class="filter-chip-list">
+
+                <button class="filter-chip" type="button">
+                    선글라스
+                    <span class="filter-chip-close">×</span>
+                </button>
+
+                <button class="filter-chip" type="button">
+                    라운드
+                    <span class="filter-chip-close">×</span>
+                </button>
+
+                <button class="filter-chip" type="button">
+                    ₩0 - ₩400,000
+                    <span class="filter-chip-close">×</span>
+                </button>
+
+            </div>
+
+            <div class="result-heading">
+
+                <span class="result-count">
+                    128개 결과
+                </span>
+
+                <button
+                    id="sortCurrentButton"
+                    class="sort-current-button"
+                    type="button"
+                >
+                    <span id="currentSortText">추천순</span>
+                    <img
+                        class="sort-arrow"
+                        src="./icons/mingcute_down-line.svg"
+                        alt=""
+                    >
+                </button>
+
+            </div>
+
+            <section
+                class="product-grid"
+                aria-label="추천 상품 목록"
+            >
+
+                <article class="product-card">
+                    <span class="recommend-badge">추천 이유</span>
+
+                    <button
+                        class="heart-button"
+                        type="button"
+                        aria-label="GENTLE MONSTER 저장"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                    <a
+                        class="product-image-link"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="product-image"
+                            src="./images/136_88.png"
+                            alt="GENTLE MONSTER Lilit 01"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <a href="./product-detail.html">
+                            <h2 class="product-brand">GENTLE MONSTER</h2>
+                            <p class="product-name">Lilit 01</p>
+                            <p class="product-price">₩290,000</p>
+                        </a>
+
+                        <p class="recommend-reason">
+                            <img
+                                class="check-icon"
+                                src="./icons/check.svg"
+                                alt=""
+                            >
+                            <span class="reason-text">얼굴형에 잘 어울려요</span>
+                        </p>
+
+                        <label class="compare-option">
+                            <input
+                                class="compare-checkbox"
+                                type="checkbox"
+                                value="lilit-01"
+                            >
+                            <span class="custom-checkbox"></span>
+                            비교
+                        </label>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <button
+                        class="heart-button"
+                        type="button"
+                        aria-label="MOSCOT 저장"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                    <a
+                        class="product-image-link"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="product-image"
+                            src="./images/136_88.png"
+                            alt="MOSCOT Lemtosh 46"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <a href="./product-detail.html">
+                            <h2 class="product-brand">MOSCOT</h2>
+                            <p class="product-name">Lemtosh 46</p>
+                            <p class="product-price">₩380,000</p>
+                        </a>
+
+                        <p class="recommend-reason">
+                            <img
+                                class="check-icon"
+                                src="./icons/check.svg"
+                                alt=""
+                            >
+                            <span class="reason-text">클래식한 세련된 디자인</span>
+                        </p>
+
+                        <label class="compare-option">
+                            <input
+                                class="compare-checkbox"
+                                type="checkbox"
+                                value="lemtosh-46"
+                            >
+                            <span class="custom-checkbox"></span>
+                            비교
+                        </label>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <button
+                        class="heart-button"
+                        type="button"
+                        aria-label="RAY-BAN 저장"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                    <a
+                        class="product-image-link"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="product-image"
+                            src="./images/136_88-1.png"
+                            alt="RAY-BAN RS Round Metal"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <a href="./product-detail.html">
+                            <h2 class="product-brand">RAY-BAN</h2>
+                            <p class="product-name">RS Round Metal</p>
+                            <p class="product-price">₩198,000</p>
+                        </a>
+
+                        <p class="recommend-reason">
+                            <img
+                                class="check-icon"
+                                src="./icons/check.svg"
+                                alt=""
+                            >
+                            <span class="reason-text">편안한 메탈 프레임</span>
+                        </p>
+
+                        <label class="compare-option">
+                            <input
+                                class="compare-checkbox"
+                                type="checkbox"
+                                value="rs-round-metal"
+                            >
+                            <span class="custom-checkbox"></span>
+                            비교
+                        </label>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <button
+                        class="heart-button"
+                        type="button"
+                        aria-label="CARIN 저장"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                    <a
+                        class="product-image-link"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="product-image"
+                            src="./images/136_88.png"
+                            alt="CARIN Ricki-C 1"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <a href="./product-detail.html">
+                            <h2 class="product-brand">CARIN</h2>
+                            <p class="product-name">Ricki-C 1</p>
+                            <p class="product-price">₩219,000</p>
+                        </a>
+
+                        <p class="recommend-reason">
+                            <img
+                                class="check-icon"
+                                src="./icons/check.svg"
+                                alt=""
+                            >
+                            <span class="reason-text">데일리로 좋아요</span>
+                        </p>
+
+                        <label class="compare-option">
+                            <input
+                                class="compare-checkbox"
+                                type="checkbox"
+                                value="ricki-c1"
+                            >
+                            <span class="custom-checkbox"></span>
+                            비교
+                        </label>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <span class="recommend-badge">추천 이유</span>
+
+                    <button
+                        class="heart-button"
+                        type="button"
+                        aria-label="GENTLE MONSTER 저장"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                    <a
+                        class="product-image-link"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="product-image"
+                            src="./images/136_88.png"
+                            alt="GENTLE MONSTER Lilit 01"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <a href="./product-detail.html">
+                            <h2 class="product-brand">GENTLE MONSTER</h2>
+                            <p class="product-name">Lilit 01</p>
+                            <p class="product-price">₩290,000</p>
+                        </a>
+
+                        <p class="recommend-reason">
+                            <img
+                                class="check-icon"
+                                src="./icons/check.svg"
+                                alt=""
+                            >
+                            <span class="reason-text">얼굴형에 잘 어울려요</span>
+                        </p>
+
+                        <label class="compare-option">
+                            <input
+                                class="compare-checkbox"
+                                type="checkbox"
+                                value="lilit-01-2"
+                            >
+                            <span class="custom-checkbox"></span>
+                            비교
+                        </label>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <button
+                        class="heart-button"
+                        type="button"
+                        aria-label="MOSCOT 저장"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                    <a
+                        class="product-image-link"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="product-image"
+                            src="./images/136_88.png"
+                            alt="MOSCOT Lemtosh 46"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <a href="./product-detail.html">
+                            <h2 class="product-brand">MOSCOT</h2>
+                            <p class="product-name">Lemtosh 46</p>
+                            <p class="product-price">₩380,000</p>
+                        </a>
+
+                        <p class="recommend-reason">
+                            <img
+                                class="check-icon"
+                                src="./icons/check.svg"
+                                alt=""
+                            >
+                            <span class="reason-text">클래식한 세련된 디자인</span>
+                        </p>
+
+                        <label class="compare-option">
+                            <input
+                                class="compare-checkbox"
+                                type="checkbox"
+                                value="lemtosh-46-2"
+                            >
+                            <span class="custom-checkbox"></span>
+                            비교
+                        </label>
+                    </div>
+                </article>
+
+            </section>
+
+        </div>
+
+        <div
+            id="sortOverlay"
+            class="sort-overlay"
+            aria-hidden="true"
+        >
+            <div class="sort-panel">
+                <h2 class="sort-title">정렬</h2>
+
+                <button
+                    class="sort-option selected"
+                    type="button"
+                    data-sort="추천순"
+                >
+                    추천순
+                </button>
+
+                <button
+                    class="sort-option"
+                    type="button"
+                    data-sort="낮은 가격순"
+                >
+                    낮은 가격순
+                </button>
+
+                <button
+                    class="sort-option"
+                    type="button"
+                    data-sort="높은 가격순"
+                >
+                    높은 가격순
+                </button>
+
+                <button
+                    class="sort-option"
+                    type="button"
+                    data-sort="인기순"
+                >
+                    인기순
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const searchClearButton =
+            document.getElementById("searchClearButton");
+
+        function updateClearButton() {
+            if (searchInput.value.trim() !== "") {
+                searchClearButton.classList.add("show");
+            } else {
+                searchClearButton.classList.remove("show");
+            }
+        }
+
+        updateClearButton();
+
+        searchInput.addEventListener("input", updateClearButton);
+
+        searchClearButton.addEventListener("click", function () {
+            searchInput.value = "";
+            updateClearButton();
+            searchInput.focus();
+        });
+
+        const filterChips =
+            document.querySelectorAll(".filter-chip");
+
+        filterChips.forEach(function (chip) {
+            chip.addEventListener("click", function () {
+                chip.remove();
+            });
+        });
+
+        const heartButtons =
+            document.querySelectorAll(".heart-button");
+
+        heartButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                const isActive = button.classList.toggle("active");
+                button.textContent = isActive ? "♥" : "♡";
+                button.setAttribute("aria-pressed", String(isActive));
+            });
+        });
+
+        const sortOpenButton =
+            document.getElementById("sortOpenButton");
+
+        const sortCurrentButton =
+            document.getElementById("sortCurrentButton");
+
+        const sortOverlay =
+            document.getElementById("sortOverlay");
+
+        const sortOptions =
+            document.querySelectorAll(".sort-option");
+
+        const currentSortText =
+            document.getElementById("currentSortText");
+
+        function openSortPanel() {
+            sortOverlay.classList.add("open");
+            sortOverlay.setAttribute("aria-hidden", "false");
+        }
+
+        function closeSortPanel() {
+            sortOverlay.classList.remove("open");
+            sortOverlay.setAttribute("aria-hidden", "true");
+        }
+
+        sortOpenButton.addEventListener("click", openSortPanel);
+        sortCurrentButton.addEventListener("click", openSortPanel);
+
+        sortOverlay.addEventListener("click", function (event) {
+            if (event.target === sortOverlay) {
+                closeSortPanel();
+            }
+        });
+
+        sortOptions.forEach(function (option) {
+            option.addEventListener("click", function () {
+                sortOptions.forEach(function (item) {
+                    item.classList.remove("selected");
+                });
+
+                option.classList.add("selected");
+                currentSortText.textContent = option.dataset.sort;
+                closeSortPanel();
+            });
+        });
+
+        const compareCheckboxes =
+            document.querySelectorAll(".compare-checkbox");
+
+        const compareButton =
+            document.getElementById("compareButton");
+
+        compareCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener("change", function () {
+                const selectedItems =
+                    document.querySelectorAll(".compare-checkbox:checked");
+
+                if (selectedItems.length > 2) {
+                    checkbox.checked = false;
+                    alert("비교 상품은 최대 2개까지 선택할 수 있어요.");
+                }
+            });
+        });
+
+        compareButton.addEventListener("click", function () {
+            const selectedItems =
+                document.querySelectorAll(".compare-checkbox:checked");
+
+            if (selectedItems.length !== 2) {
+                alert("비교할 상품을 2개 선택해 주세요.");
+                return;
+            }
+
+            const selectedProductIds =
+                Array.from(selectedItems).map(function (item) {
+                    return item.value;
+                });
+
+            window.location.href =
+                "./compare.html?items=" +
+                encodeURIComponent(selectedProductIds.join(","));
+        });
+    </script>
+</body>
+</html>

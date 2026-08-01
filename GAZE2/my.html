@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 마이페이지</title>
+
+    <style>
+        /* ========================================
+           기본 설정
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        img,
+        svg {
+            display: block;
+        }
+
+        /* ========================================
+           전체 마이페이지
+        ======================================== */
+        .my-page {
+            position: relative;
+
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+        }
+
+        /* 스크롤되는 본문 */
+        .my-content {
+            width: 100%;
+            height: 100%;
+
+            padding:
+                max(36px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                calc(112px + env(safe-area-inset-bottom));
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .my-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ========================================
+           상단 헤더
+        ======================================== */
+        .my-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            min-height: 44px;
+        }
+
+        .page-title {
+            color: #1f2a44;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+        }
+
+        .notification-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            margin-right: -12px;
+
+            border: 0;
+            background-color: transparent;
+
+            cursor: pointer;
+        }
+
+        .notification-icon {
+            width: 22px;
+            height: 22px;
+
+            fill: none;
+            stroke: #1f2a44;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ========================================
+           프로필
+        ======================================== */
+        .profile-section {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+
+            margin-top: 8px;
+        }
+
+        .profile-image-box {
+            flex-shrink: 0;
+
+            width: 80px;
+            height: 80px;
+
+            overflow: hidden;
+            border-radius: 50%;
+
+            background-color: #ffffff;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .profile-info {
+            min-width: 0;
+            margin-left: 16px;
+        }
+
+        .profile-name {
+            color: #1f2a44;
+
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        .profile-edit {
+            display: inline-flex;
+            align-items: center;
+
+            min-height: 32px;
+
+            margin-top: 4px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .profile-edit-arrow {
+            margin-left: 28px;
+
+            color: #7d91b2;
+            font-size: 18px;
+        }
+
+        /* ========================================
+           공통 섹션
+        ======================================== */
+        .page-section {
+            width: 100%;
+            margin-top: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .section-more {
+            display: flex;
+            align-items: center;
+
+            min-height: 32px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        /* ========================================
+           나의 맞춤 정보
+        ======================================== */
+        .custom-info-card {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            width: 100%;
+
+            padding: 16px 8px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .custom-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            min-width: 0;
+        }
+
+        .custom-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 64px;
+            height: 48px;
+
+            overflow: hidden;
+        }
+
+        .custom-icon {
+            width: 56px;
+            height: 40px;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .custom-label {
+            margin-top: 8px;
+
+            color: #1f2a44;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+
+            text-align: center;
+        }
+
+        .custom-value {
+            margin-top: 4px;
+
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 16px;
+
+            text-align: center;
+        }
+
+        /* ========================================
+           예약 내역
+        ======================================== */
+        .reservation-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            min-height: 64px;
+
+            padding: 12px 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .reservation-info {
+            min-width: 0;
+            padding-right: 12px;
+        }
+
+        .reservation-date {
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .reservation-store {
+            margin-top: 4px;
+
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 16px;
+        }
+
+        .reservation-status {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 68px;
+            height: 32px;
+
+            padding: 0 10px;
+
+            border-radius: 6px;
+
+            background-color: #7d91b2;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        /* ========================================
+           최근 본 제품
+        ======================================== */
+        .recent-product-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            width: 100%;
+
+            gap: 12px;
+        }
+
+        .recent-product {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 48px;
+
+            overflow: hidden;
+
+            border: 1px solid #d8dde5;
+            border-radius: 8px;
+
+            background-color: #ffffff;
+        }
+
+        .recent-product-image {
+            width: 88px;
+            height: 40px;
+
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* ========================================
+           설정 메뉴
+        ======================================== */
+        .menu-list {
+            width: 100%;
+
+            margin-top: 16px;
+
+            border-top: 1px solid #d8dde5;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            min-height: 48px;
+
+            padding: 0 24px;
+
+            border-bottom: 1px solid #d8dde5;
+
+            background-color: transparent;
+        }
+
+        .menu-name {
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 20px;
+        }
+
+        .menu-arrow {
+            color: #7d91b2;
+
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        /* ========================================
+           하단 내비게이션
+        ======================================== */
+        .bottom-navigation {
+            position: fixed;
+            z-index: 50;
+
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            width: 100%;
+            min-height: 88px;
+
+            padding:
+                8px
+                16px
+                calc(8px + env(safe-area-inset-bottom));
+
+            border-top: 1px solid #d8dde5;
+
+            background-color: rgba(255, 255, 255, 0.96);
+
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 0;
+            min-height: 64px;
+
+            color: #c7cdd6;
+        }
+
+        .nav-icon {
+            width: 25px;
+            height: 25px;
+
+            object-fit: contain;
+
+            opacity: 0.42;
+        }
+
+        .nav-label {
+            margin-top: 5px;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+        .nav-item.active {
+            color: #1f2a44;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        /* ========================================
+           터치 효과
+        ======================================== */
+        .profile-edit:active,
+        .section-more:active,
+        .reservation-card:active,
+        .recent-product:active,
+        .menu-item:active,
+        .nav-item:active,
+        .notification-button:active {
+            opacity: 0.72;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="my-page">
+
+        <div class="my-content">
+
+            <!-- 상단 -->
+            <header class="my-header">
+
+                <h1 class="page-title">
+                    MY
+                </h1>
+
+                <button
+                    class="notification-button"
+                    type="button"
+                    aria-label="알림 확인"
+                >
+                    <svg
+                        class="notification-icon"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                        <path d="M10 21h4"></path>
+                    </svg>
+                </button>
+
+            </header>
+
+            <!-- 프로필 -->
+            <section class="profile-section">
+
+                <div class="profile-image-box">
+
+                    <img
+                        class="profile-image"
+                        src="./images/Ellipse 1.png"
+                        alt="김가은 프로필 사진"
+                    >
+
+                </div>
+
+                <div class="profile-info">
+
+                    <h2 class="profile-name">
+                        김가은
+                    </h2>
+
+                    <a
+                        class="profile-edit"
+                        href="#"
+                    >
+                        프로필 수정
+
+                        <span class="profile-edit-arrow">
+                            ›
+                        </span>
+                    </a>
+
+                </div>
+
+            </section>
+
+            <!-- 나의 맞춤 정보 -->
+            <section class="page-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        나의 맞춤 정보
+                    </h2>
+
+                </div>
+
+                <div class="custom-info-card">
+
+                    <article class="custom-info-item">
+
+                        <div class="custom-icon-box">
+                            <img
+                                class="custom-icon"
+                                src="./images/Rectangle 1.png"
+                                alt="타원형 얼굴형"
+                            >
+                        </div>
+
+                        <p class="custom-label">
+                            얼굴형
+                        </p>
+
+                        <p class="custom-value">
+                            타원형
+                        </p>
+
+                    </article>
+
+                    <article class="custom-info-item">
+
+                        <div class="custom-icon-box">
+                            <img
+                                class="custom-icon"
+                                src="./images/Rectangle 1-1.png"
+                                alt="모던 클래식 안경"
+                            >
+                        </div>
+
+                        <p class="custom-label">
+                            선호 스타일
+                        </p>
+
+                        <p class="custom-value">
+                            모던 클래식
+                        </p>
+
+                    </article>
+
+                    <article class="custom-info-item">
+
+                        <div class="custom-icon-box">
+                            <img
+                                class="custom-icon"
+                                src="./images/Rectangle 1-2.png"
+                                alt="데일리 활용 목적"
+                            >
+                        </div>
+
+                        <p class="custom-label">
+                            활용 목적
+                        </p>
+
+                        <p class="custom-value">
+                            데일리
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+            <!-- 예약 내역 -->
+            <section class="page-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        예약 내역
+                    </h2>
+
+                    <a
+                        class="section-more"
+                        id="reservationMore"
+                        href="./fitting-reservation.html"
+                    >
+                        전체 보기
+                    </a>
+
+                </div>
+
+                <a
+                    class="reservation-card"
+                    id="reservationCard"
+                    href="./fitting-reservation.html"
+                >
+
+                    <div class="reservation-info">
+
+                        <p
+                            class="reservation-date"
+                            id="myReservationDate"
+                        >
+                            예약 내역이 없습니다
+                        </p>
+
+                        <p
+                            class="reservation-store"
+                            id="myReservationStore"
+                        >
+                            피팅 예약을 진행해 주세요
+                        </p>
+
+                    </div>
+
+                    <span
+                        class="reservation-status"
+                        id="myReservationStatus"
+                    >
+                        예약하기
+                    </span>
+
+                </a>
+
+            </section>
+
+            <!-- 최근 본 제품 -->
+            <section class="page-section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        최근 본 제품
+                    </h2>
+
+                    <!-- 탐색 파일은 explore.html -->
+                    <a
+                        class="section-more"
+                        href="./explore.html"
+                    >
+                        전체 보기
+                    </a>
+
+                </div>
+
+                <div class="recent-product-list">
+
+                    <a
+                        class="recent-product"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="recent-product-image"
+                            src="./images/88_40.png"
+                            alt="최근 본 검은색 선글라스"
+                        >
+                    </a>
+
+                    <a
+                        class="recent-product"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="recent-product-image"
+                            src="./images/88_40-1.png"
+                            alt="최근 본 브라운 선글라스"
+                        >
+                    </a>
+
+                    <a
+                        class="recent-product"
+                        href="./product-detail.html"
+                    >
+                        <img
+                            class="recent-product-image"
+                            src="./images/88_40-2.png"
+                            alt="최근 본 회색 선글라스"
+                        >
+                    </a>
+
+                </div>
+
+            </section>
+
+            <!-- 메뉴 -->
+            <nav
+                class="menu-list"
+                aria-label="마이페이지 설정"
+            >
+
+                <a class="menu-item" href="#">
+                    <span class="menu-name">
+                        알림 설정
+                    </span>
+
+                    <span class="menu-arrow">
+                        ›
+                    </span>
+                </a>
+
+                <a class="menu-item" href="#">
+                    <span class="menu-name">
+                        고객센터
+                    </span>
+
+                    <span class="menu-arrow">
+                        ›
+                    </span>
+                </a>
+
+                <a
+                    class="menu-item"
+                    href="./login.html"
+                >
+                    <span class="menu-name">
+                        로그아웃
+                    </span>
+
+                    <span class="menu-arrow">
+                        ›
+                    </span>
+                </a>
+
+            </nav>
+
+        </div>
+
+        <!-- 하단 내비게이션 -->
+        <nav
+            class="bottom-navigation"
+            aria-label="주요 메뉴"
+        >
+
+            <a
+                class="nav-item"
+                href="./home.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/home.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    홈
+                </span>
+            </a>
+
+            <!-- 탐색은 explore.html -->
+            <a
+                class="nav-item"
+                href="./explore.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    탐색
+                </span>
+            </a>
+
+            <a
+                class="nav-item"
+                href="./saved.html"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/like2.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    저장
+                </span>
+            </a>
+
+            <!-- 마이 아이콘은 icons.svg -->
+            <a
+                class="nav-item active"
+                href="./my.html"
+                aria-current="page"
+            >
+                <img
+                    class="nav-icon"
+                    src="./icons/icons.svg"
+                    alt=""
+                >
+
+                <span class="nav-label">
+                    마이
+                </span>
+            </a>
+
+        </nav>
+
+    </main>
+
+    <script>
+        /* 이전에 완료한 예약 정보 불러오기 */
+        let savedReservation = null;
+
+        try {
+            savedReservation = JSON.parse(
+                localStorage.getItem("gazeReservation")
+            );
+        } catch (error) {
+            savedReservation = null;
+        }
+
+        const reservationDate =
+            document.getElementById("myReservationDate");
+
+        const reservationStore =
+            document.getElementById("myReservationStore");
+
+        const reservationStatus =
+            document.getElementById("myReservationStatus");
+
+        const reservationCard =
+            document.getElementById("reservationCard");
+
+        const reservationMore =
+            document.getElementById("reservationMore");
+
+        const weekdayMap = {
+            "7월 9일": "7월 9일(수)",
+            "7월 10일": "7월 10일(목)",
+            "7월 11일": "7월 11일(금)",
+            "7월 12일": "7월 12일(토)",
+            "7월 13일": "7월 13일(일)",
+            "7월 14일": "7월 14일(월)",
+            "7월 15일": "7월 15일(화)"
+        };
+
+        if (savedReservation) {
+            const formattedDate =
+                weekdayMap[savedReservation.date] ||
+                savedReservation.date ||
+                "";
+
+            const formattedTime =
+                savedReservation.time || "";
+
+            reservationDate.textContent =
+                `${formattedDate} ${formattedTime}`.trim();
+
+            reservationStore.textContent =
+                savedReservation.store ||
+                "GAZE Optical 강남점";
+
+            reservationStatus.textContent =
+                savedReservation.status ||
+                "예약 확정";
+
+            reservationCard.href =
+                "./reservation-complete.html";
+
+            reservationMore.href =
+                "./reservation-complete.html";
+        }
+    </script>
+</body>
+</html>

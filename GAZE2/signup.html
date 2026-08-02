@@ -145,10 +145,12 @@
             white-space: nowrap;
         }
 
-        /* 브랜드 설명 */
+        /* 브랜드 설명 — 한 줄 중앙 정렬 */
         .brand-tagline {
+            width: 100%;
+
             margin-top: -2px;
-            margin-left: 72px;
+            margin-left: 0;
 
             color: #1f2a44;
 
@@ -400,6 +402,7 @@
 
             <div class="brand-main">
 
+                <!-- 기존 로고 그대로 유지 -->
                 <img
                     class="brand-symbol"
                     src="./images/1_symbol.svg"
@@ -412,9 +415,9 @@
 
             </div>
 
+            <!-- 줄바꿈만 제거 -->
             <p class="brand-tagline">
-                당신에게 꼭 맞는 아이웨어를<br>
-                찾아보세요
+                당신에게 꼭 맞는 아이웨어를 찾아보세요
             </p>
 
         </header>

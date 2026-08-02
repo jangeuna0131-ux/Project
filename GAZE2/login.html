@@ -114,10 +114,12 @@
             white-space: nowrap;
         }
 
-        /* 영문 슬로건 */
+        /* 슬로건 한 줄 중앙 정렬 */
         .brand-tagline {
+            width: 100%;
+
             margin-top: -4px;
-            margin-left: 64px;
+            margin-left: 0;
 
             color: #1f2a44;
 
@@ -126,6 +128,7 @@
             line-height: 16px;
             letter-spacing: 4px;
 
+            text-align: center;
             white-space: nowrap;
         }
 
@@ -451,13 +454,10 @@
 
         </section>
 
-        <!--
-            HTML 정적 구현이므로 실제 회원 인증은 하지 않음.
-            필수 입력 후 로그인 버튼을 누르면 home.html로 이동함.
-        -->
+        <!-- 로그인 입력 -->
         <form
             class="login-form"
-            action="home.html"
+            action="./home.html"
             method="get"
         >
 
@@ -473,16 +473,15 @@
 
                 <div class="input-box">
 
-                 <!-- 이메일 -->
-<input
-    class="form-input"
-    id="user-email"
-    name="email"
-    type="email"
-    autocomplete="off"
-    inputmode="email"
-    required
->
+                    <input
+                        class="form-input"
+                        id="user-email"
+                        name="email"
+                        type="email"
+                        autocomplete="off"
+                        inputmode="email"
+                        required
+                    >
 
                 </div>
 
@@ -500,15 +499,15 @@
 
                 <div class="input-box">
 
-               <input
-    class="form-input password-input"
-    id="user-password"
-    name="password"
-    type="password"
-    autocomplete="off"
-    minlength="4"
-    required
->
+                    <input
+                        class="form-input password-input"
+                        id="user-password"
+                        name="password"
+                        type="password"
+                        autocomplete="off"
+                        minlength="4"
+                        required
+                    >
 
                     <img
                         class="password-icon"
@@ -598,19 +597,19 @@
                 계정이 없으신가요?
             </span>
 
-    <a
-    class="signup-link"
-    href="./signup.html"
->
-    회원가입
-</a>
+            <a
+                class="signup-link"
+                href="./signup.html"
+            >
+                회원가입
+            </a>
 
         </div>
 
         <!-- 게스트 진입 -->
         <a
             class="guest-button"
-            href="home.html"
+            href="./home.html"
         >
             게스트로 둘러보기
         </a>

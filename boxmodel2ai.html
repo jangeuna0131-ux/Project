@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>박스 모델 2</title>
+
+    <style>
+        /* 기본 여백 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 부모 박스 */
+        .box {
+            width: 1000px;
+            height: 300px;
+
+            margin: 2px auto 0;
+
+            border: 4px solid red;
+
+            /* 자식 박스를 옆으로 배치 */
+            display: flex;
+
+            /* 양쪽 끝에 붙이고 가운데 간격 만들기 */
+            justify-content: space-between;
+        }
+
+        /* 자식 박스 공통 디자인 */
+        .box1,
+        .box2 {
+            width: 480px;
+            height: 300px;
+
+            background-color: #e664df;
+
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <div class="box1">
+            박스1
+        </div>
+
+        <div class="box2">
+            박스2
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하나투어</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        
+        .parent{
+            width: 1200px;
+            height: 100px;
+            
+            margin: 0 auto;
+            display: flex;
+            gap: 24px;
+        }
+        .parent .card{
+            width: 282px;
+            /* background-color: blue; */
+        }
+        .parent .card .img{
+            width: 282px;
+            height: 210px;
+
+        }
+        .parent .card .img img{
+            /*부모 사이즈 에 꽉 차게 들어가라*/
+            width: 100%;
+        }
+
+        .parent .card .info{
+            padding: 18px 0;
+        }
+        .parent .card .info .pkg{
+            font-size: 13px;
+            color: #747faa;
+            margin-bottom: 12px;
+        }
+
+        .parent .card .info h3{
+            font-size: 17px;
+            letter-spacing: -1px;
+            margin-bottom: 14px;
+            font-weight: 500;
+
+        }
+        .parent .card .info .tag{
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .parent .card .info .place span{
+            font-size: 22px;
+            font-weight: 600
+        }
+    </style>
+</head>
+<body>
+<div class="parent">
+
+    <!-- 첫 번째 카드 -->
+    <div class="card">
+        <div class="img">
+            <img src="./images/tour1.jpg
+            " alt="나트랑 5,6일">
+        </div>
+
+        <div class="info">
+            <p class="pkg">패키지</p>
+            <h3>[인천/청주/부산/대구] 나트랑/달랏 5,6일</h3>
+            <p class="tag">#타임세일#NO옵션#전일정5성급호텔</p>
+            <p class="place"><span>549,000원</span>~</p>
+        </div>
+    </div>
+
+
+    <!-- 두 번째 카드 -->
+    <div class="card">
+        <div class="img">
+            <img src="./images/tour2.jpg" alt="나트랑 5,6일">
+        </div>
+
+        <div class="info">
+            <p class="pkg">패키지</p>
+            <h3>[인천/부산/대구] 나트랑/태항산4,5일</h3>
+            <p class="tag">#타임세일 #보천대협곡 #태항대협곡</p>
+            <p class="place"><span>899,000원</span>~</p>
+        </div>
+    </div>
+
+
+    <!-- 세 번째 카드 -->
+    <div class="card">
+        <div class="img">
+            <img src="./images/tour3.jpg" alt="나트랑 5,6일">
+        </div>
+
+        <div class="info">
+            <p class="pkg">패키지</p>
+            <h3>이탈리아 일주 9일</h3>
+            <p class="tag">#타임세일 #갓성비 VS 하나팩2.0</p>
+            <p class="place"><span>549,000원</span>~</p>
+        </div>
+    </div>
+
+
+    <!-- 네 번째 카드 -->
+    <div class="card">
+        <div class="img">
+            <img src="./images/tour4.jpg" alt="나트랑 5,6일">
+        </div>
+
+        <div class="info">
+            <p class="pkg">패키지</p>
+            <h3>스페인 일주 9일</h3>
+            <p class="tag">#세일위크 #하나팩 2.0 #NO쇼핑/팁</p>
+            <p class="place"><span>3,249,000원</span>~</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

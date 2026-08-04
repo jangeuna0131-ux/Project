@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>하나투어 여행상품</title>
+
+    <style>
+        /* 기본 여백 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            color: #111111;
+            background-color: #ffffff;
+            font-family: Arial, "Noto Sans KR", sans-serif;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* 전체 여행상품 섹션 */
+        .travel-section {
+            /* 섹션 위아래 안쪽 여백 */
+            padding: 78px 0;
+        }
+
+        /* 카드들을 감싸는 1200px 부모 박스 */
+        .inner {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 섹션 제목 */
+        .section-title {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -1.2px;
+        }
+
+        /* 제목 아래 설명 */
+        .section-description {
+            margin-top: 10px;
+
+            color: #555555;
+            font-size: 14px;
+            letter-spacing: -0.4px;
+        }
+
+        /* 카드 4개를 감싸는 부모 */
+        .card-list {
+            display: flex;
+
+            /* 카드와 카드 사이 간격 */
+            gap: 24px;
+
+            /* 설명과 카드 사이 간격 */
+            margin-top: 44px;
+        }
+
+        /* 카드 한 개 */
+        .card {
+            width: 282px;
+        }
+
+        /* 이미지가 들어가는 박스 */
+        .card .img {
+            width: 282px;
+            height: 210px;
+
+            overflow: hidden;
+        }
+
+        /* 실제 이미지 */
+        .card .img img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 카드의 글자 정보 영역 */
+        .card .info {
+            padding-top: 16px;
+        }
+
+        /* 패키지 글자 */
+        .card .pkg {
+            margin-bottom: 11px;
+
+            color: #62709e;
+            font-size: 12px;
+        }
+
+        /* 상품 이름 */
+        .card h3 {
+            min-height: 22px;
+            margin-bottom: 13px;
+
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.4;
+            letter-spacing: -0.8px;
+        }
+
+        /* 해시태그 설명 */
+        .card .tag {
+            min-height: 20px;
+            margin-bottom: 19px;
+
+            color: #333333;
+            font-size: 13px;
+            line-height: 1.5;
+            letter-spacing: -0.5px;
+        }
+
+        /* 가격 영역 */
+        .card .price {
+            margin-bottom: 14px;
+
+            color: #111111;
+            font-size: 13px;
+        }
+
+        /* 가격 숫자 */
+        .card .price span {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.7px;
+        }
+
+        /* 카드 아래 작은 문구 박스 */
+        .card .benefit {
+            display: inline-block;
+
+            padding: 4px 7px;
+
+            border: 1px solid #777777;
+
+            color: #444444;
+            background-color: #ffffff;
+
+            font-size: 11px;
+            line-height: 1;
+        }
+
+        /* 두 번째 제목 위쪽 여백 */
+        .second-title {
+            margin-top: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="travel-section">
+
+        <div class="inner">
+
+            <!-- 첫 번째 상품 영역 제목 -->
+            <h2 class="section-title">가격이 내려갔어요</h2>
+
+            <p class="section-description">
+                지금 할인하는 상품들만 모았어요!
+            </p>
+
+
+            <!-- 첫 번째 카드 목록 -->
+            <ul class="card-list">
+
+                <!-- 첫 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour1.jpg"
+                            alt="나트랑 달랏 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            [인천/청주/부산/대구] 나트랑/달랏 5,6일
+                        </h3>
+
+                        <p class="tag">
+                            #타임세일 #NO옵션 #전일정5성급호텔
+                        </p>
+
+                        <p class="price">
+                            <span>549,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            🤿호핑투어
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <!-- 두 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour2.jpg"
+                            alt="태항산 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            [인천/부산/대구] 태항산 4,5일
+                        </h3>
+
+                        <p class="tag">
+                            #타임세일 #보천대협곡 #태항대협곡
+                        </p>
+
+                        <p class="price">
+                            <span>899,900원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            🙅‍♀️NO쇼핑/옵션/팁
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <!-- 세 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour3.jpg"
+                            alt="이탈리아 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            이탈리아 일주 9일
+                        </h3>
+
+                        <p class="tag">
+                            #타임세일 #갓성비 #하나팩2.0
+                        </p>
+
+                        <p class="price">
+                            <span>1,899,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            🏨 전일정 4성급 호텔
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <!-- 네 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour4.jpg"
+                            alt="스페인 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            스페인 일주 9일
+                        </h3>
+
+                        <p class="tag">
+                            #세일워크 #하나팩2.0 #NO쇼핑
+                        </p>
+
+                        <p class="price">
+                            <span>3,249,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            📷스페셜 가우디투어&맛10
+                        </p>
+                    </div>
+
+                </li>
+
+            </ul>
+
+
+            <!-- 두 번째 상품 영역 제목 -->
+            <h2 class="section-title second-title">
+                황금 연휴! 늦기 전에 클릭
+            </h2>
+
+            <p class="section-description">
+                추석 연휴 포함! 가을 여행 지금 준비하세요
+            </p>
+
+
+            <!-- 두 번째 카드 목록 -->
+            <ul class="card-list">
+
+                <!-- 다섯 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour5.jpg"
+                            alt="장가계 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            장가계 4,5,6일
+                        </h3>
+
+                        <p class="tag">
+                            #천문산 #칠성산케이블카
+                        </p>
+
+                        <p class="price">
+                            <span>499,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            🚗 전일정 리무진서비스
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <!-- 여섯 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour6.jpg"
+                            alt="푸꾸옥 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지 vs 자유</p>
+
+                        <h3>
+                            푸꾸옥 5,6일
+                        </h3>
+
+                        <p class="tag">
+                            #5성급추천리조트 #연휴특가상품
+                        </p>
+
+                        <p class="price">
+                            <span>509,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            🌅선셋타운&현지맛 특식
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <!-- 일곱 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour7.jpg"
+                            alt="괌 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            괌 4,5일
+                        </h3>
+
+                        <p class="tag">
+                            #PIC리조트 #골드패스
+                        </p>
+
+                        <p class="price">
+                            <span>749,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            👨‍👩‍👧‍👦 가족여행 베스트 셀러
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <!-- 여덟 번째 카드 -->
+                <li class="card">
+
+                    <div class="img">
+                        <img
+                            src="./images/tour8.jpg"
+                            alt="동유럽 여행"
+                        >
+                    </div>
+
+                    <div class="info">
+                        <p class="pkg">패키지</p>
+
+                        <h3>
+                            동유럽 3/4국 9일
+                        </h3>
+
+                        <p class="tag">
+                            #하나팩2.0 #NO쇼핑 #가이드경비
+                        </p>
+
+                        <p class="price">
+                            <span>3,699,000원</span>~
+                        </p>
+
+                        <p class="benefit">
+                            🌠 2대 낭만 야간투어 포함
+                        </p>
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+</body>
+</html>

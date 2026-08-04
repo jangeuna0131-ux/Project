@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>가로 박스 배치</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .parent {
+            width: 1000px;
+            height: 300px;
+
+            margin: 0 auto;
+
+            border: 5px solid black;
+
+            display: flex;
+            gap: 20px;
+        }
+
+        .child {
+            width: 320px;
+            height: 300px;
+
+            background-color: yellow;
+
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="parent">
+        <div class="child">박스1</div>
+        <div class="child">박스2</div>
+        <div class="child">박스3</div>
+    </div>
+
+</body>
+</html>

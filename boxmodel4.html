@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박스모델4</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        .box{width: 1000px;
+            height: 300px;
+            border: 5px solid #000;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+        }
+        .box div{
+            width: 235px;
+            height: 300px;
+            background-color:#f0f8ff;
+        }
+
+        ul{ width: 1000px;
+            height: 300px;
+            border: 5px solid #000;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        ul li{
+            list-style: none;
+            width: 235px;
+            height: 300px;
+            background-color: #ffc0cb;
+
+        }
+    </style>
+</head>
+<body>
+     <div class="box">
+        <div>박스1</div>
+        <div>박스2</div>
+        <div>박스3</div>
+        <div>박스4</div>
+    </div>
+
+    <ul>
+        <li>박스1</li>
+        <li>박스2</li>
+        <li>박스3</li>
+        <li>박스4</li>
+    </ul>
+</body>
+</html>

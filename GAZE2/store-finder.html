@@ -367,6 +367,11 @@
             background-color: #ffffff;
         }
 
+        /* 매장을 눌렀을 때 반응 */
+        .store-card:active {
+            opacity: 0.9;
+        }
+
         /* 매장 필터 */
         .store-filter {
             display: flex;
@@ -662,6 +667,7 @@
                 <!-- 강남점 -->
                 <article
                     class="store-card"
+                    data-store-id="gangnam"
                     data-store-name="GAZE Optical 강남점"
                     data-search-keyword="gaze optical 강남점 강남 강남구 강남대로"
                 >
@@ -754,6 +760,7 @@
                 <!-- 신사점 -->
                 <article
                     class="store-card"
+                    data-store-id="sinsa"
                     data-store-name="GAZE Optical 신사점"
                     data-search-keyword="gaze optical 신사점 신사 강남 강남구 도산대로"
                 >
@@ -858,10 +865,8 @@
     </main>
 
     <!--
-        카카오 개발자 사이트에서 발급받은
-        JavaScript 키로 아래 문구를 교체하세요.
-
-        YOUR_KAKAO_JAVASCRIPT_KEY
+        아래 appkey= 뒤에
+        카카오 JavaScript 키를 넣으세요.
     -->
     <script
         src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c16a0674d447122a8ad0ec1c2e583519&autoload=false"
@@ -1261,6 +1266,70 @@
         }
 
         /* =========================
+           매장 카드 클릭 시 지도 중심 이동
+        ========================= */
+        function bindStoreCardEvents() {
+            const storeCards =
+                document.querySelectorAll(
+                    ".store-card"
+                );
+
+            storeCards.forEach(
+                function (storeCard) {
+                    storeCard.addEventListener(
+                        "click",
+                        function (event) {
+                            /*
+                                필터, 버튼, 링크를 누르면
+                                지도 이동 이벤트를 실행하지 않음
+                            */
+                            if (
+                                event.target.closest(
+                                    "select, button, a, input"
+                                )
+                            ) {
+                                return;
+                            }
+
+                            const storeId =
+                                storeCard.dataset.storeId;
+
+                            const selectedStore =
+                                STORE_DATA[storeId];
+
+                            if (
+                                !selectedStore ||
+                                !map
+                            ) {
+                                return;
+                            }
+
+                            const storePosition =
+                                new kakao.maps.LatLng(
+                                    selectedStore.latitude,
+                                    selectedStore.longitude
+                                );
+
+                            /* 선택한 매장 주변으로 확대 */
+                            map.setLevel(3);
+
+                            /* 선택한 매장 좌표로 부드럽게 이동 */
+                            map.panTo(storePosition);
+
+                            /* 지도 영역이 화면에 보이도록 이동 */
+                            document
+                                .querySelector(".map-area")
+                                .scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "center"
+                                });
+                        }
+                    );
+                }
+            );
+        }
+
+        /* =========================
            카카오맵 길찾기 주소 만들기
         ========================= */
         function createKakaoDirectionUrl(store) {
@@ -1466,6 +1535,9 @@
             bindCurrentLocationButton();
             bindDirectionButtons();
             bindStoreSearch();
+
+            /* 매장 카드 클릭 기능 추가 */
+            bindStoreCardEvents();
         }
     </script>
 </body>

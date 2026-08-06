@@ -1,0 +1,260 @@
+/* =========================
+   기본 설정
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    min-height: 100svh;
+
+    overflow-x: hidden;
+
+    background-color: #ffffff;
+    color: #222222;
+
+    font-family:
+        "Noto Sans KR",
+        "Apple SD Gothic Neo",
+        Arial,
+        sans-serif;
+}
+
+button {
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================
+   모바일 App 전체 영역
+========================= */
+#app {
+    width: 100%;
+    min-height: 100svh;
+
+    overflow-x: hidden;
+    background-color: #ffffff;
+}
+
+
+/* =========================
+   헤더
+========================= */
+#header {
+    position: relative;
+    z-index: 100;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    height: 6.4svh;
+    min-height: 40px;
+
+    padding: 0 12px;
+
+    background-color: #353740;
+}
+
+
+/* 왼쪽·오른쪽 버튼의 너비를 동일하게 설정 */
+.header-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 36px;
+    height: 100%;
+
+    flex-shrink: 0;
+}
+
+
+/* 햄버거 이미지 */
+.menu-button img {
+    width: 20px;
+    height: auto;
+}
+
+
+/* 검색 이미지 */
+.search-button img {
+    width: 23px;
+    height: auto;
+}
+
+
+/* 가운데 로고 */
+.header-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+
+    margin: 0;
+    line-height: 1;
+}
+
+
+/* 로고 링크 */
+.header-logo a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* 로고 이미지 */
+.header-logo img {
+    width: 98px;
+    height: auto;
+}
+
+
+/* =========================
+   메인 콘텐츠
+========================= */
+#main {
+    width: 100%;
+}
+
+
+/* =========================
+   메인 배너
+========================= */
+.main-banner {
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/* Swiper 전체 영역 */
+.mainSwiper {
+    position: relative;
+
+    width: 100%;
+
+    /* 원본 배너 크기 640 × 385 비율 유지 */
+    aspect-ratio: 640 / 385;
+
+    overflow: hidden;
+
+    --swiper-theme-color: #087cff;
+    --swiper-navigation-size: 28px;
+}
+
+
+/* 각각의 슬라이드 */
+.mainSwiper .swiper-slide {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+
+/* 슬라이드 링크 */
+.mainSwiper .swiper-slide a {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* 슬라이드 이미지 */
+.mainSwiper .swiper-slide img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   이전·다음 버튼
+========================= */
+.mainSwiper .swiper-button-prev,
+.mainSwiper .swiper-button-next {
+    width: 44px;
+    height: 44px;
+
+    margin-top: -22px;
+
+    color: #087cff;
+}
+
+
+/* 왼쪽 이전 버튼 위치 */
+.mainSwiper .swiper-button-prev {
+    left: 4px;
+}
+
+
+/* 오른쪽 다음 버튼 위치 */
+.mainSwiper .swiper-button-next {
+    right: 4px;
+}
+
+
+/* 화살표 두께 */
+.mainSwiper .swiper-button-prev::after,
+.mainSwiper .swiper-button-next::after {
+    font-size: 28px;
+    font-weight: 400;
+}
+
+
+/* =========================
+   페이지네이션 점
+========================= */
+.mainSwiper .swiper-pagination {
+    bottom: 6px;
+}
+
+
+/* 기본 페이지 점 */
+.mainSwiper .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+
+    margin: 0 3px;
+
+    background-color: #9fa1aa;
+    opacity: 0.75;
+}
+
+
+/* 현재 슬라이드 페이지 점 */
+.mainSwiper .swiper-pagination-bullet-active {
+    background-color: #087cff;
+    opacity: 1;
+}

@@ -1,0 +1,33 @@
+/* css 한글 깨지지 않게 설정 */
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕","malgun gothic",sans-serif;
+}
+/* 여백 초기화 */
+*{margin: 0; padding: 0;}
+/* 버튼 초기화 */
+button{border: none; background-color: none;}
+
+#header{
+    width: 100%;
+    height: 45px;
+    background-color: #33353f;
+    /* 자식 요소들을 아래로 배치된 요소를 옆으로 배치할때 */
+    display: flex;
+    /* 자식 요소들을 요소하나는 왼쪽에 가운데 오른쪽 */
+    justify-content: space-between;
+}
+/* 버튼 이미지 크기 조절 */
+#header button img{
+    width: 45px;
+}
+/* 로고 이미지 크기 조절 */
+#header h1 a img{
+    width: 90px;
+}
+
+/* 슬라이드 이미지는 가로100%채운다 */
+.swiper .swiper-wrapper .swiper-slide img
+{   width: 100%;
+
+}

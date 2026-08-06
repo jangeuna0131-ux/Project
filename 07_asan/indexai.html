@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 모바일 App 전용 화면 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>모바일 서울아산병원</title>
+
+    <!-- Swiper CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@14.0.7/swiper-bundle.min.css"
+    >
+
+    <!-- 직접 작성한 CSS -->
+    <link rel="stylesheet" href="./css/mainai.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- =========================
+             헤더
+        ========================== -->
+        <header id="header">
+
+            <!-- 햄버거 메뉴 버튼 -->
+            <button
+                type="button"
+                class="header-button menu-button"
+                aria-label="전체 메뉴 열기"
+            >
+                <img
+                    src="./images/bg_header_lnb.png"
+                    alt=""
+                >
+            </button>
+
+            <!-- 로고 -->
+            <h1 class="header-logo">
+                <a href="./index.html">
+                    <img
+                        src="./images/img_header_logo.png"
+                        alt="서울아산병원"
+                    >
+                </a>
+            </h1>
+
+            <!-- 검색 버튼 -->
+            <button
+                type="button"
+                class="header-button search-button"
+                aria-label="검색창 열기"
+            >
+                <img
+                    src="./images/bg_header_search.png"
+                    alt=""
+                >
+            </button>
+
+        </header>
+
+
+        <!-- =========================
+             메인 콘텐츠
+        ========================== -->
+        <main id="main">
+
+            <!-- 메인 배너 슬라이드 -->
+            <section
+                class="main-banner"
+                aria-label="서울아산병원 주요 소식"
+            >
+                <div class="swiper mainSwiper">
+
+                    <!-- 슬라이드 전체를 감싸는 부모 -->
+                    <div class="swiper-wrapper">
+
+                        <!-- 슬라이드 1 -->
+                        <div class="swiper-slide">
+                            <a href="#" aria-label="서울아산병원 유튜브 소식">
+                                <img
+                                    src="./images/main_visual_640.png"
+                                    alt="우리 가족 건강을 지키는 가장 쉬운 방법, 서울아산병원 유튜브"
+                                >
+                            </a>
+                        </div>
+
+                        <!-- 슬라이드 2 -->
+                        <div class="swiper-slide">
+                            <a href="#" aria-label="서울아산병원 평가 소식">
+                                <img
+                                    src="./images/main_visual_newsweek.png"
+                                    alt="서울아산병원 주요 진료 분야 평가 안내"
+                                >
+                            </a>
+                        </div>
+
+                        <!-- 슬라이드 3 -->
+                        <div class="swiper-slide">
+                            <a href="#" aria-label="서울아산병원 모바일 서비스">
+                                <img
+                                    src="./images/main_visual_640.png"
+                                    alt="진료 예약부터 의료진 찾기까지 손안에서 쉽고 빠르게"
+                                >
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- 이전 버튼 -->
+                    <button
+                        type="button"
+                        class="swiper-button-prev"
+                        aria-label="이전 배너 보기"
+                    ></button>
+
+                    <!-- 다음 버튼 -->
+                    <button
+                        type="button"
+                        class="swiper-button-next"
+                        aria-label="다음 배너 보기"
+                    ></button>
+
+                    <!-- 하단 페이지 점 -->
+                    <div class="swiper-pagination"></div>
+
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- Swiper JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@14.0.7/swiper-bundle.min.js"></script>
+
+    <!-- 직접 작성한 JavaScript -->
+    <script src="./js/mainai.js"></script>
+</body>
+</html>

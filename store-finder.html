@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- iOS·안드로이드 모바일 App 전용 설정 -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>GAZE 매장 찾기</title>
+
+    <style>
+        /* =========================
+           기본 설정
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100svh;
+
+            overflow: hidden;
+
+            background-color: #f7f4ee;
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+        }
+
+        /* =========================
+           모바일 App 전체 화면
+        ========================= */
+        .store-finder-page {
+            width: 100%;
+            height: 100svh;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            background-color: #f7f4ee;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .store-finder-page::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 실제 콘텐츠 */
+        .store-content {
+            width: 100%;
+
+            padding:
+                max(36px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                calc(32px + env(safe-area-inset-bottom));
+        }
+
+        /* =========================
+           상단 헤더
+        ========================= */
+        .page-header {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 44px;
+        }
+
+        .back-button {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            margin-left: -12px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .back-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .page-title {
+            margin-left: 4px;
+
+            color: #1f2a44;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: -0.4px;
+        }
+
+        /* =========================
+           매장 검색창
+        ========================= */
+        .store-search {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 48px;
+
+            margin-top: 18px;
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            flex-shrink: 0;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+
+            padding-left: 16px;
+
+            border: 0;
+            outline: 0;
+
+            background-color: transparent;
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+
+            caret-color: #1f2a44;
+        }
+
+        .search-input::placeholder {
+            color: #7d91b2;
+            opacity: 1;
+        }
+
+        .search-input:focus::placeholder {
+            opacity: 0.45;
+        }
+
+        /* 위치 권한·지도 안내 문구 */
+        .location-notice {
+            display: none;
+
+            width: 100%;
+
+            margin-top: 8px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+
+            word-break: keep-all;
+        }
+
+        .location-notice.show {
+            display: block;
+        }
+
+        /* =========================
+           카카오맵 영역
+        ========================= */
+        .map-area {
+            position: relative;
+
+            width: 100%;
+            height: 256px;
+
+            margin-top: 16px;
+
+            overflow: hidden;
+            border-radius: 16px;
+
+            background-color: #e9edf3;
+        }
+
+        /* 카카오맵이 실제로 들어가는 영역 */
+        .map-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 지도 로딩 문구 */
+        .map-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1;
+
+            color: #7d91b2;
+
+            font-size: 13px;
+            line-height: 20px;
+
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        /* 현재 위치로 돌아가기 버튼 */
+        .current-location-button {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 88px;
+            height: 36px;
+
+            padding: 0 14px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 18px;
+
+            background-color: rgba(255, 255, 255, 0.96);
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 18px;
+
+            box-shadow: 0 4px 12px rgba(31, 42, 68, 0.14);
+        }
+
+        /* =========================
+           카카오맵 인포윈도우
+        ========================= */
+        .map-info-window {
+            min-width: 184px;
+
+            padding: 10px 12px;
+
+            color: #1f2a44;
+
+            font-family:
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                "Malgun Gothic",
+                sans-serif;
+        }
+
+        .map-info-name {
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .map-info-address {
+            margin-top: 4px;
+
+            color: #2f3640;
+
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 17px;
+
+            white-space: nowrap;
+        }
+
+        .map-info-direction {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 28px;
+
+            margin-top: 8px;
+            padding: 0 10px;
+
+            border-radius: 8px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 16px;
+        }
+
+        /* =========================
+           매장 목록
+        ========================= */
+        .store-list {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            margin-top: 8px;
+
+            gap: 12px;
+        }
+
+        /* 개별 매장 카드 */
+        .store-card {
+            width: 100%;
+
+            padding: 14px 16px 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        /* 매장을 눌렀을 때 반응 */
+        .store-card:active {
+            opacity: 0.9;
+        }
+
+        /* 매장 필터 */
+        .store-filter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .filter-select {
+            width: 106px;
+            height: 32px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+            outline: none;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .filter-select:focus {
+            border-color: #7d91b2;
+        }
+
+        /* 매장 정보 */
+        .store-main {
+            display: grid;
+            grid-template-columns: 98px minmax(0, 1fr);
+            align-items: center;
+
+            width: 100%;
+
+            gap: 16px;
+        }
+
+        .store-image {
+            width: 98px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .store-info {
+            min-width: 0;
+        }
+
+        .store-name {
+            overflow: hidden;
+
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+            letter-spacing: -0.3px;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .store-meta {
+            display: flex;
+            align-items: center;
+
+            margin-top: 8px;
+
+            gap: 8px;
+        }
+
+        .store-distance {
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        .stock-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 24px;
+            padding: 0 8px;
+
+            border-radius: 4px;
+
+            background-color: #8da0be;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+
+            white-space: nowrap;
+        }
+
+        .store-address,
+        .store-hours {
+            overflow: hidden;
+
+            color: #2f3640;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .store-address {
+            margin-top: 6px;
+        }
+
+        .store-hours {
+            margin-top: 2px;
+        }
+
+        /* 매장 카드 하단 버튼 */
+        .store-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 12px;
+
+            gap: 8px;
+        }
+
+        .store-action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 36px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+        }
+
+        .reservation-button {
+            border: 1px solid #d8dde5;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        .direction-button {
+            border: 1px solid #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        /* 검색 결과에서 숨길 매장 */
+        .store-card.is-hidden {
+            display: none;
+        }
+
+        /* 검색 결과 없음 */
+        .empty-result {
+            display: none;
+
+            padding: 32px 16px;
+
+            color: #7d91b2;
+
+            font-size: 13px;
+            line-height: 20px;
+
+            text-align: center;
+        }
+
+        .empty-result.show {
+            display: block;
+        }
+
+        /* 터치 효과 */
+        .back-button:active,
+        .current-location-button:active,
+        .store-action-button:active {
+            opacity: 0.78;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="store-finder-page">
+
+        <div class="store-content">
+
+            <!-- 상단 제목 -->
+            <header class="page-header">
+
+                <a
+                    class="back-button"
+                    href="./product-detail.html"
+                    aria-label="제품 상세 화면으로 돌아가기"
+                >
+                    <img
+                        class="back-icon"
+                        src="./icons/back_previous.svg"
+                        alt=""
+                    >
+                </a>
+
+                <h1 class="page-title">
+                    매장 찾기
+                </h1>
+
+            </header>
+
+            <!-- 지역 또는 매장 검색 -->
+            <label class="store-search">
+
+                <img
+                    class="search-icon"
+                    src="./icons/search1.svg"
+                    alt=""
+                >
+
+                <input
+                    class="search-input"
+                    id="storeSearchInput"
+                    type="search"
+                    name="store-search"
+                    placeholder="지역 또는 매장 검색"
+                    autocomplete="off"
+                    aria-label="지역 또는 매장 검색"
+                >
+
+            </label>
+
+            <!-- 위치 권한 안내 -->
+            <p
+                class="location-notice"
+                id="locationNotice"
+                aria-live="polite"
+            ></p>
+
+            <!-- 실제 카카오맵 영역 -->
+            <section
+                class="map-area"
+                aria-label="GAZE 매장 위치 지도"
+            >
+
+                <p
+                    class="map-loading"
+                    id="mapLoading"
+                >
+                    지도를 불러오는 중이에요.
+                </p>
+
+                <div
+                    class="map-canvas"
+                    id="map"
+                ></div>
+
+                <button
+                    class="current-location-button"
+                    id="currentLocationButton"
+                    type="button"
+                >
+                    현재 위치
+                </button>
+
+            </section>
+
+            <!-- 매장 목록 -->
+            <section
+                class="store-list"
+                id="storeList"
+                aria-label="주변 매장 목록"
+            >
+
+                <!-- 강남점 -->
+                <article
+                    class="store-card"
+                    data-store-id="gangnam"
+                    data-store-name="GAZE Optical 강남점"
+                    data-search-keyword="gaze optical 강남점 강남 강남구 강남대로"
+                >
+
+                    <div class="store-filter">
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 지역"
+                        >
+                            <option selected>강남구</option>
+                            <option>서초구</option>
+                            <option>송파구</option>
+                            <option>마포구</option>
+                        </select>
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 정렬 방식"
+                        >
+                            <option selected>거리순</option>
+                            <option>재고순</option>
+                            <option>인기순</option>
+                        </select>
+
+                    </div>
+
+                    <div class="store-main">
+
+                        <img
+                            class="store-image"
+                            src="./images/Frame 32.png"
+                            alt="GAZE Optical 강남점 외관"
+                        >
+
+                        <div class="store-info">
+
+                            <h2 class="store-name">
+                                GAZE Optical 강남점
+                            </h2>
+
+                            <div class="store-meta">
+
+                                <span
+                                    class="store-distance"
+                                    id="gangnamDistance"
+                                >
+                                    0.8km
+                                </span>
+
+                                <span class="stock-badge">
+                                    재고 확인 가능
+                                </span>
+
+                            </div>
+
+                            <p class="store-address">
+                                서울 강남구 강남대로 123
+                            </p>
+
+                            <p class="store-hours">
+                                매일 10:30 - 20:00
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="store-actions">
+
+                        <a
+                            class="store-action-button reservation-button"
+                            href="./fitting-reservation.html?store=gangnam"
+                        >
+                            피팅 예약
+                        </a>
+
+                        <button
+                            class="store-action-button direction-button"
+                            type="button"
+                            data-store-id="gangnam"
+                        >
+                            길찾기
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <!-- 신사점 -->
+                <article
+                    class="store-card"
+                    data-store-id="sinsa"
+                    data-store-name="GAZE Optical 신사점"
+                    data-search-keyword="gaze optical 신사점 신사 강남 강남구 도산대로"
+                >
+
+                    <div class="store-filter">
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 지역"
+                        >
+                            <option selected>강남구</option>
+                            <option>서초구</option>
+                            <option>송파구</option>
+                            <option>마포구</option>
+                        </select>
+
+                        <select
+                            class="filter-select"
+                            aria-label="매장 정렬 방식"
+                        >
+                            <option selected>거리순</option>
+                            <option>재고순</option>
+                            <option>인기순</option>
+                        </select>
+
+                    </div>
+
+                    <div class="store-main">
+
+                        <img
+                            class="store-image"
+                            src="./images/Frame 32-1.png"
+                            alt="GAZE Optical 신사점 외관"
+                        >
+
+                        <div class="store-info">
+
+                            <h2 class="store-name">
+                                GAZE Optical 신사점
+                            </h2>
+
+                            <div class="store-meta">
+
+                                <span
+                                    class="store-distance"
+                                    id="sinsaDistance"
+                                >
+                                    1.6km
+                                </span>
+
+                                <span class="stock-badge">
+                                    재고 확인 가능
+                                </span>
+
+                            </div>
+
+                            <p class="store-address">
+                                서울 강남구 도산대로 45
+                            </p>
+
+                            <p class="store-hours">
+                                매일 11:00 - 20:30
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="store-actions">
+
+                        <a
+                            class="store-action-button reservation-button"
+                            href="./fitting-reservation.html?store=sinsa"
+                        >
+                            피팅 예약
+                        </a>
+
+                        <button
+                            class="store-action-button direction-button"
+                            type="button"
+                            data-store-id="sinsa"
+                        >
+                            길찾기
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <!-- 검색 결과 없음 -->
+                <p
+                    class="empty-result"
+                    id="emptyResult"
+                >
+                    검색한 지역이나 매장을 찾을 수 없어요.
+                </p>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!--
+        아래 appkey= 뒤에
+        카카오 JavaScript 키를 넣으세요.
+    -->
+    <script
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c16a0674d447122a8ad0ec1c2e583519&autoload=false"
+    ></script>
+
+    <script>
+        /* =========================
+           GAZE 매장 정보
+        ========================= */
+        const STORE_DATA = {
+            gangnam: {
+                id: "gangnam",
+                name: "GAZE Optical 강남점",
+                address: "서울 강남구 강남대로 123",
+
+                /* 강남역 인근 예시 좌표 */
+                latitude: 37.498095,
+                longitude: 127.027610
+            },
+
+            sinsa: {
+                id: "sinsa",
+                name: "GAZE Optical 신사점",
+                address: "서울 강남구 도산대로 45",
+
+                /* 신사역 인근 예시 좌표 */
+                latitude: 37.516173,
+                longitude: 127.020444
+            }
+        };
+
+        /* 위치 권한 거부 시 보여줄 기본 위치 */
+        const DEFAULT_POSITION = {
+            latitude: 37.498095,
+            longitude: 127.027610
+        };
+
+        let map = null;
+        let currentPosition = null;
+        let currentLocationMarker = null;
+        let openedInfoWindow = null;
+
+        const locationNotice =
+            document.getElementById("locationNotice");
+
+        const mapLoading =
+            document.getElementById("mapLoading");
+
+        /* =========================
+           카카오맵 API 확인
+        ========================= */
+        if (
+            typeof kakao === "undefined" ||
+            !kakao.maps
+        ) {
+            showLocationNotice(
+                "카카오맵을 불러오지 못했어요. JavaScript 키와 등록된 도메인을 확인해 주세요."
+            );
+
+            mapLoading.textContent =
+                "카카오맵 설정을 확인해 주세요.";
+        } else {
+            kakao.maps.load(function () {
+                initializeMap();
+                bindPageEvents();
+            });
+        }
+
+        /* =========================
+           지도 처음 만들기
+        ========================= */
+        function initializeMap() {
+            const mapContainer =
+                document.getElementById("map");
+
+            const defaultCenter =
+                new kakao.maps.LatLng(
+                    DEFAULT_POSITION.latitude,
+                    DEFAULT_POSITION.longitude
+                );
+
+            const mapOptions = {
+                center: defaultCenter,
+                level: 4
+            };
+
+            map = new kakao.maps.Map(
+                mapContainer,
+                mapOptions
+            );
+
+            /* 지도 확대·축소 버튼 */
+            const zoomControl =
+                new kakao.maps.ZoomControl();
+
+            map.addControl(
+                zoomControl,
+                kakao.maps.ControlPosition.RIGHT
+            );
+
+            createStoreMarkers();
+            requestCurrentLocation();
+
+            mapLoading.style.display = "none";
+
+            /* 지도 영역 크기 다시 계산 */
+            setTimeout(function () {
+                map.relayout();
+            }, 100);
+        }
+
+        /* =========================
+           사용자 현재 위치 요청
+        ========================= */
+        function requestCurrentLocation() {
+            if (!navigator.geolocation) {
+                currentPosition = null;
+
+                moveMapCenter(
+                    DEFAULT_POSITION.latitude,
+                    DEFAULT_POSITION.longitude
+                );
+
+                showLocationNotice(
+                    "이 기기에서는 위치 기능을 지원하지 않아 서울 강남구를 기본 위치로 표시합니다."
+                );
+
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+                    currentPosition = {
+                        latitude: latitude,
+                        longitude: longitude
+                    };
+
+                    createCurrentLocationMarker(
+                        latitude,
+                        longitude
+                    );
+
+                    moveMapCenter(
+                        latitude,
+                        longitude
+                    );
+
+                    updateStoreDistances();
+
+                    showLocationNotice(
+                        "현재 위치를 기준으로 주변 GAZE 매장을 표시하고 있어요."
+                    );
+                },
+
+                function () {
+                    currentPosition = null;
+
+                    moveMapCenter(
+                        DEFAULT_POSITION.latitude,
+                        DEFAULT_POSITION.longitude
+                    );
+
+                    showLocationNotice(
+                        "위치 권한이 허용되지 않아 서울 강남구를 기본 위치로 표시합니다."
+                    );
+                },
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        /* =========================
+           지도 중심 위치 이동
+        ========================= */
+        function moveMapCenter(latitude, longitude) {
+            if (!map) {
+                return;
+            }
+
+            const position =
+                new kakao.maps.LatLng(
+                    latitude,
+                    longitude
+                );
+
+            map.setCenter(position);
+        }
+
+        /* =========================
+           현재 위치 마커
+        ========================= */
+        function createCurrentLocationMarker(
+            latitude,
+            longitude
+        ) {
+            if (!map) {
+                return;
+            }
+
+            if (currentLocationMarker) {
+                currentLocationMarker.setMap(null);
+            }
+
+            const markerPosition =
+                new kakao.maps.LatLng(
+                    latitude,
+                    longitude
+                );
+
+            currentLocationMarker =
+                new kakao.maps.Marker({
+                    position: markerPosition
+                });
+
+            currentLocationMarker.setMap(map);
+
+            const currentInfoWindow =
+                new kakao.maps.InfoWindow({
+                    content: `
+                        <div class="map-info-window">
+                            <p class="map-info-name">
+                                현재 위치
+                            </p>
+
+                            <p class="map-info-address">
+                                사용자의 현재 위치입니다.
+                            </p>
+                        </div>
+                    `
+                });
+
+            kakao.maps.event.addListener(
+                currentLocationMarker,
+                "click",
+                function () {
+                    closeOpenedInfoWindow();
+
+                    currentInfoWindow.open(
+                        map,
+                        currentLocationMarker
+                    );
+
+                    openedInfoWindow =
+                        currentInfoWindow;
+                }
+            );
+        }
+
+        /* =========================
+           GAZE 매장 마커 만들기
+        ========================= */
+        function createStoreMarkers() {
+            Object.values(STORE_DATA).forEach(
+                function (store) {
+                    const markerPosition =
+                        new kakao.maps.LatLng(
+                            store.latitude,
+                            store.longitude
+                        );
+
+                    const marker =
+                        new kakao.maps.Marker({
+                            position: markerPosition
+                        });
+
+                    marker.setMap(map);
+
+                    const directionUrl =
+                        createKakaoDirectionUrl(store);
+
+                    const infoWindow =
+                        new kakao.maps.InfoWindow({
+                            content: `
+                                <div class="map-info-window">
+                                    <p class="map-info-name">
+                                        ${store.name}
+                                    </p>
+
+                                    <p class="map-info-address">
+                                        ${store.address}
+                                    </p>
+
+                                    <a
+                                        class="map-info-direction"
+                                        href="${directionUrl}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        길찾기
+                                    </a>
+                                </div>
+                            `
+                        });
+
+                    kakao.maps.event.addListener(
+                        marker,
+                        "click",
+                        function () {
+                            closeOpenedInfoWindow();
+
+                            infoWindow.open(
+                                map,
+                                marker
+                            );
+
+                            openedInfoWindow =
+                                infoWindow;
+                        }
+                    );
+                }
+            );
+        }
+
+        /* 열려 있는 매장 정보 닫기 */
+        function closeOpenedInfoWindow() {
+            if (openedInfoWindow) {
+                openedInfoWindow.close();
+                openedInfoWindow = null;
+            }
+        }
+
+        /* =========================
+           현재 위치 버튼
+        ========================= */
+        function bindCurrentLocationButton() {
+            const currentLocationButton =
+                document.getElementById(
+                    "currentLocationButton"
+                );
+
+            currentLocationButton.addEventListener(
+                "click",
+                function () {
+                    if (currentPosition) {
+                        moveMapCenter(
+                            currentPosition.latitude,
+                            currentPosition.longitude
+                        );
+
+                        return;
+                    }
+
+                    /* 위치를 다시 요청 */
+                    requestCurrentLocation();
+                }
+            );
+        }
+
+        /* =========================
+           길찾기 버튼 연결
+        ========================= */
+        function bindDirectionButtons() {
+            const directionButtons =
+                document.querySelectorAll(
+                    ".direction-button"
+                );
+
+            directionButtons.forEach(
+                function (button) {
+                    button.addEventListener(
+                        "click",
+                        function () {
+                            const storeId =
+                                button.dataset.storeId;
+
+                            const store =
+                                STORE_DATA[storeId];
+
+                            if (!store) {
+                                return;
+                            }
+
+                            const directionUrl =
+                                createKakaoDirectionUrl(
+                                    store
+                                );
+
+                            window.open(
+                                directionUrl,
+                                "_blank",
+                                "noopener,noreferrer"
+                            );
+                        }
+                    );
+                }
+            );
+        }
+
+        /* =========================
+           매장 카드 클릭 시 지도 중심 이동
+        ========================= */
+        function bindStoreCardEvents() {
+            const storeCards =
+                document.querySelectorAll(
+                    ".store-card"
+                );
+
+            storeCards.forEach(
+                function (storeCard) {
+                    storeCard.addEventListener(
+                        "click",
+                        function (event) {
+                            /*
+                                필터, 버튼, 링크를 누르면
+                                지도 이동 이벤트를 실행하지 않음
+                            */
+                            if (
+                                event.target.closest(
+                                    "select, button, a, input"
+                                )
+                            ) {
+                                return;
+                            }
+
+                            const storeId =
+                                storeCard.dataset.storeId;
+
+                            const selectedStore =
+                                STORE_DATA[storeId];
+
+                            if (
+                                !selectedStore ||
+                                !map
+                            ) {
+                                return;
+                            }
+
+                            const storePosition =
+                                new kakao.maps.LatLng(
+                                    selectedStore.latitude,
+                                    selectedStore.longitude
+                                );
+
+                            /* 선택한 매장 주변으로 확대 */
+                            map.setLevel(3);
+
+                            /* 선택한 매장 좌표로 부드럽게 이동 */
+                            map.panTo(storePosition);
+
+                            /* 지도 영역이 화면에 보이도록 이동 */
+                            document
+                                .querySelector(".map-area")
+                                .scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "center"
+                                });
+                        }
+                    );
+                }
+            );
+        }
+
+        /* =========================
+           카카오맵 길찾기 주소 만들기
+        ========================= */
+        function createKakaoDirectionUrl(store) {
+            const destinationName =
+                encodeURIComponent(store.name);
+
+            /* 현재 위치가 확인된 경우 */
+            if (currentPosition) {
+                const currentLocationName =
+                    encodeURIComponent("현재 위치");
+
+                return (
+                    "https://map.kakao.com/link/from/" +
+                    currentLocationName +
+                    "," +
+                    currentPosition.latitude +
+                    "," +
+                    currentPosition.longitude +
+                    "/to/" +
+                    destinationName +
+                    "," +
+                    store.latitude +
+                    "," +
+                    store.longitude
+                );
+            }
+
+            /* 위치 권한이 없는 경우 목적지만 표시 */
+            return (
+                "https://map.kakao.com/link/to/" +
+                destinationName +
+                "," +
+                store.latitude +
+                "," +
+                store.longitude
+            );
+        }
+
+        /* =========================
+           검색창으로 매장 필터링
+        ========================= */
+        function bindStoreSearch() {
+            const searchInput =
+                document.getElementById(
+                    "storeSearchInput"
+                );
+
+            const storeCards =
+                document.querySelectorAll(
+                    ".store-card"
+                );
+
+            const emptyResult =
+                document.getElementById(
+                    "emptyResult"
+                );
+
+            searchInput.addEventListener(
+                "input",
+                function () {
+                    const keyword =
+                        searchInput.value
+                            .trim()
+                            .toLowerCase();
+
+                    let visibleStoreCount = 0;
+
+                    storeCards.forEach(
+                        function (storeCard) {
+                            const storeName =
+                                (
+                                    storeCard.dataset
+                                        .storeName || ""
+                                ).toLowerCase();
+
+                            const searchKeyword =
+                                (
+                                    storeCard.dataset
+                                        .searchKeyword || ""
+                                ).toLowerCase();
+
+                            const isMatched =
+                                keyword === "" ||
+                                storeName.includes(keyword) ||
+                                searchKeyword.includes(keyword);
+
+                            storeCard.classList.toggle(
+                                "is-hidden",
+                                !isMatched
+                            );
+
+                            if (isMatched) {
+                                visibleStoreCount += 1;
+                            }
+                        }
+                    );
+
+                    emptyResult.classList.toggle(
+                        "show",
+                        visibleStoreCount === 0
+                    );
+                }
+            );
+        }
+
+        /* =========================
+           현재 위치와 매장 거리 계산
+        ========================= */
+        function updateStoreDistances() {
+            if (!currentPosition) {
+                return;
+            }
+
+            const gangnamDistance =
+                calculateDistance(
+                    currentPosition.latitude,
+                    currentPosition.longitude,
+                    STORE_DATA.gangnam.latitude,
+                    STORE_DATA.gangnam.longitude
+                );
+
+            const sinsaDistance =
+                calculateDistance(
+                    currentPosition.latitude,
+                    currentPosition.longitude,
+                    STORE_DATA.sinsa.latitude,
+                    STORE_DATA.sinsa.longitude
+                );
+
+            document.getElementById(
+                "gangnamDistance"
+            ).textContent =
+                formatDistance(gangnamDistance);
+
+            document.getElementById(
+                "sinsaDistance"
+            ).textContent =
+                formatDistance(sinsaDistance);
+        }
+
+        /* 두 좌표 사이 거리 계산 */
+        function calculateDistance(
+            latitude1,
+            longitude1,
+            latitude2,
+            longitude2
+        ) {
+            const earthRadius = 6371;
+
+            const latitudeDifference =
+                toRadians(latitude2 - latitude1);
+
+            const longitudeDifference =
+                toRadians(longitude2 - longitude1);
+
+            const value =
+                Math.sin(latitudeDifference / 2) ** 2 +
+                Math.cos(toRadians(latitude1)) *
+                    Math.cos(toRadians(latitude2)) *
+                    Math.sin(longitudeDifference / 2) ** 2;
+
+            const centralAngle =
+                2 *
+                Math.atan2(
+                    Math.sqrt(value),
+                    Math.sqrt(1 - value)
+                );
+
+            return earthRadius * centralAngle;
+        }
+
+        function toRadians(number) {
+            return number * (Math.PI / 180);
+        }
+
+        function formatDistance(distanceKilometer) {
+            if (distanceKilometer < 1) {
+                return (
+                    Math.round(
+                        distanceKilometer * 1000
+                    ) + "m"
+                );
+            }
+
+            return (
+                distanceKilometer.toFixed(1) +
+                "km"
+            );
+        }
+
+        /* =========================
+           안내 문구 표시
+        ========================= */
+        function showLocationNotice(message) {
+            locationNotice.textContent = message;
+            locationNotice.classList.add("show");
+        }
+
+        /* =========================
+           페이지 기능 연결
+        ========================= */
+        function bindPageEvents() {
+            bindCurrentLocationButton();
+            bindDirectionButtons();
+            bindStoreSearch();
+
+            /* 매장 카드 클릭 기능 추가 */
+            bindStoreCardEvents();
+        }
+    </script>
+</body>
+</html>

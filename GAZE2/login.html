@@ -114,12 +114,10 @@
             white-space: nowrap;
         }
 
-        /* 슬로건 한 줄 중앙 정렬 */
+        /* 영문 슬로건 */
         .brand-tagline {
-            width: 100%;
-
             margin-top: -4px;
-            margin-left: 0;
+            margin-left: 64px;
 
             color: #1f2a44;
 
@@ -128,7 +126,6 @@
             line-height: 16px;
             letter-spacing: 4px;
 
-            text-align: center;
             white-space: nowrap;
         }
 
@@ -454,9 +451,13 @@
 
         </section>
 
-        <!-- 로그인 입력 -->
+        <!--
+            HTML 정적 구현이므로 실제 회원 인증은 하지 않음.
+            필수 입력 후 로그인 버튼을 누르면 home.html로 이동함.
+        -->
         <form
             class="login-form"
+            id="loginForm"
             action="./home.html"
             method="get"
         >
@@ -473,15 +474,16 @@
 
                 <div class="input-box">
 
-                    <input
-                        class="form-input"
-                        id="user-email"
-                        name="email"
-                        type="email"
-                        autocomplete="off"
-                        inputmode="email"
-                        required
-                    >
+                 <!-- 이메일 -->
+<input
+    class="form-input"
+    id="user-email"
+    name="email"
+    type="email"
+    autocomplete="off"
+    inputmode="email"
+    required
+>
 
                 </div>
 
@@ -499,15 +501,15 @@
 
                 <div class="input-box">
 
-                    <input
-                        class="form-input password-input"
-                        id="user-password"
-                        name="password"
-                        type="password"
-                        autocomplete="off"
-                        minlength="4"
-                        required
-                    >
+               <input
+    class="form-input password-input"
+    id="user-password"
+    name="password"
+    type="password"
+    autocomplete="off"
+    minlength="4"
+    required
+>
 
                     <img
                         class="password-icon"
@@ -597,23 +599,84 @@
                 계정이 없으신가요?
             </span>
 
-            <a
-                class="signup-link"
-                href="./signup.html"
-            >
-                회원가입
-            </a>
+    <a
+    class="signup-link"
+    href="./signup.html"
+>
+    회원가입
+</a>
 
         </div>
 
         <!-- 게스트 진입 -->
         <a
             class="guest-button"
+            id="guestButton"
             href="./home.html"
         >
             게스트로 둘러보기
         </a>
 
     </main>
+
+
+    <script>
+        /* =========================
+           로그인 상태 저장
+        ========================= */
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const socialButtons =
+            document.querySelectorAll(".social-button");
+
+        const guestButton =
+            document.getElementById("guestButton");
+
+        /* 일반 로그인 버튼 */
+        loginForm.addEventListener(
+            "submit",
+            function (event) {
+                event.preventDefault();
+
+                /* 로그인 상태를 브라우저에 저장 */
+                localStorage.setItem(
+                    "gazeLoggedIn",
+                    "true"
+                );
+
+                /* 홈에서 김가은 프로필을 표시하도록 이동 */
+                window.location.href =
+                    "./home.html?login=success";
+            }
+        );
+
+        /* 소셜 로그인 버튼도 로그인 상태로 처리 */
+        socialButtons.forEach(function (button) {
+            button.addEventListener(
+                "click",
+                function () {
+                    localStorage.setItem(
+                        "gazeLoggedIn",
+                        "true"
+                    );
+
+                    window.location.href =
+                        "./home.html?login=success";
+                }
+            );
+        });
+
+        /* 게스트로 들어가면 로그인 상태 제거 */
+        guestButton.addEventListener(
+            "click",
+            function () {
+                localStorage.removeItem(
+                    "gazeLoggedIn"
+                );
+            }
+        );
+    </script>
+
 </body>
 </html>

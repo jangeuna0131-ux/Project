@@ -618,6 +618,530 @@
         .tab-item.active .tab-icon {
             opacity: 1;
         }
+    
+        /* =========================
+           햄버거가 포함된 상단 헤더
+        ========================= */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            display: grid;
+            grid-template-columns: 44px 1fr 44px;
+            align-items: center;
+
+            width: 100%;
+            height: 48px;
+
+            background-color: var(--background);
+        }
+
+        .menu-open-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            background-color: transparent;
+        }
+
+        .hamburger-icon {
+            position: relative;
+
+            display: block;
+
+            width: 20px;
+            height: 14px;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after,
+        .hamburger-icon span {
+            position: absolute;
+            left: 0;
+
+            width: 20px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background-color: var(--primary);
+
+            content: "";
+        }
+
+        .hamburger-icon::before {
+            top: 0;
+        }
+
+        .hamburger-icon span {
+            top: 6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: 0;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--primary);
+
+            font-family:
+                "Playfair Display",
+                "Times New Roman",
+                Georgia,
+                serif;
+
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 36px;
+            letter-spacing: 7px;
+
+            white-space: nowrap;
+        }
+
+        .notification-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            width: 44px;
+            height: 44px;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        /* home-1은 본문 안쪽이 스크롤되므로 메뉴가 열리면 그 스크롤을 막음 */
+        body.menu-open .app-content {
+            overflow-y: hidden;
+        }
+
+        .menu-close-button {
+            border: 0;
+            background-color: transparent;
+        }
+
+/* =========================
+           6. 검은색 오버레이
+        ========================= */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+
+            visibility: hidden;
+
+            width: 100%;
+            height: 100svh;
+
+            border: 0;
+
+            background-color: rgba(0, 0, 0, 0.56);
+
+            opacity: 0;
+
+            transition:
+                opacity 0.3s ease,
+                visibility 0.3s ease;
+        }
+
+        .menu-overlay.is-visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* =========================
+           7. 모바일 슬라이드 메뉴
+        ========================= */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+
+            width: 80%;
+            height: 100svh;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            padding:
+                max(24px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                calc(24px + env(safe-area-inset-bottom));
+
+            border-radius: 0 24px 24px 0;
+
+            background-color: #f7f4ee;
+
+            transform: translateX(-100%);
+
+            transition: transform 0.32s ease;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-drawer::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-drawer.is-open {
+            transform: translateX(0);
+        }
+
+        /* 메뉴 상단 로고 */
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 64px;
+        }
+
+        .drawer-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .drawer-brand-symbol {
+            width: 52px;
+            height: 52px;
+
+            object-fit: contain;
+        }
+
+        .drawer-brand-name {
+            margin-left: 8px;
+
+            color: #1f2a44;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 34px;
+            letter-spacing: 5px;
+        }
+
+        /* 닫기 버튼 */
+        .menu-close-button {
+            position: relative;
+
+            flex-shrink: 0;
+
+            width: 40px;
+            height: 40px;
+        }
+
+        .menu-close-button::before,
+        .menu-close-button::after {
+            position: absolute;
+            top: 19px;
+            left: 10px;
+
+            width: 20px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background-color: #1f2a44;
+
+            content: "";
+        }
+
+        .menu-close-button::before {
+            transform: rotate(45deg);
+        }
+
+        .menu-close-button::after {
+            transform: rotate(-45deg);
+        }
+
+        /* 프로필 카드 */
+        .profile-card {
+            width: 100%;
+
+            margin-top: 20px;
+            padding: 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        /* 로그인 전·후 상태 중 하나만 표시 */
+        .profile-state[hidden] {
+            display: none;
+        }
+
+        .profile-top {
+            display: grid;
+            grid-template-columns: 70px minmax(0, 1fr);
+            align-items: center;
+
+            gap: 16px;
+        }
+
+        .profile-image {
+            width: 70px;
+            height: 70px;
+
+            border-radius: 50%;
+
+            background-color: #e8e3dc;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .profile-name {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        .profile-message {
+            margin-top: 6px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 20px;
+
+            word-break: keep-all;
+        }
+
+        .mypage-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 40px;
+
+            margin-top: 16px;
+
+            border-radius: 8px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* 로그인 전 버튼 */
+        .login-action-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 16px;
+
+            gap: 8px;
+        }
+
+        .login-action-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 40px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .login-link {
+            border: 1px solid #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .signup-link {
+            border: 1px solid #d8dde5;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        /* 매장 찾기·예약 확인 */
+        .quick-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 16px;
+
+            gap: 8px;
+        }
+
+        .quick-menu-link {
+            display: grid;
+            grid-template-columns: 32px minmax(0, 1fr) 16px;
+            align-items: center;
+
+            min-width: 0;
+            height: 60px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 8px;
+
+            background-color: #ffffff;
+        }
+
+        .quick-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 28px;
+            height: 28px;
+        }
+
+        .quick-icon-image {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .quick-menu-copy {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .quick-menu-name {
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+
+            white-space: nowrap;
+        }
+
+        .quick-menu-sub {
+            color: #7d91b2;
+
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 15px;
+
+            white-space: nowrap;
+        }
+
+        .quick-arrow-image {
+            width: 16px;
+            height: 16px;
+
+            object-fit: contain;
+        }
+
+        /* 메뉴 목록 박스 */
+        .drawer-menu-group {
+            width: 100%;
+
+            margin-top: 16px;
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .drawer-menu-link {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr) 20px;
+            align-items: center;
+
+            width: 100%;
+            min-height: 56px;
+
+            border-bottom: 1px solid #d8dde5;
+        }
+
+        .drawer-menu-link:last-child {
+            border-bottom: 0;
+        }
+
+        .drawer-menu-icon {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            width: 24px;
+            height: 24px;
+        }
+
+        .drawer-menu-icon-image {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .drawer-menu-name {
+            color: #1f2a44;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .drawer-menu-arrow-image {
+            width: 16px;
+            height: 16px;
+
+            object-fit: contain;
+        }
+
+        /* 링크가 없는 고객센터·설정 항목 */
+        .static-menu-item {
+            cursor: default;
+        }
+
+        /* 버튼 터치 효과 */
+        .menu-open-button:active,
+        .menu-close-button:active,
+        .drawer-menu-link:active,
+        .quick-menu-link:active,
+        .mypage-button:active {
+            opacity: 0.78;
+        }
     </style>
 </head>
 
@@ -625,25 +1149,41 @@
     <main class="app">
 
         <div class="app-content">
-
-            <!-- 상단 헤더 -->
-            <header class="top-header">
-
-                <p class="brand-name">
-                    GAZE
-                </p>
+            <!-- 햄버거가 포함된 상단 헤더 -->
+            <header class="app-header">
 
                 <button
-                    class="header-button"
+                    class="menu-open-button"
+                    id="menuOpenButton"
                     type="button"
-                    aria-label="알림 보기"
+                    aria-label="전체 메뉴 열기"
+                    aria-controls="mobileDrawer"
+                    aria-expanded="false"
+                >
+                    <span class="hamburger-icon">
+                        <span></span>
+                    </span>
+                </button>
+
+                <a
+                    class="header-logo"
+                    href="./home.html"
+                    aria-label="GAZE 홈으로 이동"
+                >
+                    GAZE
+                </a>
+
+                <a
+                    class="notification-button"
+                    href="./my.html"
+                    aria-label="알림 확인하기"
                 >
                     <img
-                        class="header-icon"
+                        class="notification-icon"
                         src="./icons/01_bell.svg"
                         alt=""
                     >
-                </button>
+                </a>
 
             </header>
 
@@ -1040,6 +1580,467 @@
 
         </nav>
 
+    
+
+        <!-- 메뉴 뒤 반투명 오버레이 -->
+        <button
+            class="menu-overlay"
+            id="menuOverlay"
+            type="button"
+            aria-label="메뉴 닫기"
+            tabindex="-1"
+        ></button>
+
+        <!-- 왼쪽 슬라이드 메뉴 -->
+        <aside
+            class="mobile-drawer"
+            id="mobileDrawer"
+            aria-label="전체 메뉴"
+            aria-hidden="true"
+        >
+
+            <div class="drawer-header">
+
+                <a
+                    class="drawer-brand"
+                    href="./home.html"
+                >
+                    <img
+                        class="drawer-brand-symbol"
+                        src="./images/1_symbol.svg"
+                        alt="GAZE 얼굴 심볼 로고"
+                    >
+
+                    <span class="drawer-brand-name">
+                        GAZE
+                    </span>
+                </a>
+
+                <button
+                    class="menu-close-button"
+                    id="menuCloseButton"
+                    type="button"
+                    aria-label="전체 메뉴 닫기"
+                ></button>
+
+            </div>
+
+            <!-- 로그인 전 프로필 -->
+            <section
+                class="profile-card profile-state"
+                id="loggedOutProfile"
+            >
+
+                <div class="profile-top">
+
+                    <img
+                        class="profile-image"
+                        src="./icons/06/hugeicons_user-circle.svg"
+                        alt="로그인 전 기본 프로필 이미지"
+                    >
+
+                    <div>
+                        <p class="profile-name">
+                            GAZE에 오신 것을 환영해요
+                        </p>
+
+                        <p class="profile-message">
+                            로그인하고 나만의<br>
+                            아이웨어를 저장해보세요.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="login-action-grid">
+
+                    <a
+                        class="login-action-link login-link drawer-link"
+                        href="./login.html"
+                    >
+                        로그인
+                    </a>
+
+                    <a
+                        class="login-action-link signup-link drawer-link"
+                        href="./signup.html"
+                    >
+                        회원가입
+                    </a>
+
+                </div>
+
+            </section>
+
+            <!-- 로그인 후 김가은 프로필 -->
+            <section
+                class="profile-card profile-state"
+                id="loggedInProfile"
+                hidden
+            >
+
+                <div class="profile-top">
+
+                    <img
+                        class="profile-image"
+                        src="./icons/06/Ellipse 1.svg"
+                        alt="김가은님 프로필 사진"
+                    >
+
+                    <div>
+                        <p class="profile-name">
+                            안녕하세요, 김가은님
+                        </p>
+
+                        <p class="profile-message">
+                            오늘도 나만의<br>
+                            스타일 여정을 시작해보세요.
+                        </p>
+                    </div>
+
+                </div>
+
+                <a
+                    class="mypage-button drawer-link"
+                    href="./my.html"
+                >
+                    마이페이지 바로가기
+                </a>
+
+            </section>
+
+            <!-- 빠른 메뉴 -->
+            <div class="quick-menu-grid">
+
+                <a
+                    class="quick-menu-link drawer-link"
+                    href="./store-finder.html"
+                >
+                    <span class="quick-icon">
+                        <img
+                            class="quick-icon-image"
+                            src="./icons/06/icon-park-outline_local-ktwo.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="quick-menu-copy">
+                        <span class="quick-menu-name">
+                            매장 찾기
+                        </span>
+
+                        <span class="quick-menu-sub">
+                            매장 검색
+                        </span>
+                    </span>
+
+                    <img
+                        class="quick-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="quick-menu-link drawer-link"
+                    href="./my.html"
+                >
+                    <span class="quick-icon">
+                        <img
+                            class="quick-icon-image"
+                            src="./icons/06/icon-park-outline_local-two.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="quick-menu-copy">
+                        <span class="quick-menu-name">
+                            예약확인
+                        </span>
+
+                        <span class="quick-menu-sub">
+                            일정 확인
+                        </span>
+                    </span>
+
+                    <img
+                        class="quick-arrow-image"
+                        src="./icons/06/grommet-icons_next-1.svg"
+                        alt=""
+                    >
+                </a>
+
+            </div>
+
+            <!-- 실제 페이지로 연결되는 주요 메뉴 -->
+            <nav
+                class="drawer-menu-group"
+                aria-label="주요 메뉴"
+            >
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./home.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/garden_home-stroke-12.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">홈</span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./explore.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/icons.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">탐색</span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./saved.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/icons-1.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">저장 목록</span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./my.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/hugeicons_user-circle.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">마이페이지</span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+            </nav>
+
+            <!-- 고객센터·설정은 요청대로 하이퍼링크 제거 -->
+            <div
+                class="drawer-menu-group"
+                aria-label="고객 지원 메뉴"
+            >
+
+                <div
+                    class="drawer-menu-link static-menu-item"
+                    aria-label="고객센터"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/qlementine-icons_headset-16.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">고객센터</span>
+                    <span aria-hidden="true"></span>
+                </div>
+
+                <div
+                    class="drawer-menu-link static-menu-item"
+                    aria-label="설정"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/solar_settings-linear.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">설정</span>
+                    <span aria-hidden="true"></span>
+                </div>
+
+            </div>
+
+        </aside>
+
     </main>
+
+    <script>
+        /* =========================
+           모바일 슬라이드 메뉴와 로그인 상태
+        ========================= */
+        const menuOpenButton =
+            document.getElementById("menuOpenButton");
+
+        const menuCloseButton =
+            document.getElementById("menuCloseButton");
+
+        const mobileDrawer =
+            document.getElementById("mobileDrawer");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+        const drawerLinks =
+            document.querySelectorAll(".drawer-link");
+
+        const loggedOutProfile =
+            document.getElementById("loggedOutProfile");
+
+        const loggedInProfile =
+            document.getElementById("loggedInProfile");
+
+        /* 로그인 전·후 프로필 적용 */
+        function updateLoginState() {
+            const urlParameters =
+                new URLSearchParams(window.location.search);
+
+            /* home-1.html?login=success 로 들어와도 로그인 저장 */
+            if (
+                urlParameters.get("login") === "success"
+            ) {
+                localStorage.setItem(
+                    "gazeLoggedIn",
+                    "true"
+                );
+            }
+
+            /* home-1.html?logout=true 로 들어오면 로그아웃 */
+            if (
+                urlParameters.get("logout") === "true"
+            ) {
+                localStorage.removeItem(
+                    "gazeLoggedIn"
+                );
+            }
+
+            const isLoggedIn =
+                localStorage.getItem(
+                    "gazeLoggedIn"
+                ) === "true";
+
+            loggedOutProfile.hidden = isLoggedIn;
+            loggedInProfile.hidden = !isLoggedIn;
+        }
+
+        function openMobileMenu() {
+            mobileDrawer.classList.add("is-open");
+            menuOverlay.classList.add("is-visible");
+            document.body.classList.add("menu-open");
+
+            menuOpenButton.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+            mobileDrawer.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            setTimeout(function () {
+                menuCloseButton.focus();
+            }, 100);
+        }
+
+        function closeMobileMenu() {
+            mobileDrawer.classList.remove("is-open");
+            menuOverlay.classList.remove("is-visible");
+            document.body.classList.remove("menu-open");
+
+            menuOpenButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            mobileDrawer.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+        }
+
+        menuOpenButton.addEventListener(
+            "click",
+            openMobileMenu
+        );
+
+        menuCloseButton.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+        menuOverlay.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+        drawerLinks.forEach(function (link) {
+            link.addEventListener(
+                "click",
+                closeMobileMenu
+            );
+        });
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+                if (
+                    event.key === "Escape" &&
+                    mobileDrawer.classList.contains(
+                        "is-open"
+                    )
+                ) {
+                    closeMobileMenu();
+                    menuOpenButton.focus();
+                }
+            }
+        );
+
+        updateLoginState();
+    </script>
+
 </body>
 </html>

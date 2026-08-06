@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
 
+    <!-- 모바일 App 전용 화면 설정 -->
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     >
 
-    <title>GAZE Home</title>
+    <title>GAZE 홈</title>
 
     <style>
-        :root {
-            --primary: #1f2a44;
-            --text: #2f3640;
-            --background: #f7f4ee;
-            --surface: #ffffff;
-            --border: #d8dde5;
-            --secondary: #7d91b2;
-            --disabled: #cbd2dc;
-            --tabbar-height: 72px;
-        }
-
-        /* 기본 설정 */
+        /* =========================
+           1. 기본 설정
+        ========================= */
         * {
             margin: 0;
             padding: 0;
@@ -39,13 +31,12 @@
 
         body {
             width: 100%;
-            height: 100%;
             min-height: 100svh;
 
-            overflow: hidden;
+            overflow-x: hidden;
 
-            background-color: var(--background);
-            color: var(--primary);
+            background-color: #f7f4ee;
+            color: #1f2a44;
 
             font-family:
                 "Noto Sans KR",
@@ -56,17 +47,20 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* 메뉴가 열렸을 때 본문 스크롤 차단 */
+        body.menu-open {
+            overflow: hidden;
+        }
+
         button,
         input {
             font-family: inherit;
         }
 
         button {
+            border: 0;
+            background-color: transparent;
             cursor: pointer;
-        }
-
-        img {
-            display: block;
         }
 
         a {
@@ -74,101 +68,260 @@
             text-decoration: none;
         }
 
-        /* 모바일 App 전체 */
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* =========================
+           2. 모바일 App 전체 화면
+        ========================= */
         .app {
             position: relative;
 
             width: 100%;
-            height: 100svh;
+            min-height: 100svh;
 
-            overflow: hidden;
-            background-color: var(--background);
-        }
-
-        /* 스크롤 본문 */
-        .app-content {
-            width: 100%;
-            height: 100%;
-
-            padding-top: max(16px, env(safe-area-inset-top));
-            padding-right: 16px;
-            padding-bottom: calc(
-                var(--tabbar-height) + 24px + env(safe-area-inset-bottom)
-            );
-            padding-left: 16px;
-
-            overflow-y: auto;
             overflow-x: hidden;
 
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            background-color: #f7f4ee;
         }
 
-        .app-content::-webkit-scrollbar {
-            display: none;
-        }
+        /* =========================
+           3. 상단 헤더
+        ========================= */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
 
-        /* 상단 헤더 */
-        .top-header {
-            display: flex;
+            display: grid;
+            grid-template-columns: 44px 1fr 44px;
             align-items: center;
-            justify-content: space-between;
 
             width: 100%;
-            height: 48px;
+            height: 80px;
+
+            padding:
+                max(20px, env(safe-area-inset-top))
+                20px
+                0;
+
+            background-color: #f7f4ee;
         }
 
-        .brand-name {
-            color: var(--primary);
-
-            font-family:
-                "Playfair Display",
-                "Times New Roman",
-                Georgia,
-                serif;
-
-            font-size: 28px;
-            font-weight: 400;
-            line-height: 36px;
-            letter-spacing: 7px;
-            white-space: nowrap;
-        }
-
-        .header-button {
+        /* 햄버거 버튼 */
+        .menu-open-button {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
 
             width: 44px;
             height: 44px;
 
-            margin-right: -10px;
-
-            border: 0;
-            background-color: transparent;
+            padding-left: 4px;
         }
 
-        .header-icon {
+        .hamburger-icon {
+            position: relative;
+
+            display: block;
+
+            width: 20px;
+            height: 14px;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after,
+        .hamburger-icon span {
+            position: absolute;
+            left: 0;
+
+            width: 20px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background-color: #1f2a44;
+
+            content: "";
+        }
+
+        .hamburger-icon::before {
+            top: 0;
+        }
+
+        .hamburger-icon span {
+            top: 6px;
+        }
+
+        .hamburger-icon::after {
+            bottom: 0;
+        }
+
+        /* 가운데 GAZE 로고 */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #1f2a44;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 36px;
+            letter-spacing: 8px;
+        }
+
+        /* 알림 버튼 */
+        .notification-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            width: 44px;
+            height: 44px;
+        }
+
+        .notification-icon {
             width: 24px;
             height: 24px;
 
             object-fit: contain;
         }
 
-        /* 메인 배너 */
-        .hero-banner {
-            position: relative;
+        /* =========================
+           4. 홈 콘텐츠
+        ========================= */
+        .home-content {
+            width: 100%;
+
+            padding:
+                0
+                24px
+                calc(88px + env(safe-area-inset-bottom));
+        }
+
+        /* 검색 버튼 */
+        .search-link {
+            display: flex;
+            align-items: center;
 
             width: 100%;
+            height: 48px;
+
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .search-link:active {
+            opacity: 0.82;
+        }
+
+        .search-link-icon {
+            flex-shrink: 0;
+
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .search-link-text {
+            flex: 1;
+
+            margin-left: 16px;
+
+            color: #7d91b2;
+
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 20px;
+        }
+
+        /* 스캔 모양 */
+        .scan-icon {
+            position: relative;
+
+            width: 24px;
+            height: 24px;
+
+            border:
+                2px solid
+                transparent;
+        }
+
+        .scan-icon::before,
+        .scan-icon::after {
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            border-color: #1f2a44;
+            border-style: solid;
+
+            content: "";
+        }
+
+        .scan-icon::before {
+            top: 0;
+            left: 0;
+
+            border-width: 2px 0 0 2px;
+        }
+
+        .scan-icon::after {
+            right: 0;
+            bottom: 0;
+
+            border-width: 0 2px 2px 0;
+        }
+
+        .scan-corner-one,
+        .scan-corner-two {
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            border-color: #1f2a44;
+            border-style: solid;
+        }
+
+        .scan-corner-one {
+            top: 0;
+            right: 0;
+
+            border-width: 2px 2px 0 0;
+        }
+
+        .scan-corner-two {
+            bottom: 0;
+            left: 0;
+
+            border-width: 0 0 2px 2px;
+        }
+
+        /* 메인 배너 */
+        .main-banner {
+            width: 100%;
             height: 208px;
+
+            margin-top: 12px;
 
             overflow: hidden;
             border-radius: 8px;
 
-            background-color: #222222;
+            background-color: #e8e3dc;
         }
 
-        .hero-image {
+        .main-banner-image {
             width: 100%;
             height: 100%;
 
@@ -176,275 +329,119 @@
             object-position: center;
         }
 
-        .hero-banner::after {
-            content: "";
-
-            position: absolute;
-            inset: 0;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(10, 15, 25, 0.52) 0%,
-                    rgba(10, 15, 25, 0.18) 52%,
-                    rgba(10, 15, 25, 0) 80%
-                );
-
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: absolute;
-            top: 48px;
-            left: 24px;
-            z-index: 1;
-        }
-
-        .hero-title {
-            color: #ffffff;
-
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 28px;
-            letter-spacing: -0.5px;
-        }
-
-        .recommend-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            min-height: 44px;
-
-            margin-top: 16px;
-            padding: 0 12px;
-
-            border-radius: 8px;
-
-            background-color: rgba(31, 42, 68, 0.94);
-            color: #ffffff;
-
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 20px;
-        }
-
-        .recommend-button:active {
-            opacity: 0.88;
-        }
-
-        /* 검색창 */
-        .search-form {
-            display: flex;
-            align-items: center;
-
-            width: 100%;
-            height: 48px;
-
-            margin-top: 12px;
-
-            border: 1px solid var(--border);
-            border-radius: 12px;
-
-            background-color: var(--surface);
-        }
-
-        .search-icon-box {
-            display: flex;
-            flex-shrink: 0;
-            align-items: center;
-            justify-content: center;
-
-            width: 48px;
-            height: 48px;
-        }
-
-        .search-icon {
-            width: 24px;
-            height: 24px;
-
-            object-fit: contain;
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 0;
-            height: 46px;
-
-            padding: 0 8px;
-
-            border: 0;
-            outline: 0;
-
-            background-color: transparent;
-            color: var(--primary);
-
-            font-size: 13px;
-            line-height: 20px;
-
-            caret-color: var(--primary);
-        }
-
-        .search-input::placeholder {
-            color: var(--secondary);
-            opacity: 1;
-        }
-
-        .search-form:focus-within {
-            border-color: var(--secondary);
-
-            box-shadow:
-                0 0 0 2px rgba(125, 145, 178, 0.12);
-        }
-
-        .scan-button {
-            display: flex;
-            flex-shrink: 0;
-            align-items: center;
-            justify-content: center;
-
-            width: 48px;
-            height: 48px;
-
-            border: 0;
-            background-color: transparent;
-        }
-
-        .scan-icon {
-            width: 24px;
-            height: 24px;
-
-            object-fit: contain;
-        }
-
         /* 공통 섹션 */
         .home-section {
             width: 100%;
-            margin-top: 12px;
+
+            margin-top: 16px;
         }
 
-        .section-header {
+        .section-heading {
             display: flex;
             align-items: center;
             justify-content: space-between;
 
             width: 100%;
-            min-height: 24px;
-
-            margin-bottom: 8px;
         }
 
         .section-title {
-            color: var(--primary);
+            color: #1f2a44;
 
             font-size: 18px;
             font-weight: 700;
-            line-height: 24px;
-            letter-spacing: -0.5px;
+            line-height: 26px;
+            letter-spacing: -0.4px;
         }
 
-        .view-all {
-            display: inline-flex;
-            align-items: center;
-
-            min-height: 24px;
-
-            color: var(--secondary);
+        .section-more {
+            color: #7d91b2;
 
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 400;
             line-height: 18px;
         }
 
-        /* 얼굴형별 추천 */
-        .face-category-list {
+        /* 얼굴형 추천 버튼 */
+        .face-shape-list {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
 
             width: 100%;
+
+            margin-top: 8px;
+
             gap: 8px;
         }
 
-        .face-category {
+        .face-shape-button {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
 
-            width: 100%;
             min-width: 0;
             height: 64px;
-            padding: 0;
 
-            border: 1px solid var(--border);
+            border: 1px solid #d8dde5;
             border-radius: 8px;
 
-            background-color: transparent;
-            color: var(--secondary);
-
-            text-decoration: none;
-        }
-
-        .face-category:active {
             background-color: #ffffff;
         }
 
         .face-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             width: 24px;
             height: 24px;
 
-            object-fit: contain;
+            color: #1f2a44;
+
+            font-size: 22px;
+            line-height: 24px;
         }
 
         .face-label {
-            margin-top: 4px;
+            margin-top: 6px;
 
-            color: var(--secondary);
+            color: #7d91b2;
 
             font-size: 11px;
-            font-weight: 500;
+            font-weight: 400;
             line-height: 16px;
 
             white-space: nowrap;
         }
 
-        /* 추천 제품 */
+        /* 상품 카드 */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
 
             width: 100%;
-            gap: 12px;
+
+            margin-top: 8px;
+
+            gap: 20px;
         }
 
         .product-card {
-            position: relative;
-
             min-width: 0;
-            min-height: 152px;
-
-            padding: 8px;
-
-            border: 1px solid var(--border);
-            border-radius: 12px;
-
-            background-color: var(--surface);
-        }
-
-        .product-link {
-            display: block;
-        }
-
-        .product-image-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            width: 100%;
-            height: 80px;
 
             overflow: hidden;
-            border-radius: 8px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        .product-image-wrap {
+            width: 100%;
+            height: 92px;
+
+            padding: 12px;
 
             background-color: #ffffff;
         }
@@ -458,347 +455,655 @@
         }
 
         .product-info {
-            min-width: 0;
+            position: relative;
 
-            padding-top: 8px;
-            padding-right: 28px;
-            padding-left: 4px;
+            padding: 0 18px 12px;
         }
 
-        .product-name {
-            overflow: hidden;
-
-            color: var(--primary);
+        .product-category {
+            color: #2f3640;
 
             font-size: 11px;
             font-weight: 500;
-            line-height: 16px;
-
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            line-height: 17px;
         }
 
-        .product-model {
+        .product-name {
             margin-top: 2px;
 
-            color: var(--text);
-
-            font-size: 11px;
-            line-height: 16px;
-        }
-
-        .product-price {
-            margin-top: 2px;
-
-            color: var(--primary);
+            color: #1f2a44;
 
             font-size: 12px;
             font-weight: 500;
             line-height: 18px;
         }
 
-        .product-save-button {
+        .product-price {
+            margin-top: 2px;
+
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+        }
+
+        .product-heart {
             position: absolute;
-            right: 0;
-            bottom: 0;
+            right: 12px;
+            bottom: 24px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #1f2a44;
 
-            width: 44px;
-            height: 44px;
-
-            border: 0;
-            background-color: transparent;
+            font-size: 18px;
+            line-height: 18px;
         }
 
-        .product-heart-icon {
-            width: 12px;
-            height: 12px;
-
-            object-fit: contain;
-        }
-
-        /* 인기 제품 */
-        .popular-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-
-            width: 100%;
-            gap: 12px;
-        }
-
-        .popular-card {
-            display: block;
-
-            width: 100%;
-            min-width: 0;
-
-            border: 0;
-            background-color: transparent;
-
-            overflow: visible;
-        }
-
-        .popular-image {
-            display: block;
-
-            width: 100%;
-            height: auto;
-
-            object-fit: contain;
-        }
-
-        /* 하단 탭바 */
-        .bottom-tabbar {
+        /* =========================
+           5. 하단 내비게이션
+        ========================= */
+        .bottom-navigation {
             position: fixed;
             right: 0;
             bottom: 0;
             left: 0;
-            z-index: 100;
+            z-index: 200;
 
             display: grid;
             grid-template-columns: repeat(4, 1fr);
 
             width: 100%;
-            min-height: var(--tabbar-height);
+            height: calc(56px + env(safe-area-inset-bottom));
 
             padding-bottom: env(safe-area-inset-bottom);
 
-            border-top: 1px solid var(--border);
+            border-top: 1px solid #d8dde5;
 
-            background-color: rgba(255, 255, 255, 0.98);
+            background-color: #ffffff;
         }
 
-        .tab-item {
+        .bottom-nav-link {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
 
-            min-width: 0;
-            height: var(--tabbar-height);
+            color: #b1bbc9;
+        }
 
-            color: var(--disabled);
+        .bottom-nav-link.active {
+            color: #1f2a44;
+        }
+
+        .bottom-nav-icon {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .bottom-nav-label {
+            margin-top: 2px;
 
             font-size: 10px;
             font-weight: 500;
             line-height: 14px;
         }
 
-        .tab-icon {
+        /* =========================
+           6. 검은색 오버레이
+        ========================= */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+
+            visibility: hidden;
+
+            width: 100%;
+            height: 100svh;
+
+            border: 0;
+
+            background-color: rgba(0, 0, 0, 0.56);
+
+            opacity: 0;
+
+            transition:
+                opacity 0.3s ease,
+                visibility 0.3s ease;
+        }
+
+        .menu-overlay.is-visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* =========================
+           7. 모바일 슬라이드 메뉴
+        ========================= */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+
+            width: 80%;
+            height: 100svh;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            padding:
+                max(24px, calc(env(safe-area-inset-top) + 16px))
+                24px
+                calc(24px + env(safe-area-inset-bottom));
+
+            border-radius: 0 24px 24px 0;
+
+            background-color: #f7f4ee;
+
+            transform: translateX(-100%);
+
+            transition: transform 0.32s ease;
+
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-drawer::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-drawer.is-open {
+            transform: translateX(0);
+        }
+
+        /* 메뉴 상단 로고 */
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 64px;
+        }
+
+        .drawer-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .drawer-brand-symbol {
+            width: 52px;
+            height: 52px;
+
+            object-fit: contain;
+        }
+
+        .drawer-brand-name {
+            margin-left: 8px;
+
+            color: #1f2a44;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 34px;
+            letter-spacing: 5px;
+        }
+
+        /* 닫기 버튼 */
+        .menu-close-button {
+            position: relative;
+
+            flex-shrink: 0;
+
+            width: 40px;
+            height: 40px;
+        }
+
+        .menu-close-button::before,
+        .menu-close-button::after {
+            position: absolute;
+            top: 19px;
+            left: 10px;
+
+            width: 20px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background-color: #1f2a44;
+
+            content: "";
+        }
+
+        .menu-close-button::before {
+            transform: rotate(45deg);
+        }
+
+        .menu-close-button::after {
+            transform: rotate(-45deg);
+        }
+
+        /* 프로필 카드 */
+        .profile-card {
+            width: 100%;
+
+            margin-top: 20px;
+            padding: 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 12px;
+
+            background-color: #ffffff;
+        }
+
+        /* 로그인 전·후 상태 중 하나만 표시 */
+        .profile-state[hidden] {
+            display: none;
+        }
+
+        .profile-top {
+            display: grid;
+            grid-template-columns: 70px minmax(0, 1fr);
+            align-items: center;
+
+            gap: 16px;
+        }
+
+        .profile-image {
+            width: 70px;
+            height: 70px;
+
+            border-radius: 50%;
+
+            background-color: #e8e3dc;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .profile-name {
+            color: #1f2a44;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+
+            white-space: nowrap;
+        }
+
+        .profile-message {
+            margin-top: 6px;
+
+            color: #7d91b2;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 20px;
+
+            word-break: keep-all;
+        }
+
+        .mypage-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 40px;
+
+            margin-top: 16px;
+
+            border-radius: 8px;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        /* 로그인 전 버튼 */
+        .login-action-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 16px;
+
+            gap: 8px;
+        }
+
+        .login-action-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 40px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 20px;
+        }
+
+        .login-link {
+            border: 1px solid #1f2a44;
+
+            background-color: #1f2a44;
+            color: #ffffff;
+        }
+
+        .signup-link {
+            border: 1px solid #d8dde5;
+
+            background-color: #ffffff;
+            color: #1f2a44;
+        }
+
+        /* 매장 찾기·예약 확인 */
+        .quick-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            width: 100%;
+
+            margin-top: 16px;
+
+            gap: 8px;
+        }
+
+        .quick-menu-link {
+            display: grid;
+            grid-template-columns: 32px minmax(0, 1fr) 16px;
+            align-items: center;
+
+            min-width: 0;
+            height: 60px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 8px;
+
+            background-color: #ffffff;
+        }
+
+        .quick-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 28px;
+            height: 28px;
+        }
+
+        .quick-icon-image {
             width: 24px;
             height: 24px;
 
-            margin-bottom: 4px;
+            object-fit: contain;
+        }
+
+        .quick-menu-copy {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .quick-menu-name {
+            color: #1f2a44;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+
+            white-space: nowrap;
+        }
+
+        .quick-menu-sub {
+            color: #7d91b2;
+
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 15px;
+
+            white-space: nowrap;
+        }
+
+        .quick-arrow-image {
+            width: 16px;
+            height: 16px;
 
             object-fit: contain;
-            opacity: 0.28;
         }
 
-        .tab-item.active {
-            color: var(--primary);
+        /* 메뉴 목록 박스 */
+        .drawer-menu-group {
+            width: 100%;
+
+            margin-top: 16px;
+            padding: 0 16px;
+
+            border: 1px solid #d8dde5;
+            border-radius: 16px;
+
+            background-color: #ffffff;
+        }
+
+        .drawer-menu-link {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr) 20px;
+            align-items: center;
+
+            width: 100%;
+            min-height: 56px;
+
+            border-bottom: 1px solid #d8dde5;
+        }
+
+        .drawer-menu-link:last-child {
+            border-bottom: 0;
+        }
+
+        .drawer-menu-icon {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            width: 24px;
+            height: 24px;
+        }
+
+        .drawer-menu-icon-image {
+            width: 24px;
+            height: 24px;
+
+            object-fit: contain;
+        }
+
+        .drawer-menu-name {
+            color: #1f2a44;
+
+            font-size: 13px;
             font-weight: 700;
+            line-height: 20px;
         }
 
-        .tab-item.active .tab-icon {
-            opacity: 1;
+        .drawer-menu-arrow-image {
+            width: 16px;
+            height: 16px;
+
+            object-fit: contain;
+        }
+
+        /* 링크가 없는 고객센터·설정 항목 */
+        .static-menu-item {
+            cursor: default;
+        }
+
+        /* 버튼 터치 효과 */
+        .menu-open-button:active,
+        .menu-close-button:active,
+        .drawer-menu-link:active,
+        .quick-menu-link:active,
+        .mypage-button:active {
+            opacity: 0.78;
         }
     </style>
 </head>
 
 <body>
-    <main class="app">
+    <div class="app">
 
-        <div class="app-content">
+        <!-- =========================
+             상단 헤더
+        ========================== -->
+        <header class="app-header">
 
-            <!-- 상단 헤더 -->
-            <header class="top-header">
-
-                <p class="brand-name">
-                    GAZE
-                </p>
-
-                <button
-                    class="header-button"
-                    type="button"
-                    aria-label="알림 보기"
-                >
-                    <img
-                        class="header-icon"
-                        src="./icons/01_bell.svg"
-                        alt=""
-                    >
-                </button>
-
-            </header>
-
-            <!-- 메인 배너 -->
-            <section class="hero-banner">
-
-                <img
-                    class="hero-image"
-                    src="./images/01_home-banner.jpg"
-                    alt="선글라스를 착용하고 커피를 들고 있는 여성"
-                >
-
-                <div class="hero-content">
-
-                    <h1 class="hero-title">
-                        나에게 어울리는<br>
-                        프레임 찾기
-                    </h1>
-
-                    <a
-                        class="recommend-button"
-                        href="./explore.html"
-                    >
-                        맞춤 추천 시작하기
-                    </a>
-
-                </div>
-
-            </section>
-
-            <!-- 검색창 -->
-            <form
-                class="search-form"
-                action="./explore.html"
-                method="get"
+            <!-- 햄버거 버튼 -->
+            <button
+                type="button"
+                class="menu-open-button"
+                id="menuOpenButton"
+                aria-label="전체 메뉴 열기"
+                aria-controls="mobileDrawer"
+                aria-expanded="false"
             >
+                <span class="hamburger-icon">
+                    <span></span>
+                </span>
+            </button>
 
-                <span class="search-icon-box">
-                    <img
-                        class="search-icon"
-                        src="./icons/02_search.svg"
-                        alt=""
-                    >
+            <!-- 시안 기준 가운데 로고 -->
+            <a
+                class="header-logo"
+                href="./home.html"
+                aria-label="GAZE 홈으로 이동"
+            >
+                GAZE
+            </a>
+
+            <!-- 알림 버튼 -->
+            <a
+                class="notification-button"
+                href="./my.html"
+                aria-label="알림 확인하기"
+            >
+                <img
+                    class="notification-icon"
+                    src="./icons/01_bell.svg"
+                    alt=""
+                >
+            </a>
+
+        </header>
+
+        <!-- =========================
+             홈 본문
+        ========================== -->
+        <main class="home-content">
+
+            <!-- 검색 화면으로 이동 -->
+            <a
+                class="search-link"
+                href="./explore.html"
+                aria-label="아이웨어 검색 화면으로 이동"
+            >
+                <img
+                    class="search-link-icon"
+                    src="./icons/02_search.svg"
+                    alt=""
+                >
+
+                <span class="search-link-text">
+                    프레임, 브랜드, 스타일 검색
                 </span>
 
-                <input
-                    class="search-input"
-                    type="search"
-                    name="keyword"
-                    placeholder="프레임, 브랜드, 스타일 검색"
-                    aria-label="아이웨어 검색"
-                    autocomplete="off"
-                    enterkeyhint="search"
+                <span
+                    class="scan-icon"
+                    aria-hidden="true"
                 >
+                    <span class="scan-corner-one"></span>
+                    <span class="scan-corner-two"></span>
+                </span>
+            </a>
 
-                <button
-                    class="scan-button"
-                    type="button"
-                    aria-label="이미지로 검색"
+            <!-- 메인 배너 -->
+            <section class="main-banner">
+                <img
+                    class="main-banner-image"
+                    src="./images/01_home-banner.jpg"
+                    alt="검은색 선글라스를 착용한 모델의 GAZE 아이웨어 메인 배너"
                 >
-                    <img
-                        class="scan-icon"
-                        src="./icons/03_scan.svg"
-                        alt=""
-                    >
-                </button>
-
-            </form>
+            </section>
 
             <!-- 얼굴형별 추천 -->
             <section class="home-section">
 
-                <div class="section-header">
-
+                <div class="section-heading">
                     <h2 class="section-title">
                         얼굴형별 추천
                     </h2>
 
                     <a
-                        class="view-all"
+                        class="section-more"
                         href="./explore.html"
                     >
                         전체 보기
                     </a>
-
                 </div>
 
-                <!--
-                    라디오 버튼과 wrapper div를 모두 제거했다.
-                    다섯 요소가 grid의 직접 자식이라 한 줄로 정렬된다.
-                -->
-                <div class="face-category-list">
+                <div class="face-shape-list">
 
-                    <!-- 라운드 클릭 시 home-1.html 이동 -->
                     <a
-                        class="face-category"
-                        href="./home-1.html"
+                        class="face-shape-button"
+                        href="./explore.html?shape=round"
                     >
-                        <img
-                            class="face-icon"
-                            src="./icons/04_face-round.svg"
-                            alt=""
-                        >
-
-                        <span class="face-label">
-                            라운드
-                        </span>
+                        <span class="face-icon">○</span>
+                        <span class="face-label">라운드</span>
                     </a>
 
-                    <button
-                        class="face-category"
-                        type="button"
+                    <a
+                        class="face-shape-button"
+                        href="./explore.html?shape=square"
                     >
-                        <img
-                            class="face-icon"
-                            src="./icons/05_face-square.svg"
-                            alt=""
-                        >
+                        <span class="face-icon">□</span>
+                        <span class="face-label">스퀘어</span>
+                    </a>
 
-                        <span class="face-label">
-                            스퀘어
-                        </span>
-                    </button>
-
-                    <button
-                        class="face-category"
-                        type="button"
+                    <a
+                        class="face-shape-button"
+                        href="./explore.html?shape=oval"
                     >
-                        <img
-                            class="face-icon"
-                            src="./icons/06_face-oval.svg"
-                            alt=""
-                        >
+                        <span class="face-icon">⬭</span>
+                        <span class="face-label">오벌</span>
+                    </a>
 
-                        <span class="face-label">
-                            오벌
-                        </span>
-                    </button>
-
-                    <button
-                        class="face-category"
-                        type="button"
+                    <a
+                        class="face-shape-button"
+                        href="./explore.html?shape=heart"
                     >
-                        <img
-                            class="face-icon"
-                            src="./icons/07_face-heart.svg"
-                            alt=""
-                        >
+                        <span class="face-icon">♡</span>
+                        <span class="face-label">하트</span>
+                    </a>
 
-                        <span class="face-label">
-                            하트
-                        </span>
-                    </button>
-
-                    <button
-                        class="face-category"
-                        type="button"
+                    <a
+                        class="face-shape-button"
+                        href="./explore.html"
                     >
-                        <img
-                            class="face-icon"
-                            src="./icons/08_category.svg"
-                            alt=""
-                        >
-
-                        <span class="face-label">
-                            전체
-                        </span>
-                    </button>
+                        <span class="face-icon">▦</span>
+                        <span class="face-label">전체</span>
+                    </a>
 
                 </div>
 
@@ -807,118 +1112,88 @@
             <!-- 추천 아이웨어 -->
             <section class="home-section">
 
-                <div class="section-header">
-
+                <div class="section-heading">
                     <h2 class="section-title">
                         추천 아이웨어
                     </h2>
 
                     <a
-                        class="view-all"
-                        href="./products.html"
+                        class="section-more"
+                        href="./explore.html"
                     >
                         전체 보기
                     </a>
-
                 </div>
 
                 <div class="product-grid">
 
-                    <!-- 추천 제품 1 -->
-                    <article class="product-card">
-
-                        <a
-                            class="product-link"
-                            href="./product-detail.html"
-                        >
-
-                            <div class="product-image-box">
-                                <img
-                                    class="product-image"
-                                    src="./images/02_recommend-glasses-01.png"
-                                    alt="브라운 클래식 스퀘어 프레임"
-                                >
-                            </div>
-
-                            <div class="product-info">
-
-                                <p class="product-name">
-                                    클래식 스퀘어 프레임
-                                </p>
-
-                                <p class="product-model">
-                                    Life 01
-                                </p>
-
-                                <p class="product-price">
-                                    ₩249,000
-                                </p>
-
-                            </div>
-
-                        </a>
-
-                        <button
-                            class="product-save-button"
-                            type="button"
-                            aria-label="첫 번째 제품 저장"
-                        >
+                    <a
+                        class="product-card"
+                        href="./product-detail.html"
+                    >
+                        <div class="product-image-wrap">
                             <img
-                                class="product-heart-icon"
-                                src="./icons/09_product-heart.svg"
-                                alt=""
+                                class="product-image"
+                                src="./images/02_recommend-glasses-01.png"
+                                alt="검은색 클래식 스퀘어 프레임 안경"
                             >
-                        </button>
+                        </div>
 
-                    </article>
+                        <div class="product-info">
+                            <p class="product-category">
+                                클래식 스퀘어 프레임
+                            </p>
 
-                    <!-- 추천 제품 2 -->
-                    <article class="product-card">
+                            <p class="product-name">
+                                Life 01
+                            </p>
 
-                        <a
-                            class="product-link"
-                            href="./product-detail.html"
-                        >
+                            <p class="product-price">
+                                ₩249,000
+                            </p>
 
-                            <div class="product-image-box">
-                                <img
-                                    class="product-image"
-                                    src="./images/03_recommend-glasses-02.png"
-                                    alt="카키 클래식 스퀘어 프레임"
-                                >
-                            </div>
+                            <span
+                                class="product-heart"
+                                aria-hidden="true"
+                            >
+                                ♡
+                            </span>
+                        </div>
+                    </a>
 
-                            <div class="product-info">
-
-                                <p class="product-name">
-                                    클래식 스퀘어 프레임
-                                </p>
-
-                                <p class="product-model">
-                                    Life 01
-                                </p>
-
-                                <p class="product-price">
-                                    ₩219,000
-                                </p>
-
-                            </div>
-
-                        </a>
-
-                        <button
-                            class="product-save-button"
-                            type="button"
-                            aria-label="두 번째 제품 저장"
-                        >
+                    <a
+                        class="product-card"
+                        href="./product-detail.html"
+                    >
+                        <div class="product-image-wrap">
                             <img
-                                class="product-heart-icon"
-                                src="./icons/09_product-heart.svg"
-                                alt=""
+                                class="product-image"
+                                src="./images/03_recommend-glasses-02.png"
+                                alt="카키색 클래식 스퀘어 프레임 안경"
                             >
-                        </button>
+                        </div>
 
-                    </article>
+                        <div class="product-info">
+                            <p class="product-category">
+                                클래식 스퀘어 프레임
+                            </p>
+
+                            <p class="product-name">
+                                Life 01
+                            </p>
+
+                            <p class="product-price">
+                                ₩219,000
+                            </p>
+
+                            <span
+                                class="product-heart"
+                                aria-hidden="true"
+                            >
+                                ♡
+                            </span>
+                        </div>
+                    </a>
 
                 </div>
 
@@ -927,108 +1202,644 @@
             <!-- 지금 인기 있는 제품 -->
             <section class="home-section">
 
-                <div class="section-header">
-
+                <div class="section-heading">
                     <h2 class="section-title">
                         지금 인기 있는 제품
                     </h2>
 
                     <a
-                        class="view-all"
-                        href="./products.html"
+                        class="section-more"
+                        href="./explore.html"
                     >
                         전체 보기
                     </a>
-
                 </div>
 
-                <div class="popular-grid">
+                <div class="product-grid">
 
                     <a
-                        class="popular-card"
+                        class="product-card"
                         href="./product-detail.html"
                     >
-                        <img
-                            class="popular-image"
-                            src="./images/04_popular-glasses-01.png"
-                            alt="브라운 인기 선글라스"
-                        >
+                        <div class="product-image-wrap">
+                            <img
+                                class="product-image"
+                                src="./images/04_popular-glasses-01.png"
+                                alt="브라운 컬러 인기 선글라스"
+                            >
+                        </div>
+
+                        <div class="product-info">
+                            <p class="product-category">
+                                베스트 컬렉션
+                            </p>
+
+                            <p class="product-name">
+                                Modern 02
+                            </p>
+
+                            <p class="product-price">
+                                ₩239,000
+                            </p>
+                        </div>
                     </a>
 
                     <a
-                        class="popular-card"
+                        class="product-card"
                         href="./product-detail.html"
                     >
-                        <img
-                            class="popular-image"
-                            src="./images/05_popular-glasses-02.png"
-                            alt="그레이 인기 선글라스"
-                        >
+                        <div class="product-image-wrap">
+                            <img
+                                class="product-image"
+                                src="./images/05_popular-glasses-02.png"
+                                alt="검은색 인기 선글라스"
+                            >
+                        </div>
+
+                        <div class="product-info">
+                            <p class="product-category">
+                                베스트 컬렉션
+                            </p>
+
+                            <p class="product-name">
+                                Modern 03
+                            </p>
+
+                            <p class="product-price">
+                                ₩259,000
+                            </p>
+                        </div>
                     </a>
 
                 </div>
 
             </section>
 
-        </div>
+        </main>
 
-        <!-- 하단 탭바 -->
+        <!-- =========================
+             하단 내비게이션
+        ========================== -->
         <nav
-            class="bottom-tabbar"
-            aria-label="주요 메뉴"
+            class="bottom-navigation"
+            aria-label="하단 메뉴"
         >
 
             <a
-                class="tab-item active"
+                class="bottom-nav-link active"
                 href="./home.html"
-                aria-current="page"
             >
                 <img
-                    class="tab-icon"
+                    class="bottom-nav-icon"
                     src="./icons/10_home.svg"
                     alt=""
                 >
-                <span>홈</span>
+                <span class="bottom-nav-label">홈</span>
             </a>
 
             <a
-                class="tab-item"
+                class="bottom-nav-link"
                 href="./explore.html"
             >
                 <img
-                    class="tab-icon"
+                    class="bottom-nav-icon"
                     src="./icons/11_explore.svg"
                     alt=""
                 >
-                <span>탐색</span>
+                <span class="bottom-nav-label">탐색</span>
             </a>
 
             <a
-                class="tab-item"
+                class="bottom-nav-link"
                 href="./saved.html"
             >
                 <img
-                    class="tab-icon"
+                    class="bottom-nav-icon"
                     src="./icons/12_saved.svg"
                     alt=""
                 >
-                <span>저장</span>
+                <span class="bottom-nav-label">저장</span>
             </a>
 
             <a
-                class="tab-item"
+                class="bottom-nav-link"
                 href="./my.html"
             >
                 <img
-                    class="tab-icon"
+                    class="bottom-nav-icon"
                     src="./icons/13_my.svg"
                     alt=""
                 >
-                <span>마이</span>
+                <span class="bottom-nav-label">마이</span>
             </a>
 
         </nav>
 
-    </main>
+        <!-- =========================
+             메뉴 뒤 검은 오버레이
+        ========================== -->
+        <button
+            type="button"
+            class="menu-overlay"
+            id="menuOverlay"
+            aria-label="메뉴 닫기"
+            tabindex="-1"
+        ></button>
+
+        <!-- =========================
+             왼쪽 슬라이드 메뉴
+        ========================== -->
+        <aside
+            class="mobile-drawer"
+            id="mobileDrawer"
+            aria-label="전체 메뉴"
+            aria-hidden="true"
+        >
+
+            <!-- 메뉴 상단 -->
+            <div class="drawer-header">
+
+                <a
+                    class="drawer-brand"
+                    href="./home.html"
+                >
+                    <img
+                        class="drawer-brand-symbol"
+                        src="./images/1_symbol.svg"
+                        alt="GAZE 얼굴 심볼 로고"
+                    >
+
+                    <span class="drawer-brand-name">
+                        GAZE
+                    </span>
+                </a>
+
+                <button
+                    type="button"
+                    class="menu-close-button"
+                    id="menuCloseButton"
+                    aria-label="전체 메뉴 닫기"
+                ></button>
+
+            </div>
+
+            <!--
+                로그인 전 프로필
+                localStorage에 gazeLoggedIn 값이 없으면 표시됩니다.
+            -->
+            <section
+                class="profile-card profile-state"
+                id="loggedOutProfile"
+            >
+
+                <div class="profile-top">
+
+                    <img
+                        class="profile-image"
+                        src="./icons/06/hugeicons_user-circle.svg"
+                        alt="로그인 전 기본 프로필 이미지"
+                    >
+
+                    <div>
+                        <p class="profile-name">
+                            GAZE에 오신 것을 환영해요
+                        </p>
+
+                        <p class="profile-message">
+                            로그인하고 나만의<br>
+                            아이웨어를 저장해보세요.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="login-action-grid">
+
+                    <a
+                        class="login-action-link login-link drawer-link"
+                        href="./login.html"
+                    >
+                        로그인
+                    </a>
+
+                    <a
+                        class="login-action-link signup-link drawer-link"
+                        href="./signup.html"
+                    >
+                        회원가입
+                    </a>
+
+                </div>
+
+            </section>
+
+            <!--
+                로그인 후 프로필
+                Ellipse 1.svg 이미지는 삭제하지 않고 그대로 사용합니다.
+            -->
+            <section
+                class="profile-card profile-state"
+                id="loggedInProfile"
+                hidden
+            >
+
+                <div class="profile-top">
+
+                    <img
+                        class="profile-image"
+                        src="./icons/06/Ellipse 1.svg"
+                        alt="김가은님 프로필 사진"
+                    >
+
+                    <div>
+                        <p class="profile-name">
+                            안녕하세요, 김가은님
+                        </p>
+
+                        <p class="profile-message">
+                            오늘도 나만의<br>
+                            스타일 여정을 시작해보세요.
+                        </p>
+                    </div>
+
+                </div>
+
+                <a
+                    class="mypage-button drawer-link"
+                    href="./my.html"
+                >
+                    마이페이지 바로가기
+                </a>
+
+            </section>
+
+            <!-- 빠른 메뉴 -->
+            <div class="quick-menu-grid">
+
+                <a
+                    class="quick-menu-link drawer-link"
+                    href="./store-finder.html"
+                >
+                    <span class="quick-icon">
+                        <img
+                            class="quick-icon-image"
+                            src="./icons/06/icon-park-outline_local-ktwo.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="quick-menu-copy">
+                        <span class="quick-menu-name">
+                            매장 찾기
+                        </span>
+
+                        <span class="quick-menu-sub">
+                            매장 검색
+                        </span>
+                    </span>
+
+                    <img
+                        class="quick-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="quick-menu-link drawer-link"
+                    href="./my.html"
+                >
+                    <span class="quick-icon">
+                        <img
+                            class="quick-icon-image"
+                            src="./icons/06/icon-park-outline_local-two.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="quick-menu-copy">
+                        <span class="quick-menu-name">
+                            예약확인
+                        </span>
+
+                        <span class="quick-menu-sub">
+                            일정 확인
+                        </span>
+                    </span>
+
+                    <img
+                        class="quick-arrow-image"
+                        src="./icons/06/grommet-icons_next-1.svg"
+                        alt=""
+                    >
+                </a>
+
+            </div>
+
+            <!-- 주요 메뉴 -->
+            <nav
+                class="drawer-menu-group"
+                aria-label="주요 메뉴"
+            >
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./home.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/garden_home-stroke-12.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">
+                        홈
+                    </span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./explore.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/icons.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">
+                        탐색
+                    </span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./saved.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/icons-1.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">
+                        저장 목록
+                    </span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+                <a
+                    class="drawer-menu-link drawer-link"
+                    href="./my.html"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/hugeicons_user-circle.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">
+                        마이페이지
+                    </span>
+
+                    <img
+                        class="drawer-menu-arrow-image"
+                        src="./icons/06/grommet-icons_next.svg"
+                        alt=""
+                    >
+                </a>
+
+            </nav>
+
+            <!-- 고객센터·설정: 화면만 표시하고 하이퍼링크는 제거 -->
+            <div
+                class="drawer-menu-group"
+                aria-label="고객 지원 메뉴"
+            >
+
+                <div
+                    class="drawer-menu-link static-menu-item"
+                    aria-label="고객센터"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/qlementine-icons_headset-16.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">
+                        고객센터
+                    </span>
+
+                    <span aria-hidden="true"></span>
+                </div>
+
+                <div
+                    class="drawer-menu-link static-menu-item"
+                    aria-label="설정"
+                >
+                    <span class="drawer-menu-icon">
+                        <img
+                            class="drawer-menu-icon-image"
+                            src="./icons/06/solar_settings-linear.svg"
+                            alt=""
+                        >
+                    </span>
+
+                    <span class="drawer-menu-name">
+                        설정
+                    </span>
+
+                    <span aria-hidden="true"></span>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+    <script>
+        /* =========================
+           모바일 슬라이드 메뉴 기능
+        ========================= */
+
+        const menuOpenButton =
+            document.getElementById("menuOpenButton");
+
+        const menuCloseButton =
+            document.getElementById("menuCloseButton");
+
+        const mobileDrawer =
+            document.getElementById("mobileDrawer");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+        const drawerLinks =
+            document.querySelectorAll(".drawer-link");
+
+        const loggedOutProfile =
+            document.getElementById("loggedOutProfile");
+
+        const loggedInProfile =
+            document.getElementById("loggedInProfile");
+
+        /*
+            로그인 상태 확인
+
+            로그인 성공 화면에서 아래 코드를 실행하면:
+            localStorage.setItem("gazeLoggedIn", "true");
+
+            로그아웃할 때는:
+            localStorage.removeItem("gazeLoggedIn");
+        */
+        function updateLoginState() {
+            const urlParameters =
+                new URLSearchParams(window.location.search);
+
+            /*
+                login.html에서
+                home.html?login=success 로 돌아오면 로그인 상태 저장
+            */
+            if (
+                urlParameters.get("login") === "success"
+            ) {
+                localStorage.setItem(
+                    "gazeLoggedIn",
+                    "true"
+                );
+            }
+
+            /*
+                home.html?logout=true 로 접속하면 로그아웃
+            */
+            if (
+                urlParameters.get("logout") === "true"
+            ) {
+                localStorage.removeItem(
+                    "gazeLoggedIn"
+                );
+            }
+
+            const isLoggedIn =
+                localStorage.getItem(
+                    "gazeLoggedIn"
+                ) === "true";
+
+            loggedOutProfile.hidden = isLoggedIn;
+            loggedInProfile.hidden = !isLoggedIn;
+        }
+
+        /* 메뉴 열기 */
+        function openMobileMenu() {
+            mobileDrawer.classList.add("is-open");
+            menuOverlay.classList.add("is-visible");
+            document.body.classList.add("menu-open");
+
+            menuOpenButton.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+            mobileDrawer.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            setTimeout(function () {
+                menuCloseButton.focus();
+            }, 100);
+        }
+
+        /* 메뉴 닫기 */
+        function closeMobileMenu() {
+            mobileDrawer.classList.remove("is-open");
+            menuOverlay.classList.remove("is-visible");
+            document.body.classList.remove("menu-open");
+
+            menuOpenButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            mobileDrawer.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+        }
+
+        /* 햄버거 버튼 클릭 */
+        menuOpenButton.addEventListener(
+            "click",
+            openMobileMenu
+        );
+
+        /* X 닫기 버튼 클릭 */
+        menuCloseButton.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+        /* 메뉴 바깥 검은 영역 클릭 */
+        menuOverlay.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+        /* 메뉴 링크를 누르면 메뉴 닫기 */
+        drawerLinks.forEach(function (link) {
+            link.addEventListener(
+                "click",
+                closeMobileMenu
+            );
+        });
+
+        /* 키보드 ESC를 눌러도 메뉴 닫기 */
+        document.addEventListener(
+            "keydown",
+            function (event) {
+                if (
+                    event.key === "Escape" &&
+                    mobileDrawer.classList.contains(
+                        "is-open"
+                    )
+                ) {
+                    closeMobileMenu();
+                    menuOpenButton.focus();
+                }
+            }
+        );
+
+        /* 페이지가 열릴 때 로그인 전·후 상태 적용 */
+        updateLoginState();
+    </script>
 </body>
 </html>

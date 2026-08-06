@@ -10,6 +10,12 @@
 
     <title>GAZE Round Recommendation</title>
 
+    <!-- Swiper 공식 스타일 -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    >
+
     <style>
         :root {
             --primary: #1f2a44;
@@ -1142,6 +1148,217 @@
         .mypage-button:active {
             opacity: 0.78;
         }
+
+        /* =========================
+           Swiper 자동 배너 슬라이드
+        ========================= */
+        .home-one-banner {
+            position: relative;
+
+            width: 100%;
+            height: 208px;
+
+            overflow: hidden;
+            border-radius: 8px;
+
+            background-color: #222222;
+        }
+
+        .home-one-banner-slide {
+            position: relative;
+
+            width: 100%;
+            height: 208px;
+
+            overflow: hidden;
+        }
+
+        .home-one-banner-slide::after {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(10, 15, 25, 0.60) 0%,
+                    rgba(10, 15, 25, 0.20) 56%,
+                    rgba(10, 15, 25, 0.03) 100%
+                );
+
+            content: "";
+            pointer-events: none;
+        }
+
+        .home-one-banner-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .home-one-banner-content {
+            position: absolute;
+            top: 44px;
+            left: 24px;
+            z-index: 2;
+
+            max-width: 210px;
+        }
+
+        .home-one-banner-title {
+            color: #ffffff;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        .home-one-banner-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 40px;
+
+            margin-top: 14px;
+            padding: 0 12px;
+
+            border-radius: 8px;
+
+            background-color: rgba(31, 42, 68, 0.94);
+            color: #ffffff;
+
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 18px;
+        }
+
+        .home-one-banner-button:active {
+            opacity: 0.82;
+        }
+
+        /* 이전·다음 버튼: 은아 SVG만 작게 표시 */
+        .home-one-arrow-button {
+            position: absolute;
+            top: 52%;
+            z-index: 20;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 28px;
+            height: 36px;
+
+            margin: 0;
+            padding: 0;
+
+            border: 0;
+
+            background-color: transparent;
+
+            transform: translateY(-50%);
+        }
+
+        .home-one-prev-button {
+            left: 6px;
+        }
+
+        .home-one-next-button {
+            right: 6px;
+        }
+
+        .home-one-arrow-image {
+            display: block;
+
+            width: 12px;
+            height: 20px;
+
+            max-width: none;
+
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .home-one-next-button .home-one-arrow-image {
+            transform: rotate(180deg);
+        }
+
+        .home-one-arrow-button:active {
+            opacity: 0.7;
+        }
+
+        /* 페이지 점과 현재 번호 */
+        .home-one-banner-status {
+            position: absolute;
+            right: 12px;
+            bottom: 10px;
+            left: 12px;
+            z-index: 5;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            pointer-events: none;
+        }
+
+        .home-one-banner .swiper-pagination {
+            position: static;
+
+            display: flex;
+            align-items: center;
+
+            width: auto;
+
+            gap: 6px;
+            pointer-events: auto;
+        }
+
+        .home-one-banner .swiper-pagination-bullet {
+            width: 7px;
+            height: 7px;
+
+            margin: 0 !important;
+
+            background-color: rgba(255, 255, 255, 0.62);
+            opacity: 1;
+        }
+
+        .home-one-banner
+        .swiper-pagination-bullet-active {
+            width: 18px;
+
+            border-radius: 8px;
+
+            background-color: #ffffff;
+        }
+
+        .home-one-banner-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 48px;
+            height: 24px;
+
+            padding: 0 8px;
+
+            border-radius: 12px;
+
+            background-color: rgba(31, 42, 68, 0.76);
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 16px;
+
+            pointer-events: none;
+        }
+
     </style>
 </head>
 
@@ -1187,28 +1404,138 @@
 
             </header>
 
-            <!-- 메인 배너 -->
-            <section class="hero-banner">
+            <!-- Swiper 자동 메인 배너 -->
+            <section
+                class="home-one-banner swiper"
+                aria-label="GAZE 메인 배너 슬라이드"
+            >
 
-                <img
-                    class="hero-image"
-                    src="./images/01_home-banner.jpg"
-                    alt="선글라스를 착용하고 커피를 들고 있는 여성"
+                <div class="swiper-wrapper">
+
+                    <!-- 슬라이드 1 -->
+                    <article class="swiper-slide home-one-banner-slide">
+
+                        <img
+                            class="home-one-banner-image"
+                            src="./images/01_home-banner.jpg"
+                            alt="검은색 선글라스를 착용하고 커피를 들고 있는 모델"
+                        >
+
+                        <div class="home-one-banner-content">
+
+                            <h1 class="home-one-banner-title">
+                                나에게 어울리는<br>
+                                프레임 찾기
+                            </h1>
+
+                            <a
+                                class="home-one-banner-button"
+                                href="./explore.html"
+                            >
+                                맞춤 추천 시작하기
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <!-- 슬라이드 2 -->
+                    <article class="swiper-slide home-one-banner-slide">
+
+                        <img
+                            class="home-one-banner-image"
+                            src="./images/01.png"
+                            alt="GAZE 매장에 진열된 다양한 아이웨어"
+                        >
+
+                        <div class="home-one-banner-content">
+
+                            <h2 class="home-one-banner-title">
+                                지금 인기 있는<br>
+                                프레임
+                            </h2>
+
+                            <a
+                                class="home-one-banner-button"
+                                href="./products.html"
+                            >
+                                클릭해서 보기
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <!-- 슬라이드 3 -->
+                    <article class="swiper-slide home-one-banner-slide">
+
+                        <img
+                            class="home-one-banner-image"
+                            src="./images/02.png"
+                            alt="밝은 조명의 GAZE 아이웨어 매장 내부"
+                        >
+
+                        <div class="home-one-banner-content">
+
+                            <h2 class="home-one-banner-title">
+                                매장에서<br>
+                                직접 써보고 결정
+                            </h2>
+
+                            <a
+                                class="home-one-banner-button"
+                                href="./store-finder.html"
+                            >
+                                가까운 매장 찾기
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <!-- 이전 버튼 -->
+                <button
+                    class="home-one-arrow-button home-one-prev-button"
+                    type="button"
+                    aria-label="이전 배너 보기"
                 >
-
-                <div class="hero-content">
-
-                    <h1 class="hero-title">
-                        나에게 어울리는<br>
-                        프레임 찾기
-                    </h1>
-
-                    <a
-                        class="recommend-button"
-                        href="./explore.html"
+                    <img
+                        class="home-one-arrow-image"
+                        src="./icons/06/grommet-icons_previous.svg"
+                        alt=""
                     >
-                        맞춤 추천 시작하기
-                    </a>
+                </button>
+
+                <!-- 다음 버튼 -->
+                <button
+                    class="home-one-arrow-button home-one-next-button"
+                    type="button"
+                    aria-label="다음 배너 보기"
+                >
+                    <img
+                        class="home-one-arrow-image"
+                        src="./icons/06/grommet-icons_previous.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="home-one-banner-status">
+
+                    <div
+                        class="swiper-pagination"
+                        aria-label="배너 페이지 선택"
+                    ></div>
+
+                    <p
+                        class="home-one-banner-count"
+                        aria-live="polite"
+                    >
+                        <span id="homeOneCurrentSlide">1</span>
+                        /
+                        <span id="homeOneTotalSlide">3</span>
+                    </p>
 
                 </div>
 
@@ -1908,7 +2235,97 @@
 
     </main>
 
+    <!-- Swiper 공식 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
     <script>
+        /* =========================
+           Swiper 자동 배너
+        ========================= */
+        const homeOneCurrentSlide =
+            document.getElementById(
+                "homeOneCurrentSlide"
+            );
+
+        const homeOneTotalSlide =
+            document.getElementById(
+                "homeOneTotalSlide"
+            );
+
+        const homeOneBannerSwiper =
+            new Swiper(".home-one-banner", {
+                loop: true,
+                speed: 600,
+                allowTouchMove: true,
+
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: false
+                },
+
+                navigation: {
+                    prevEl:
+                        ".home-one-prev-button",
+
+                    nextEl:
+                        ".home-one-next-button"
+                },
+
+                pagination: {
+                    el:
+                        ".home-one-banner .swiper-pagination",
+
+                    clickable: true
+                },
+
+                keyboard: {
+                    enabled: true
+                },
+
+                on: {
+                    init: function () {
+                        updateHomeOneBannerNumber(this);
+                    },
+
+                    slideChange: function () {
+                        updateHomeOneBannerNumber(this);
+                    }
+                }
+            });
+
+        function updateHomeOneBannerNumber(swiper) {
+            homeOneCurrentSlide.textContent =
+                swiper.realIndex + 1;
+
+            homeOneTotalSlide.textContent = "3";
+        }
+
+
+
+        /* =========================
+           배너 자동재생 제어
+        ========================= */
+        function stopHomeOneBannerAutoplay() {
+            if (
+                homeOneBannerSwiper &&
+                homeOneBannerSwiper.autoplay
+            ) {
+                homeOneBannerSwiper.autoplay.stop();
+            }
+        }
+
+        function restartHomeOneBannerAutoplay() {
+            if (
+                homeOneBannerSwiper &&
+                homeOneBannerSwiper.autoplay
+            ) {
+                homeOneBannerSwiper.update();
+                homeOneBannerSwiper.autoplay.stop();
+                homeOneBannerSwiper.autoplay.start();
+            }
+        }
+
         /* =========================
            모바일 슬라이드 메뉴와 로그인 상태
         ========================= */
@@ -1967,6 +2384,8 @@
         }
 
         function openMobileMenu() {
+            stopHomeOneBannerAutoplay();
+
             mobileDrawer.classList.add("is-open");
             menuOverlay.classList.add("is-visible");
             document.body.classList.add("menu-open");
@@ -1999,6 +2418,11 @@
             mobileDrawer.setAttribute(
                 "aria-hidden",
                 "true"
+            );
+
+            setTimeout(
+                restartHomeOneBannerAutoplay,
+                350
             );
         }
 
@@ -2037,6 +2461,20 @@
                     menuOpenButton.focus();
                 }
             }
+        );
+
+        document.addEventListener(
+            "visibilitychange",
+            function () {
+                if (!document.hidden) {
+                    restartHomeOneBannerAutoplay();
+                }
+            }
+        );
+
+        window.addEventListener(
+            "pageshow",
+            restartHomeOneBannerAutoplay
         );
 
         updateLoginState();

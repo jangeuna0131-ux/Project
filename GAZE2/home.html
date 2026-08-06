@@ -11,6 +11,13 @@
 
     <title>GAZE 홈</title>
 
+    <!-- Swiper 공식 스타일 -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    >
+
+    <!-- GAZE 홈 전체 스타일: 한 파일 안에 포함 -->
     <style>
         /* =========================
            1. 기본 설정
@@ -308,8 +315,12 @@
             border-width: 0 0 2px 2px;
         }
 
-        /* 메인 배너 */
+        /* =========================
+           Swiper 메인 배너
+        ========================= */
         .main-banner {
+            position: relative;
+
             width: 100%;
             height: 208px;
 
@@ -321,12 +332,199 @@
             background-color: #e8e3dc;
         }
 
+        .main-banner .swiper-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .main-banner-slide {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+        }
+
         .main-banner-image {
             width: 100%;
             height: 100%;
 
             object-fit: cover;
             object-position: center;
+        }
+
+        /* 배너 글씨가 잘 보이도록 어두운 그라데이션 */
+        .main-banner-slide::after {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(10, 15, 25, 0.68) 0%,
+                    rgba(10, 15, 25, 0.28) 55%,
+                    rgba(10, 15, 25, 0.04) 100%
+                );
+
+            content: "";
+            pointer-events: none;
+        }
+
+        .main-banner-content {
+            position: absolute;
+            top: 42px;
+            left: 20px;
+            z-index: 2;
+
+            max-width: 216px;
+        }
+
+        .main-banner-title {
+            color: #ffffff;
+
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 27px;
+            letter-spacing: -0.4px;
+
+            word-break: keep-all;
+        }
+
+        .main-banner-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 36px;
+
+            margin-top: 14px;
+            padding: 0 12px;
+
+            border-radius: 8px;
+
+            background-color: rgba(31, 42, 68, 0.95);
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 16px;
+        }
+
+        .main-banner-button:active {
+            opacity: 0.82;
+        }
+
+        /* 이전·다음 버튼: 은아 SVG만 작게 표시 */
+        .banner-arrow-button {
+            position: absolute;
+            top: 52%;
+            z-index: 20;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 28px;
+            height: 36px;
+
+            margin: 0;
+            padding: 0;
+
+            border: 0;
+
+            background-color: transparent;
+
+            transform: translateY(-50%);
+        }
+
+        .banner-prev-button {
+            left: 6px;
+        }
+
+        .banner-next-button {
+            right: 6px;
+        }
+
+        .banner-arrow-image {
+            display: block;
+
+            width: 12px;
+            height: 20px;
+
+            max-width: none;
+
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        /*
+            오른쪽 화살표도 같은 Figma SVG를 사용하고
+            방향만 오른쪽으로 돌립니다.
+        */
+        .banner-next-button .banner-arrow-image {
+            transform: rotate(180deg);
+        }
+
+        .banner-arrow-button:active {
+            opacity: 0.7;
+        }
+
+        /* 페이지 점과 현재 슬라이드 표시 */
+        .banner-status {
+            position: absolute;
+            right: 12px;
+            bottom: 10px;
+            left: 12px;
+            z-index: 5;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            pointer-events: none;
+        }
+
+        .main-banner .swiper-pagination {
+            position: static;
+
+            display: flex;
+            align-items: center;
+
+            width: auto;
+
+            gap: 6px;
+
+            pointer-events: auto;
+        }
+
+        .main-banner .swiper-pagination-bullet {
+            width: 6px;
+            height: 6px;
+
+            margin: 0;
+
+            background-color: rgba(255, 255, 255, 0.72);
+            opacity: 1;
+        }
+
+        .main-banner .swiper-pagination-bullet-active {
+            width: 18px;
+
+            border-radius: 999px;
+
+            background-color: #ffffff;
+        }
+
+        .banner-count {
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 16px;
+
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
         }
 
         /* 공통 섹션 */
@@ -959,6 +1157,8 @@
         .mypage-button:active {
             opacity: 0.78;
         }
+    
+
     </style>
 </head>
 
@@ -1038,13 +1238,143 @@
                 </span>
             </a>
 
-            <!-- 메인 배너 -->
-            <section class="main-banner">
-                <img
-                    class="main-banner-image"
-                    src="./images/01_home-banner.jpg"
-                    alt="검은색 선글라스를 착용한 모델의 GAZE 아이웨어 메인 배너"
+            <!-- Swiper 메인 배너 -->
+            <section
+                class="main-banner swiper"
+                aria-label="GAZE 메인 배너 슬라이드"
+            >
+
+                <div class="swiper-wrapper">
+
+                    <!-- 슬라이드 1 -->
+                    <article class="swiper-slide main-banner-slide">
+
+                        <img
+                            class="main-banner-image"
+                            src="./images/01_home-banner.jpg"
+                            alt="검은색 선글라스를 착용하고 커피를 들고 있는 모델"
+                        >
+
+                        <div class="main-banner-content">
+
+                            <h1 class="main-banner-title">
+                                나에게 어울리는<br>
+                                프레임 찾기
+                            </h1>
+
+                            <a
+                                class="main-banner-button"
+                                href="./explore.html"
+                            >
+                                맞춤 추천 시작하기
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <!-- 슬라이드 2 -->
+                    <article class="swiper-slide main-banner-slide">
+
+                        <img
+                            class="main-banner-image"
+                            src="./images/01.png"
+                            alt="GAZE 매장에 진열된 다양한 아이웨어"
+                        >
+
+                        <div class="main-banner-content">
+
+                            <h2 class="main-banner-title">
+                                지금 인기 있는<br>
+                                프레임
+                            </h2>
+
+                            <a
+                                class="main-banner-button"
+                                href="./products.html"
+                            >
+                                클릭해서 보기
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <!-- 슬라이드 3 -->
+                    <article class="swiper-slide main-banner-slide">
+
+                        <img
+                            class="main-banner-image"
+                            src="./images/02.png"
+                            alt="밝은 조명의 GAZE 아이웨어 매장 내부"
+                        >
+
+                        <div class="main-banner-content">
+
+                            <h2 class="main-banner-title">
+                                매장에서<br>
+                                직접 써보고 결정
+                            </h2>
+
+                            <a
+                                class="main-banner-button"
+                                href="./store-finder.html"
+                            >
+                                가까운 매장 찾기
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <!-- 이전 버튼 -->
+                <button
+                    class="banner-arrow-button banner-prev-button"
+                    type="button"
+                    aria-label="이전 배너 보기"
                 >
+                    <img
+                        class="banner-arrow-image"
+                        src="./icons/06/grommet-icons_previous.svg"
+                        alt=""
+                    >
+                </button>
+
+                <!-- 다음 버튼 -->
+                <button
+                    class="banner-arrow-button banner-next-button"
+                    type="button"
+                    aria-label="다음 배너 보기"
+                >
+                    <img
+                        class="banner-arrow-image"
+                        src="./icons/06/grommet-icons_previous.svg"
+                        alt=""
+                    >
+                </button>
+
+                <div class="banner-status">
+
+                    <!-- 클릭 가능한 페이지네이션 -->
+                    <div
+                        class="swiper-pagination"
+                        aria-label="배너 페이지 선택"
+                    ></div>
+
+                    <!-- 현재 슬라이드 번호 -->
+                    <p
+                        class="banner-count"
+                        aria-live="polite"
+                    >
+                        <span id="currentSlideNumber">1</span>
+                        /
+                        <span id="totalSlideNumber">3</span>
+                    </p>
+
+                </div>
+
             </section>
 
             <!-- 얼굴형별 추천 -->
@@ -1686,7 +2016,111 @@
 
     </div>
 
+    <!-- Swiper 공식 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
+    <!-- GAZE 홈 전체 JavaScript: 한 파일 안에 포함 -->
     <script>
+        /* =========================
+           Swiper 메인 배너
+        ========================= */
+        const currentSlideNumber =
+            document.getElementById(
+                "currentSlideNumber"
+            );
+
+        const totalSlideNumber =
+            document.getElementById(
+                "totalSlideNumber"
+            );
+
+        const mainBannerSwiper =
+            new Swiper(".main-banner", {
+                /* 배너를 무한 반복 */
+                loop: true,
+
+                /* 슬라이드 이동 속도 */
+                speed: 600,
+
+                /* 손가락·마우스 드래그 허용 */
+                allowTouchMove: true,
+
+                /* 4초마다 자동 전환 */
+                autoplay: {
+                    delay: 4000,
+
+                    /*
+                        사용자가 드래그하거나 버튼을 눌러도
+                        자동 재생을 계속 유지
+                    */
+                    disableOnInteraction: false,
+
+                    pauseOnMouseEnter: false
+                },
+
+                /* 이전·다음 버튼 */
+                navigation: {
+                    prevEl: ".banner-prev-button",
+                    nextEl: ".banner-next-button"
+                },
+
+                /* 클릭 가능한 페이지 점 */
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true
+                },
+
+                /* 키보드 방향키 조작 */
+                keyboard: {
+                    enabled: true
+                },
+
+                /* 처음 실행될 때 슬라이드 번호 표시 */
+                on: {
+                    init: function () {
+                        updateBannerNumber(this);
+                    },
+
+                    /* 슬라이드가 바뀔 때 번호 갱신 */
+                    slideChange: function () {
+                        updateBannerNumber(this);
+                    }
+                }
+            });
+
+        function updateBannerNumber(swiper) {
+            currentSlideNumber.textContent =
+                swiper.realIndex + 1;
+
+            totalSlideNumber.textContent =
+                swiper.slides.length;
+        }
+
+
+
+        /* =========================
+           배너 자동재생 제어
+        ========================= */
+        function stopMainBannerAutoplay() {
+            if (
+                mainBannerSwiper &&
+                mainBannerSwiper.autoplay
+            ) {
+                mainBannerSwiper.autoplay.stop();
+            }
+        }
+
+        function restartMainBannerAutoplay() {
+            if (
+                mainBannerSwiper &&
+                mainBannerSwiper.autoplay
+            ) {
+                mainBannerSwiper.update();
+                mainBannerSwiper.autoplay.stop();
+                mainBannerSwiper.autoplay.start();
+            }
+        }
+
         /* =========================
            모바일 슬라이드 메뉴 기능
         ========================= */
@@ -1760,6 +2194,8 @@
 
         /* 메뉴 열기 */
         function openMobileMenu() {
+            stopMainBannerAutoplay();
+
             mobileDrawer.classList.add("is-open");
             menuOverlay.classList.add("is-visible");
             document.body.classList.add("menu-open");
@@ -1793,6 +2229,11 @@
             mobileDrawer.setAttribute(
                 "aria-hidden",
                 "true"
+            );
+
+            setTimeout(
+                restartMainBannerAutoplay,
+                350
             );
         }
 
@@ -1838,8 +2279,24 @@
             }
         );
 
+        document.addEventListener(
+            "visibilitychange",
+            function () {
+                if (!document.hidden) {
+                    restartMainBannerAutoplay();
+                }
+            }
+        );
+
+        window.addEventListener(
+            "pageshow",
+            restartMainBannerAutoplay
+        );
+
         /* 페이지가 열릴 때 로그인 전·후 상태 적용 */
         updateLoginState();
+    
+
     </script>
 </body>
 </html>

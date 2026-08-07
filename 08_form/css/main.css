@@ -1,0 +1,399 @@
+@charset "utf-8";
+/* =========================
+   기본 설정
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button {
+    font: inherit;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100svh;
+    padding: 32px 16px;
+
+    color: #ffffff;
+    background:
+        radial-gradient(circle at top, #27345f 0%, #101426 42%, #070910 100%);
+
+    font-family:
+        Arial,
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        sans-serif;
+}
+
+
+/* =========================
+   전체 게임 영역
+========================= */
+
+.game-wrap {
+    width: min(100%, 720px);
+    margin: 0 auto;
+}
+
+.game-header {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.game-label {
+    margin-bottom: 4px;
+
+    color: #8da2ff;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+}
+
+.game-header h1 {
+    font-size: clamp(44px, 8vw, 72px);
+    line-height: 1;
+    letter-spacing: 8px;
+    text-shadow:
+        0 0 10px rgba(95, 121, 255, 0.9),
+        0 0 30px rgba(95, 121, 255, 0.5);
+}
+
+
+/* =========================
+   게임 레이아웃
+========================= */
+
+.game-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 24px;
+}
+
+
+/* =========================
+   게임 보드
+========================= */
+
+.board-area {
+    position: relative;
+
+    flex-shrink: 0;
+    width: 304px;
+    height: 604px;
+
+    overflow: hidden;
+
+    border: 2px solid #5768b7;
+    border-radius: 8px;
+
+    background-color: #080b16;
+
+    box-shadow:
+        0 0 0 4px rgba(87, 104, 183, 0.16),
+        0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+#gameCanvas {
+    display: block;
+    width: 300px;
+    height: 600px;
+
+    background-color: #080b16;
+}
+
+
+/* =========================
+   시작 / 게임 오버 화면
+========================= */
+
+.game-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    text-align: center;
+
+    background-color: rgba(6, 8, 18, 0.88);
+    backdrop-filter: blur(5px);
+}
+
+.game-overlay.hidden {
+    display: none;
+}
+
+.game-overlay h2 {
+    margin-bottom: 12px;
+
+    font-size: 36px;
+    letter-spacing: 4px;
+}
+
+.game-overlay p {
+    margin-bottom: 24px;
+
+    color: #bbc2df;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   오른쪽 정보 패널
+========================= */
+
+.game-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: 190px;
+}
+
+.info-card,
+.next-card,
+.keyboard-guide {
+    padding: 16px;
+
+    border: 1px solid rgba(136, 151, 219, 0.32);
+    border-radius: 8px;
+
+    background-color: rgba(19, 24, 45, 0.9);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-title {
+    color: #97a4d5;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.info-card strong {
+    font-size: 22px;
+}
+
+.next-card {
+    text-align: center;
+}
+
+.next-card .info-title {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#nextCanvas {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+
+    border-radius: 4px;
+
+    background-color: #0a0e1c;
+}
+
+
+/* =========================
+   일반 버튼
+========================= */
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.primary-button,
+.secondary-button {
+    width: 100%;
+    min-height: 48px;
+
+    border: 0;
+    border-radius: 8px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.primary-button {
+    color: #ffffff;
+    background: linear-gradient(135deg, #5c76ff, #8a55ed);
+}
+
+.secondary-button {
+    color: #ffffff;
+    background-color: #2b3254;
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+    transform: translateY(-2px);
+}
+
+.primary-button:active,
+.secondary-button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   키보드 설명
+========================= */
+
+.keyboard-guide h2 {
+    margin-bottom: 12px;
+
+    font-size: 14px;
+}
+
+.keyboard-guide p {
+    margin-top: 8px;
+
+    color: #c4cae0;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 24px;
+    min-height: 24px;
+    padding: 3px 6px;
+    margin-right: 2px;
+
+    border: 1px solid #5b6489;
+    border-radius: 4px;
+
+    color: #ffffff;
+    background-color: #242a48;
+
+    font-size: 11px;
+    font-family: inherit;
+}
+
+
+/* =========================
+   모바일 조작 버튼
+========================= */
+
+.mobile-controls {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+
+    max-width: 520px;
+    margin: 24px auto 0;
+}
+
+.control-button {
+    min-height: 56px;
+
+    border: 1px solid rgba(139, 156, 230, 0.36);
+    border-radius: 8px;
+
+    color: #ffffff;
+    background-color: rgba(34, 41, 72, 0.96);
+
+    font-size: 20px;
+    font-weight: 800;
+
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.control-button:active {
+    transform: scale(0.96);
+    background-color: #5265c7;
+}
+
+.drop-button {
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================
+   작은 화면
+========================= */
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 12px 32px;
+    }
+
+    .game-header {
+        margin-bottom: 16px;
+    }
+
+    .game-header h1 {
+        font-size: 42px;
+    }
+
+    .game-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .game-panel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+
+        width: 304px;
+    }
+
+    .next-card {
+        grid-row: span 2;
+    }
+
+    .button-group,
+    .keyboard-guide {
+        grid-column: 1 / -1;
+    }
+
+    .keyboard-guide {
+        display: none;
+    }
+
+    .mobile-controls {
+        width: 304px;
+        margin-top: 16px;
+    }
+}

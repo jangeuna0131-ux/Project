@@ -1,0 +1,12 @@
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕""malgun gothic",sans-serif;}
+*{margin: 0;padding: 0;}
+h1{margin-bottom: 30px;}
+fieldset{padding: 36px; border: 3px solid red;}
+legend{color: red;}
+li{margin-bottom: 24px;}
+ul li{list-style: none;}
+input[type="text"]{border: none; border-bottom: 2px solid black;}
+input[type="password"]{border: none; border-bottom: 2px solid red;}
+.id{margin-left: 70px;}

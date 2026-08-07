@@ -1,103 +1,353 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>form과 관련된 요소들</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Tetris Battle Arcade</title>
+
+    <!-- CSS 연결 -->
     <link rel="stylesheet" href="./css/main.css">
 </head>
+
 <body>
-    <main class="game-wrap">
 
-        <!-- 제목 -->
-        <header class="game-header">
-            <p class="game-label">CLASSIC BLOCK GAME</p>
-            <h1>TETRIS</h1>
-        </header>
+    <!-- 화려한 아케이드 배경 -->
+    <div class="arcade-background" aria-hidden="true"></div>
 
-        <section class="game-layout">
+    <div class="game-app">
 
-            <!-- 테트리스 게임 화면 -->
-            <div class="board-area">
-                <canvas
-                    id="gameCanvas"
-                    width="300"
-                    height="600"
-                    aria-label="테트리스 게임 화면"
-                ></canvas>
+        <!-- =========================
+             상단 배틀 정보
+        ========================== -->
+        <header class="top-hud">
 
-                <!-- 시작 전 / 게임 오버 화면 -->
-                <div id="gameOverlay" class="game-overlay">
-                    <h2 id="overlayTitle">TETRIS</h2>
-                    <p id="overlayText">
-                        시작 버튼을 눌러주세요.
-                    </p>
+            <div class="hud-team hud-team--blue">
+                <span class="hud-name">PLAYER 1</span>
 
-                    <button
-                        id="overlayStartButton"
-                        class="primary-button"
-                        type="button"
-                    >
-                        게임 시작
-                    </button>
+                <div class="hp-track">
+                    <span id="playerHp" class="hp-fill"></span>
                 </div>
+
+                <strong>HP 187</strong>
             </div>
 
-            <!-- 게임 정보 -->
-            <aside class="game-panel">
+            <div class="game-logo">
+                <span>ARCADE</span>
+                <h1>TETRIS</h1>
+                <p>BLOCK BATTLE</p>
+            </div>
 
-                <div class="info-card">
-                    <span class="info-title">SCORE</span>
-                    <strong id="score">0</strong>
+            <div class="hud-team hud-team--red">
+                <span class="hud-name">TARGET</span>
+
+                <div class="hp-track">
+                    <span class="hp-fill"></span>
                 </div>
 
-                <div class="info-card">
-                    <span class="info-title">HIGH SCORE</span>
-                    <strong id="highScore">0</strong>
+                <strong>HP 167</strong>
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             게임 전체 영역
+        ========================== -->
+        <main class="game-layout">
+
+            <!-- =========================
+                 왼쪽 패널
+            ========================== -->
+            <aside class="side-panel left-panel">
+
+                <!-- 플레이어 -->
+                <section class="panel-box player-card">
+
+                    <p class="panel-kicker">PLAYER</p>
+
+                    <div class="pixel-avatar" aria-hidden="true">
+                        <span class="avatar-eye avatar-eye--left"></span>
+                        <span class="avatar-eye avatar-eye--right"></span>
+                        <span class="avatar-mouth"></span>
+                    </div>
+
+                    <h2>BLOCK MASTER</h2>
+
+                    <p>
+                        선을 지우고 최고 점수를
+                        갱신하세요.
+                    </p>
+
+                </section>
+
+
+                <!-- HOLD -->
+                <section class="panel-box hold-card">
+
+                    <div class="panel-title-row">
+                        <h2>HOLD</h2>
+                        <span>C KEY</span>
+                    </div>
+
+                    <canvas
+                        id="holdCanvas"
+                        width="140"
+                        height="100"
+                        aria-label="보관한 블록"
+                    ></canvas>
+
+                </section>
+
+
+                <!-- 블록 통계 -->
+                <section class="panel-box statistics-card">
+
+                    <div class="panel-title-row">
+                        <h2>STATISTICS</h2>
+                        <span>COUNT</span>
+                    </div>
+
+                    <ul class="statistics-list">
+
+                        <li>
+                            <span class="type-chip type-i">I</span>
+                            <span>I PIECE</span>
+                            <strong data-stat="I">000</strong>
+                        </li>
+
+                        <li>
+                            <span class="type-chip type-j">J</span>
+                            <span>J PIECE</span>
+                            <strong data-stat="J">000</strong>
+                        </li>
+
+                        <li>
+                            <span class="type-chip type-l">L</span>
+                            <span>L PIECE</span>
+                            <strong data-stat="L">000</strong>
+                        </li>
+
+                        <li>
+                            <span class="type-chip type-o">O</span>
+                            <span>O PIECE</span>
+                            <strong data-stat="O">000</strong>
+                        </li>
+
+                        <li>
+                            <span class="type-chip type-s">S</span>
+                            <span>S PIECE</span>
+                            <strong data-stat="S">000</strong>
+                        </li>
+
+                        <li>
+                            <span class="type-chip type-t">T</span>
+                            <span>T PIECE</span>
+                            <strong data-stat="T">000</strong>
+                        </li>
+
+                        <li>
+                            <span class="type-chip type-z">Z</span>
+                            <span>Z PIECE</span>
+                            <strong data-stat="Z">000</strong>
+                        </li>
+
+                    </ul>
+
+                </section>
+
+            </aside>
+
+
+            <!-- =========================
+                 중앙 테트리스 보드
+            ========================== -->
+            <section class="center-stage">
+
+                <div class="stage-status">
+
+                    <span>STAGE 01</span>
+
+                    <strong id="statusText">READY</strong>
+
+                    <span>
+                        LINES
+                        <b id="linesTop">000</b>
+                    </span>
+
                 </div>
 
-                <div class="info-card">
-                    <span class="info-title">LEVEL</span>
-                    <strong id="level">1</strong>
+
+                <div class="board-frame">
+
+                    <canvas
+                        id="gameCanvas"
+                        width="300"
+                        height="600"
+                        aria-label="테트리스 게임 화면"
+                    ></canvas>
+
+
+                    <!-- 게임 시작·일시정지·게임 오버 화면 -->
+                    <div id="gameOverlay" class="game-overlay">
+
+                        <p class="overlay-small">READY?</p>
+
+                        <h2 id="overlayTitle">TETRIS</h2>
+
+                        <p id="overlayText">
+                            시작 버튼을 누르면
+                            게임이 시작됩니다.
+                        </p>
+
+                        <button
+                            id="overlayButton"
+                            type="button"
+                        >
+                            GAME START
+                        </button>
+
+                    </div>
+
                 </div>
 
-                <div class="info-card">
-                    <span class="info-title">LINES</span>
-                    <strong id="lines">0</strong>
+
+                <!-- 화면 조작 버튼 -->
+                <div
+                    class="mobile-controls"
+                    aria-label="게임 조작 버튼"
+                >
+
+                    <button
+                        type="button"
+                        data-action="left"
+                        aria-label="왼쪽 이동"
+                    >
+                        ◀
+                    </button>
+
+                    <button
+                        type="button"
+                        data-action="rotate"
+                        aria-label="블록 회전"
+                    >
+                        ↻
+                    </button>
+
+                    <button
+                        type="button"
+                        data-action="right"
+                        aria-label="오른쪽 이동"
+                    >
+                        ▶
+                    </button>
+
+                    <button
+                        type="button"
+                        data-action="down"
+                        aria-label="아래로 이동"
+                    >
+                        ▼
+                    </button>
+
+                    <button
+                        type="button"
+                        data-action="drop"
+                        class="drop-control"
+                        aria-label="블록 바로 내리기"
+                    >
+                        DROP
+                    </button>
+
                 </div>
 
-                <div class="next-card">
-                    <span class="info-title">NEXT</span>
+            </section>
+
+
+            <!-- =========================
+                 오른쪽 패널
+            ========================== -->
+            <aside class="side-panel right-panel">
+
+                <!-- 다음 블록 -->
+                <section class="panel-box next-card">
+
+                    <div class="panel-title-row">
+                        <h2>NEXT</h2>
+                        <span>QUEUE</span>
+                    </div>
 
                     <canvas
                         id="nextCanvas"
-                        width="120"
-                        height="120"
-                        aria-label="다음 블록"
+                        width="160"
+                        height="320"
+                        aria-label="다음 블록 목록"
                     ></canvas>
-                </div>
 
-                <div class="button-group">
+                </section>
+
+
+                <!-- 점수 -->
+                <section class="panel-box score-card">
+
+                    <p>TOP SCORE</p>
+                    <strong id="highScore">0000000</strong>
+
+                    <p>SCORE</p>
+                    <strong id="score">0000000</strong>
+
+                    <div class="score-grid">
+
+                        <div>
+                            <span>LEVEL</span>
+                            <b id="level">01</b>
+                        </div>
+
+                        <div>
+                            <span>LINES</span>
+                            <b id="lines">000</b>
+                        </div>
+
+                    </div>
+
+                    <div class="level-track">
+                        <span id="levelProgress"></span>
+                    </div>
+
+                </section>
+
+
+                <!-- 시작·정지 버튼 -->
+                <section class="panel-box action-card">
+
                     <button
                         id="startButton"
-                        class="primary-button"
                         type="button"
+                        class="main-button"
                     >
                         게임 시작
                     </button>
 
                     <button
                         id="pauseButton"
-                        class="secondary-button"
                         type="button"
+                        class="sub-button"
                         disabled
                     >
                         일시정지
                     </button>
-                </div>
 
-                <div class="keyboard-guide">
-                    <h2>조작 방법</h2>
+                </section>
+
+
+                <!-- 키보드 설명 -->
+                <section class="panel-box key-guide">
+
+                    <h2>CONTROL</h2>
 
                     <p>
                         <kbd>←</kbd>
@@ -112,76 +362,49 @@
 
                     <p>
                         <kbd>↑</kbd>
-                        블록 회전
+                        회전
                     </p>
 
                     <p>
-                        <kbd>Space</kbd>
-                        한 번에 내리기
+                        <kbd>SPACE</kbd>
+                        바로 내리기
+                    </p>
+
+                    <p>
+                        <kbd>C</kbd>
+                        블록 보관
                     </p>
 
                     <p>
                         <kbd>P</kbd>
                         일시정지
                     </p>
-                </div>
+
+                </section>
 
             </aside>
-        </section>
 
-        <!-- 모바일 조작 버튼 -->
-        <section class="mobile-controls" aria-label="모바일 게임 조작">
+        </main>
 
-            <button
-                class="control-button"
-                type="button"
-                data-action="left"
-                aria-label="왼쪽 이동"
-            >
-                ◀
-            </button>
 
-            <button
-                class="control-button"
-                type="button"
-                data-action="rotate"
-                aria-label="블록 회전"
-            >
-                ↻
-            </button>
+        <!-- =========================
+             하단 배틀 표시
+        ========================== -->
+        <footer class="battle-footer">
 
-            <button
-                class="control-button"
-                type="button"
-                data-action="right"
-                aria-label="오른쪽 이동"
-            >
-                ▶
-            </button>
+            <span>PLAYER 1</span>
 
-            <button
-                class="control-button"
-                type="button"
-                data-action="down"
-                aria-label="아래로 이동"
-            >
-                ▼
-            </button>
+            <strong>★ WINS ★</strong>
 
-            <button
-                class="control-button drop-button"
-                type="button"
-                data-action="drop"
-                aria-label="블록 바로 내리기"
-            >
-                DROP
-            </button>
+            <span>ARCADE MODE</span>
 
-        </section>
+        </footer>
 
-    </main>
+    </div>
+
 
     <!-- JavaScript 연결 -->
     <script src="./js/main.js"></script>
+
 </body>
 </html>

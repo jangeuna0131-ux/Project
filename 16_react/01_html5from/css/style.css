@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+body {
+    font-family: "궁서", "Gungsuh", serif;
+    background-color: #000;
+    color: #fff;
+}
+
+* {margin: 0;padding: 0;}
+h1{margin-bottom: 32px;}
+fieldset{padding: 36px;}
+li{margin-bottom: 12px;}
+.tel{width: 32px;}

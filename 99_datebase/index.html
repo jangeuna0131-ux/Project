@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼데이터베이스</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    
+<div class="formbox">
+    <form name="submit-to-google-sheet">
+        <input type="text" placeholder="이름을 입력하세요" name="Name">
+        <input type="text" name="Email" placeholder="이메일을 입력하세요">
+        <textarea name="Message" rows="6" id="" placeholder="메세지를 입력하세요"></textarea>
+        <input type="submit" value="Submit" class="btn">
+
+    </form>
+
+</div>
+
+
+    <script src="./js/script.js">
+
+
+<script>
+
+const scriptURL =
+
+"https://script.google.com/macros/s/AKfycbyp5kzgnvw9SLqXrREaM_VU6re9YRnoDpoNRMnewNMaOk1xi2AbLvxrb7MoYO5gwnld/exec"; // 자신의 app스크립트 주소 링크 넣는 위치
+
+const form = document.forms["submit-to-google-sheet"];
+
+const msg = document.getElementById("msg");
+
+​
+
+form.addEventListener("submit", (e) => {
+
+e.preventDefault();
+
+fetch(scriptURL, { method: "POST", body: new FormData(form) })
+
+.then((response) => {
+
+msg.innerHTML = "Message sent successfully";
+
+setTimeout(function () {
+
+msg.innerHTML = "";
+
+}, 5000);
+
+form.reset();
+
+})
+
+.catch((error) => console.error("Error!", error.message));
+
+});
+
+    </script>
+</body>
+</html>

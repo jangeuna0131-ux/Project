@@ -1,4 +1,3 @@
-<script>
 const scriptURL =
 "https://script.google.com/macros/s/AKfycbyLst13lr4QS8D0CbJPQx2VH9ksuago-UVddkwLsJDoh_3YpDoq4E8fKkBesqms-KuY5Q/exec";
 
@@ -31,4 +30,3 @@ form.addEventListener("submit", (e) => {
     });
 
 });
-</script>

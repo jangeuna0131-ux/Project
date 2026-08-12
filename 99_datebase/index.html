@@ -16,49 +16,12 @@
         <input type="submit" value="Submit" class="btn">
 
     </form>
-
+    <!-- 전송 상황을 메세지를 뿌리는 요소 -->
+<span id="msg"></span>
 </div>
 
 
-    <script src="./js/script.js">
+<script src="./js/script.js"></script>
 
-
-<script>
-
-const scriptURL =
-
-"https://script.google.com/macros/s/AKfycbyLst13lr4QS8D0CbJPQx2VH9ksuago-UVddkwLsJDoh_3YpDoq4E8fKkBesqms-KuY5Q/exec"; // 자신의 app스크립트 주소 링크 넣는 위치
-
-const form = document.forms["submit-to-google-sheet"];
-
-const msg = document.getElementById("msg");
-
-​
-
-form.addEventListener("submit", (e) => {
-
-e.preventDefault();
-
-fetch(scriptURL, { method: "POST", body: new FormData(form) })
-
-.then((response) => {
-
-msg.innerHTML = "Message sent successfully";
-
-setTimeout(function () {
-
-msg.innerHTML = "";
-
-}, 5000);
-
-form.reset();
-
-})
-
-.catch((error) => console.error("Error!", error.message));
-
-});
-
-    </script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 @charset "utf-8";
 
-body {
-    background-color: #111111;
-}
-
 * {
     margin: 0;
     padding: 0;
+}
+
+body {
+    background-color: #111111;
 }
 
 .formbox {
@@ -14,7 +14,8 @@ body {
     margin: 140px auto 0;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="email"] {
     width: 930px;
     height: 58px;
     background-color: #262626;
@@ -30,19 +31,21 @@ textarea {
     padding: 26px;
     box-sizing: border-box;
     margin-bottom: 45px;
-
     border: none;
 }
 
-.btn{
+.btn {
     padding: 24px 64px;
     background-color: #ff0050;
     color: #ffffff;
     font-weight: 900;
     border: none;
-    /* 테두리 라운드 하기 */
+
+    /* 테두리 라운드 */
     border-radius: 10px;
+
     font-size: 18px;
-    /* 버튼에 손모양 나오게 해주는 명령 */
+
+    /* 버튼에 마우스를 올리면 손가락 모양 */
     cursor: pointer;
 }

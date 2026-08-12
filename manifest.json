@@ -1,0 +1,15 @@
+{
+  "short_name": "MY SHADE",
+  "name": "MY SHADE — Personalized Color & Beauty Finder",
+  "icons": [
+    {
+      "src": "images/favicon.png",
+      "sizes": "220x220",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#F8F3EB",
+  "background_color": "#F8F3EB"
+}

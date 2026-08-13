@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "맑은 고딕", "malgun gothic", sans-serif;
+}
+
+/* 전체 박스 */
+.parent {
+    width: 1180px;
+    height: 160px;
+    margin: 0 auto;
+    display: flex;
+}
+
+/* 각각의 박스 */
+.parent div {
+    width: 393.33px;
+    height: 160px;
+    padding: 30px;
+}
+
+/* 첫 번째 */
+.parent .box1 {
+    background: #907354 url("../images/speed_menu_icon_02.png") no-repeat 234px center;
+}
+
+/* 두 번째 */
+.parent .box2 {
+    background: #434343 url("../images/speed_menu_icon_03.png") no-repeat 234px center;
+}
+
+/* 세 번째 */
+.parent .box3 {
+    background: #c30606 url("../images/speed_menu_icon_04.png") no-repeat 234px center;
+}
+
+/* 제목 */
+.parent div h2 {
+    font-size: 24px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* 문단 */
+.parent div p {
+    color: #fff;
+}
+}

@@ -1,0 +1,111 @@
+@charset "utf-8";
+
+* {margin: 0;
+    padding: 0;
+    box-sizing: border-box;}
+
+body {
+    font-family: "맑은 고딕", "malgun gothic", sans-serif;
+}
+
+ul, li {
+    list-style: none;
+}
+
+
+
+
+
+header {
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+
+    /* 가운데 빈 공간 확인용 */
+    background: #f5f3df;
+}
+
+header .logo {
+    width: 200px;
+    height: 100px;
+    background: #555;
+}
+
+header nav {
+    width: 600px;
+    height: 100px;
+    background: #966;
+}
+
+
+
+.slide {
+    width: 1200px;
+    height: 300px;
+    margin: 0 auto;
+    background: #ffe0b8;
+}
+
+
+
+.contents {
+    width: 1200px;
+    height: 200px;
+    margin: 0 auto;
+
+    display: flex;
+}
+
+.contents .notice {
+    width: 400px;
+    height: 200px;
+    background: green;
+}
+
+.contents .banner {
+    width: 400px;
+    height: 200px;
+    background: goldenrod;
+}
+
+.contents .go {
+    width: 400px;
+    height: 200px;
+    background: purple;
+}
+
+
+
+footer {
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+
+    display: flex;
+}
+
+.footer-logo {
+    width: 200px;
+    height: 100px;
+    background: yellow;
+}
+
+.footer-right {
+    width: 1000px;
+    height: 100px;
+}
+
+.footer-menu {
+    width: 1000px;
+    height: 50px;
+    background: teal;
+}
+
+.copyright {
+    width: 1000px;
+    height: 50px;
+    background: violet;
+}

@@ -31,13 +31,13 @@ header {
 header .logo {
     width: 200px;
     height: 100px;
-    background: #555;
+    background: #666000;
 }
 
 header nav {
     width: 600px;
     height: 100px;
-    background: #966;
+    background: #456789;
 }
 
 
@@ -46,7 +46,7 @@ header nav {
     width: 1200px;
     height: 300px;
     margin: 0 auto;
-    background: #ffe0b8;
+    background: #b51b5b;
 }
 
 
@@ -68,13 +68,13 @@ header nav {
 .contents .banner {
     width: 400px;
     height: 200px;
-    background: goldenrod;
+    background: rgb(122, 89, 125);
 }
 
 .contents .go {
     width: 400px;
     height: 200px;
-    background: purple;
+    background: #463245
 }
 
 
@@ -90,7 +90,7 @@ footer {
 .footer-logo {
     width: 200px;
     height: 100px;
-    background: yellow;
+    background: rgb(90, 20, 96);
 }
 
 .footer-right {
@@ -101,11 +101,11 @@ footer {
 .footer-menu {
     width: 1000px;
     height: 50px;
-    background: teal;
+    background: #789456;
 }
 
 .copyright {
     width: 1000px;
     height: 50px;
-    background: violet;
+    background: #123456;
 }

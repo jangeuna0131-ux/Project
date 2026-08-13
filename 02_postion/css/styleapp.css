@@ -20,7 +20,7 @@ body {
 
 .parent div {
     width: 200px;
-    height: 200px
+    height: 200px;
     position: absolute;
 }
 

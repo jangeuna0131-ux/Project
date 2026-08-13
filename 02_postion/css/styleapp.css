@@ -1,0 +1,111 @@
+@charset "utf-8";
+
+body {
+    font-family: "맑은 고딕", "malgun gothic", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.parent {
+    width: 1000px;
+    height: 1000px;
+    background: #87ceea;
+    margin: 0 auto;
+    position: relative;
+}
+
+.parent div {
+    width: 200px;
+    height: 200px
+    position: absolute;
+}
+
+
+.parent .box1 {
+    background: #81007f;
+    left: 0;
+    top: 0;
+}
+
+.parent .box2 {
+    background: #ffff00;
+    left: 100px;
+    top: 100px;
+}
+
+.parent .box3 {
+    background: #fe0000;
+    left: 200px;
+    top: 200px;
+}
+
+
+.parent .box4 {
+    background: #000;
+    left: 400px;
+    top: 400px;
+}
+
+
+.parent .box5 {
+    background: #81007f;
+    right: 0;
+    top: 0;
+}
+
+.parent .box6 {
+    background: #ffff00;
+    right: 100px;
+    top: 100px;
+}
+
+.parent .box10 {
+    background: #fe0000;
+    right: 200px;
+    top: 200px;
+}
+
+
+
+.parent .box7 {
+    background: #81007f;
+    left: 0;
+    bottom: 0;
+}
+
+.parent .box8 {
+    background: #ffff00;
+    left: 100px;
+    bottom: 100px;
+}
+
+.parent .box9 {
+    background: #fe0000;
+    left: 200px;
+    bottom: 200px;
+}
+
+
+
+
+.parent .box11 {
+    background: #81007f;
+    right: 0;
+    bottom: 0;
+}
+
+.parent .box12 {
+    background: #ffff00;
+    right: 100px;
+    bottom: 100px;
+}
+
+.parent .box13 {
+    background: #fe0000;
+    right: 200px;
+    bottom: 200px;
+}

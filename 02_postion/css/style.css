@@ -1,0 +1,158 @@
+@charset "utf-8";
+
+/* 기본 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "맑은 고딕", "malgun gothic", sans-serif;
+}
+
+
+/* =========================
+   기본 박스
+========================= */
+
+div {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+}
+
+
+/* =========================
+   BOX 1 - 빨간색
+   fixed = 화면에 고정
+========================= */
+
+.box1 {
+    background-color: #ff0000;
+
+    /* 화면에 고정 */
+    position: fixed;
+
+    /* 왼쪽 위 */
+    left: 0;
+    top: 0;
+
+    /* 다른 박스보다 앞으로 */
+    z-index: 100;
+}
+
+
+/* =========================
+   BOX 2 - 초록색
+   relative = 자식의 기준점
+========================= */
+
+.box2 {
+    background-color: #028002;
+
+    /* 자식 absolute의 기준점 */
+    position: relative;
+}
+
+
+/* box2 안의 작은 박스 */
+.box2 div {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #000;
+}
+
+
+/* =========================
+   CHILD 1 - 노란색
+   absolute = 공중에 띄움
+========================= */
+
+.box2 .chid1 {
+    background-color: #ffcc01;
+
+    position: absolute;
+
+    /* 부모 box2 기준 */
+    left: 30px;
+    top: 30px;
+
+    z-index: 1;
+}
+
+
+/* =========================
+   CHILD 2 - 핑크색
+========================= */
+
+.box2 .chid2 {
+    background-color: #ff67ff;
+
+    position: absolute;
+
+    /* 부모 box2 기준 */
+    left: 90px;
+    top: 90px;
+
+    /* 숫자가 클수록 앞으로 */
+    z-index: 2;
+}
+
+
+/* =========================
+   BOX 3 - 파란색
+========================= */
+
+.box3 {
+    background-color: #0000fe;
+
+    position: static;
+}
+
+
+/* =========================
+   BOX 4 - 하늘색
+========================= */
+
+.box4 {
+    background-color: #00ccff;
+
+    position: static;
+}
+
+
+/* =========================
+   FIXED 버튼 예시
+========================= */
+
+.fixed-btn {
+    width: 60px;
+    height: 60px;
+
+    background-color: #000;
+    color: #fff;
+
+    position: fixed;
+
+    right: 30px;
+    bottom: 30px;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   AI 버튼
+========================= */
+
+.ai {
+    border: none;
+
+    position: fixed;
+
+    right: 10%;
+    bottom: 30%;
+
+    z-index: 100;
+}

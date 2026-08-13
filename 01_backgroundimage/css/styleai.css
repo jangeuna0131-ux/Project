@@ -1,20 +1,28 @@
 @charset "utf-8";
 
-/* 기본값 초기화 */
+
+/* =========================
+   기본값 초기화
+========================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
+body {
+    font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+    background-color: #ffffff;
+}
+
+
 a {
     color: inherit;
     text-decoration: none;
 }
 
-body {
-    background-color: #ffffff;
-}
 
 
 /* =========================
@@ -23,25 +31,31 @@ body {
 
 .quick-menu {
     width: 100%;
-    margin-top: 160px;
 }
+
+
+/* 전체 영역 1180 x 160 */
 
 .quick-menu .inner {
     width: 1180px;
     height: 160px;
+
     margin: 0 auto;
 
     display: flex;
 }
 
 
-/* 각각의 메뉴 */
+
+/* =========================
+   메뉴 공통
+========================= */
 
 .quick-item {
-    position: relative;
-
-    width: calc(1180px / 3);
+    flex: 1;
     height: 160px;
+
+    position: relative;
 
     color: #ffffff;
 
@@ -49,37 +63,53 @@ body {
 }
 
 
-/* 01. RESERVE */
+
+/* =========================
+   01. RESERVE
+========================= */
 
 .reserve {
     background-color: #907354;
 
     background-image: url("../images/speed_menu_icon_02.png");
-    background-position: 220px center;
+
+    background-position: 234px center;
+
     background-size: 72px auto;
 }
 
 
-/* 02. SAVE POINT */
+
+/* =========================
+   02. SAVE POINT
+========================= */
 
 .point {
     background-color: #434343;
 
     background-image: url("../images/speed_menu_icon_03.png");
-    background-position: 220px center;
+
+    background-position: 234px center;
+
     background-size: 72px auto;
 }
 
 
-/* 03. DELIVERY */
+
+/* =========================
+   03. DELIVERY
+========================= */
 
 .delivery {
     background-color: #c30606;
 
     background-image: url("../images/speed_menu_icon_04.png");
-    background-position: 220px center;
+
+    background-position: 234px center;
+
     background-size: 105px auto;
 }
+
 
 
 /* =========================
@@ -87,33 +117,53 @@ body {
 ========================= */
 
 .quick-text {
-    padding: 28px 0 0 30px;
+    padding-top: 34px;
+    padding-left: 30px;
 }
 
+
+
+/* 영문 제목 */
+
 .quick-text h2 {
-    font-family: Arial, sans-serif;
+    font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+
     font-size: 24px;
     font-weight: 700;
+
     line-height: 1;
+
+    letter-spacing: 1px;
 }
+
+
+
+/* 한글 설명 */
 
 .quick-text p {
     margin-top: 7px;
 
-    font-family: Arial, sans-serif;
+    font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 400;
+
+    line-height: 1;
 }
 
 
-/* 화살표 */
+
+/* =========================
+   화살표
+========================= */
 
 .arrow {
     display: block;
 
-    margin-top: 38px;
+    margin-top: 30px;
 
     font-size: 26px;
     font-weight: 300;
+
     line-height: 1;
 }

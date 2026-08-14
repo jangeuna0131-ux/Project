@@ -1,0 +1,1243 @@
+@charset "utf-8";
+/* ========================= RESET ========================= */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+background-color: #ffffff;
+color: #333333;
+}
+ul {
+list-style: none;
+}
+a {
+color: inherit;
+text-decoration: none;
+}
+img {
+display: block;
+}
+/* ========================= HEADER SECTION ========================= */
+#header {
+width: 100%;
+height: 80px;
+background-color: #ffffff;
+}
+/* ========================= HEADER INNER ========================= */
+.header-inner {
+width: 1280px;
+height: 80px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+background-color: #fbfaf6;
+}
+/* ========================= LOGO ========================= */
+.logo {
+flex-shrink: 0;
+}
+.logo a {
+display: block;
+}
+.logo img {
+width: 150px;
+height: auto;
+}
+/* ========================= NAVIGATION ========================= */
+.gnb {
+margin-left: auto;
+}
+.gnb ul {
+display: flex;
+align-items: center;
+gap: 52px;
+}
+.gnb ul li a {
+display: block;
+font-size: 16px;
+font-weight: 400;
+color: #333333;
+white-space: nowrap;
+}
+/* ========================= NAVIGATION HOVER ========================= */
+.gnb ul li a:hover {
+font-weight: 700;
+}
+/* ========================= FRANCHISE BUTTON ========================= */
+.franchise-btn {
+width: 158px;
+height: 42px;
+margin-left: 70px;
+border-radius: 100px;
+background-color: #523323;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 8px;
+color: #ffffff;
+font-size: 14px;
+font-weight: 500;
+flex-shrink: 0;
+}
+/* ========================= FRANCHISE BUTTON ICON ========================= */
+.franchise-btn img {
+width: 16px;
+height: 16px;
+object-fit: contain;
+}
+/* ========================= FRANCHISE BUTTON HOVER ========================= */
+.franchise-btn:hover {
+background-color: #3f271b;
+}
+/* ========================= HERO SECTION ========================= */
+#hero {
+width: 100%;
+background-color: #ffffff;
+}
+/* ========================= HERO INNER ========================= */
+.hero-inner {
+width: 1280px;
+height: 700px;
+margin: 0 auto;
+position: relative;
+overflow: hidden;
+background-color: #f6ede2;
+}
+/* ========================= HERO BACKGROUND IMAGE ========================= */
+.hero-bg {
+position: absolute;
+top: 0;
+left: 0;
+width: 1280px;
+height: 700px;
+object-fit: fill;
+z-index: 1;
+}
+/* ========================= HERO CONTENT ========================= */
+.hero-content {
+position: absolute;
+top: 110px;
+left: 80px;
+width: 650px;
+z-index: 2;
+}
+/* ========================= HERO BADGE ========================= */
+.hero-badge {
+display: inline-block;
+padding: 10px 20px;
+margin-bottom: 32px;
+border-radius: 100px;
+background-color: #fff7ed;
+color: #db8b35;
+font-size: 16px;
+font-weight: 400;
+}
+/* ========================= HERO TITLE ========================= */
+.hero-title {
+margin-bottom: 32px;
+font-size: 64px;
+font-weight: 800;
+line-height: 1.15;
+color: #4a2d20;
+word-break: keep-all;
+}
+/* ========================= HERO TITLE LINE ========================= */
+.hero-title .title-line {
+display: inline-block;
+color: #4a2d20;
+white-space: nowrap;
+}
+/* ========================= HERO TITLE POINT ========================= */
+.hero-title .title-point {
+display: inline-block;
+color: #dc8d32;
+white-space: nowrap;
+}
+/* ========================= HERO SUB TITLE ========================= */
+.hero-sub-title {
+margin-bottom: 8px;
+font-size: 24px;
+font-weight: 700;
+line-height: 1.5;
+color: #5c493d;
+}
+/* ========================= HERO TEXT ========================= */
+.hero-text {
+margin-bottom: 38px;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.6;
+color: #75665b;
+}
+/* ========================= HERO BUTTON GROUP ========================= */
+.hero-btn-group {
+display: flex;
+align-items: center;
+gap: 16px;
+}
+/* ========================= HERO BUTTON ========================= */
+.hero-btn {
+height: 52px;
+padding: 0 24px;
+border-radius: 8px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 8px;
+font-size: 16px;
+font-weight: 500;
+}
+/* ========================= HERO BUTTON ICON ========================= */
+.hero-btn img {
+width: 18px;
+height: 18px;
+object-fit: contain;
+}
+/* ========================= PRIMARY BUTTON ========================= */
+.primary-btn {
+background-color: #dc8b2c;
+color: #ffffff;
+}
+/* ========================= SECONDARY BUTTON ========================= */
+.secondary-btn {
+border: 1px solid #856656;
+background-color: #ffffff;
+color: #5c4033;
+}
+/* ========================= HERO BUTTON HOVER ========================= */
+.primary-btn:hover {
+background-color: #c97820;
+}
+.secondary-btn:hover {
+background-color: #f8f2ec;
+}
+/* ========================= INTRO SECTION ========================= */
+#intro {
+width: 100%;
+background-color: #ffffff;
+}
+/* ========================= INTRO INNER ========================= */
+.intro-inner {
+width: 1280px;
+height: 624px;
+margin: 0 auto;
+padding-top: 64px;
+background-color: #f7e7cf;
+}
+/* ========================= INTRO TOP SECTION ========================= */
+.intro-top {
+text-align: center;
+}
+/* ========================= INTRO LOGO ICON ========================= */
+.intro-logo {
+width: 64px;
+height: 64px;
+margin: 0 auto 24px;
+object-fit: contain;
+}
+/* ========================= INTRO TITLE ========================= */
+.intro-title {
+margin-bottom: 28px;
+font-size: 40px;
+font-weight: 700;
+line-height: 1.3;
+color: #3f291d;
+}
+/* ========================= INTRO DESCRIPTION ========================= */
+.intro-description {
+font-size: 16px;
+font-weight: 400;
+line-height: 2;
+color: #74665c;
+}
+/* ========================= INTRO FEATURE SECTION ========================= */
+.intro-feature {
+width: 1000px;
+height: 180px;
+margin: 48px auto 0;
+display: flex;
+align-items: center;
+}
+/* ========================= INTRO ITEM ========================= */
+.intro-item {
+width: 250px;
+height: 150px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+/* ========================= INTRO ITEM LINE ========================= */
+.intro-item + .intro-item {
+border-left: 1px solid #e4ceb1;
+}
+/* ========================= INTRO ITEM ICON ========================= */
+.intro-icon {
+width: 64px;
+height: 64px;
+margin-bottom: 20px;
+object-fit: contain;
+}
+/* ========================= INTRO ITEM TITLE ========================= */
+.intro-item-title {
+margin-bottom: 6px;
+font-size: 16px;
+font-weight: 500;
+color: #69584d;
+}
+/* ========================= INTRO ITEM TEXT ========================= */
+.intro-item-text {
+font-size: 16px;
+font-weight: 400;
+color: #8b7b70;
+}
+/* ========================= BEST SECTION ========================= */
+#best-menu {
+width: 100%;
+background-color: #ffffff;
+}
+/* ========================= BEST INNER ========================= */
+.best-inner {
+width: 1280px;
+height: 638px;
+margin: 0 auto;
+padding-top: 64px;
+background-color: #fbfaf6;
+}
+/* ========================= BEST TOP ========================= */
+.best-top {
+width: 1280px;
+position: relative;
+margin-bottom: 56px;
+}
+/* ========================= BEST TITLE ========================= */
+.best-title {
+text-align: center;
+font-size: 40px;
+font-weight: 700;
+color: #35251d;
+}
+/* ========================= BEST MORE BUTTON ========================= */
+.best-more {
+position: absolute;
+top: 16px;
+right: 0;
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 16px;
+font-weight: 400;
+color: #8b8179;
+}
+/* ========================= BEST MORE ARROW ========================= */
+.best-more .arrow {
+font-size: 16px;
+}
+/* ========================= BEST MENU LIST ========================= */
+.best-list {
+width: 1280px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px;
+}
+/* ========================= BEST MENU CARD ========================= */
+.menu-card {
+position: relative;
+width: 240px;
+height: 368px;
+padding: 24px;
+border: 1px solid #eadfce;
+border-radius: 6px;
+background-color: #fffdf9;
+flex-shrink: 0;
+transition: transform 0.3s, box-shadow 0.3s;
+}
+/* ========================= MENU IMAGE ========================= */
+.menu-thumb {
+width: 192px;
+height: 192px;
+margin: 0 auto 20px;
+overflow: hidden;
+}
+/* ========================= MENU IMAGE IMG ========================= */
+.menu-thumb img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.3s;
+}
+/* ========================= MENU INFORMATION ========================= */
+.menu-info {
+text-align: center;
+}
+/* ========================= MENU NAME ========================= */
+.menu-name {
+margin-bottom: 12px;
+font-size: 16px;
+font-weight: 700;
+color: #3b2c24;
+}
+/* ========================= MENU DESCRIPTION ========================= */
+.menu-desc {
+margin-bottom: 18px;
+font-size: 12px;
+font-weight: 400;
+color: #999087;
+}
+/* ========================= MENU PRICE ========================= */
+.menu-price {
+font-size: 16px;
+font-weight: 700;
+color: #222222;
+}
+/* ========================= BEST / NEW BADGE ========================= */
+.menu-badge {
+position: absolute;
+top: -1px;
+left: -1px;
+padding: 5px 10px;
+border-radius: 20px;
+background-color: #e7923b;
+color: #ffffff;
+font-size: 11px;
+font-weight: 400;
+z-index: 2;
+}
+/* ========================= BEST BADGE ========================= */
+.menu-badge.best {
+background-color: #e7923b;
+}
+/* ========================= NEW BADGE ========================= */
+.menu-badge.new {
+background-color: #e7923b;
+}
+/* ========================= BEST MENU CARD HOVER ========================= */
+.menu-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+/* ========================= BEST MENU IMAGE HOVER ========================= */
+.menu-card:hover .menu-thumb img {
+transform: scale(1.2);
+}
+/* ========================= HOW TO USE SECTION ========================= */
+#howtouse {
+width: 100%;
+background-color: #ffffff;
+}
+/* ========================= HOW TO USE INNER ========================= */
+.howtouse-inner {
+width: 1280px;
+height: 408px;
+margin: 0 auto;
+padding: 64px 24px 0;
+background-color: #f7e7cf;
+}
+/* ========================= HOW TO USE TITLE ========================= */
+.howtouse-title {
+margin-bottom: 52px;
+text-align: center;
+font-size: 40px;
+font-weight: 700;
+color: #35251d;
+}
+/* ========================= HOW TO USE LIST ========================= */
+.howtouse-list {
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+/* ========================= HOW TO USE CARD ========================= */
+.howtouse-card {
+width: 227px;
+height: 120px;
+padding: 24px;
+border-radius: 8px;
+background-color: #ffffff;
+display: flex;
+align-items: center;
+gap: 8px;
+flex-shrink: 0;
+}
+/* ========================= STEP NUMBER ========================= */
+.step-number {
+width: 24px;
+height: 24px;
+object-fit: contain;
+flex-shrink: 0;
+}
+/* ========================= STEP ICON ========================= */
+.step-icon {
+width: 48px;
+height: 48px;
+object-fit: contain;
+flex-shrink: 0;
+transition: transform 0.3s;
+}
+/* ========================= STEP TEXT ========================= */
+.step-text {
+flex: 1;
+}
+/* ========================= STEP TITLE ========================= */
+.step-text h3 {
+margin-bottom: 8px;
+font-size: 16px;
+font-weight: 700;
+line-height: 1.2;
+color: #4a3529;
+white-space: nowrap;
+}
+/* ========================= STEP DESCRIPTION ========================= */
+.step-text p {
+font-size: 13px;
+font-weight: 400;
+line-height: 1.5;
+color: #74665c;
+white-space: nowrap;
+}
+/* ========================= HOW TO USE ARROW ========================= */
+.how-arrow {
+width: 16px;
+height: 16px;
+object-fit: contain;
+flex-shrink: 0;
+}
+/* ========================= HOW TO USE CARD HOVER ========================= */
+.howtouse-card:hover .step-icon {
+transform: scale(1.2);
+}
+
+/* ========================= BENEFIT SECTION ========================= */
+#benefit {
+width: 100%;
+background-color: #ffffff;
+}
+/* ========================= BENEFIT INNER ========================= */
+.benefit-inner {
+width: 1280px;
+height: 500px;
+margin: 0 auto;
+padding-top: 64px;
+background-color: #fbfaf6;
+}
+/* ========================= BENEFIT TITLE ========================= */
+.benefit-title {
+margin-bottom: 56px;
+text-align: center;
+font-size: 40px;
+font-weight: 700;
+line-height: 1.3;
+color: #35251d;
+}
+/* ========================= BENEFIT LIST ========================= */
+.benefit-list {
+width: 1280px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+/* ========================= BENEFIT CARD ========================= */
+.benefit-card {
+width: 256px;
+height: 240px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+text-align: center;
+flex-shrink: 0;
+}
+/* ========================= BENEFIT CARD DIVIDER ========================= */
+.benefit-card + .benefit-card {
+border-left: 1px solid #eadfce;
+}
+/* ========================= BENEFIT ICON ========================= */
+.benefit-icon {
+width: 72px;
+height: 72px;
+margin-bottom: 24px;
+object-fit: contain;
+}
+/* ========================= BENEFIT CARD TITLE ========================= */
+.benefit-card-title {
+margin-bottom: 20px;
+font-size: 24px;
+font-weight: 700;
+line-height: 1.3;
+color: #4a3529;
+white-space: nowrap;
+}
+/* ========================= BENEFIT CARD TEXT ========================= */
+.benefit-card-text {
+font-size: 16px;
+font-weight: 400;
+line-height: 1.5;
+color: #74665c;
+}
+
+
+/* ========================= STORE SECTION ========================= */
+#store {
+    width: 100%;
+    background-color: #ffffff;
+}
+
+/* ========================= STORE INNER ========================= */
+.store-inner {
+    width: 1280px;
+    height: 660px;
+    margin: 0 auto;
+    padding: 64px 80px 0;
+    background-color: #f7e7cf;
+}
+
+/* ========================= STORE TITLE ========================= */
+.store-title {
+    margin-bottom: 48px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #3d2b22;
+}
+
+/* ========================= STORE CONTENT ========================= */
+.store-content {
+    width: 1120px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+/* ========================= STORE INFO CARD ========================= */
+.store-card {
+    width: 350px;
+    height: 373px;
+    padding: 64px 24px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    flex-shrink: 0;
+}
+
+/* ========================= STORE INFO AREA ========================= */
+.store-info-area {
+    width: 302px;
+}
+
+/* ========================= STORE HEADING ========================= */
+.store-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+/* ========================= STORE NAME ========================= */
+.store-name {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #3d2b22;
+    white-space: nowrap;
+}
+
+/* ========================= STORE STATUS ========================= */
+.store-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #f6d3ab;
+    font-size: 13px;
+    font-weight: 500;
+    color: #c8792e;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ========================= STORE INFO LIST ========================= */
+.store-info-list {
+    margin: 0;
+}
+
+/* ========================= STORE INFO ITEM ========================= */
+.store-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ========================= STORE INFO ITEM GAP ========================= */
+.store-info-item + .store-info-item {
+    margin-top: 16px;
+}
+
+/* ========================= STORE INFO ICON ========================= */
+.store-info-item img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* ========================= STORE PHONE ICON ========================= */
+.store-phone-icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    line-height: 1;
+    color: #7c6557;
+    flex-shrink: 0;
+}
+
+/* ========================= STORE INFO TEXT ========================= */
+.store-info-item p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #7c6557;
+    white-space: nowrap;
+}
+
+/* ========================= STORE BUTTON GROUP ========================= */
+.store-btn-group {
+    width: 199px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* ========================= STORE BUTTON ========================= */
+.store-btn {
+    height: 40px;
+    padding: 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* ========================= PRIMARY STORE BUTTON ========================= */
+.primary-store-btn {
+    width: 95px;
+    border: none;
+    background-color: #5a3522;
+    color: #ffffff;
+}
+
+/* ========================= SECONDARY STORE BUTTON ========================= */
+.secondary-store-btn {
+    width: 96px;
+    border: 1px solid #8c6f5d;
+    background-color: #ffffff;
+    color: #5a3522;
+}
+
+/* ========================= STORE BUTTON HOVER ========================= */
+.primary-store-btn:hover {
+    background-color: #45281a;
+}
+
+.secondary-store-btn:hover {
+    background-color: #f8f2ec;
+}
+
+/* ========================= STORE MAP WRAP ========================= */
+.store-map-wrap {
+    width: 746px;
+    height: 373px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* ========================= STORE MAP ========================= */
+.store-map {
+    width: 100%;
+    height: 100%;
+}
+/* ========================= FAQ SECTION ========================= */
+#faq {
+width: 100%;
+background-color: #ffffff;
+}
+
+/* ========================= FAQ INNER ========================= */
+.faq-inner {
+width: 1280px;
+height: 362px;
+margin: 0 auto;
+padding-top: 64px;
+background-color: #fbfaf6;
+}
+
+/* ========================= FAQ TOP ========================= */
+.faq-top {
+width: 1280px;
+position: relative;
+margin-bottom: 56px;
+}
+
+/* ========================= FAQ TITLE ========================= */
+.faq-title {
+text-align: center;
+font-size: 40px;
+font-weight: 700;
+line-height: 1.3;
+color: #35251d;
+}
+
+/* ========================= FAQ MORE BUTTON ========================= */
+.faq-more {
+position: absolute;
+top: 16px;
+right: 0;
+padding: 0;
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 16px;
+font-weight: 400;
+line-height: 1;
+color: #8b8179;
+}
+
+/* ========================= FAQ MORE ARROW ========================= */
+.faq-more span {
+font-size: 16px;
+line-height: 1;
+}
+
+/* ========================= FAQ LIST ========================= */
+.faq-list {
+width: 1040px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(3, 336px);
+column-gap: 16px;
+row-gap: 16px;
+}
+
+/* ========================= FAQ SECOND ROW POSITION ========================= */
+.faq-item:nth-child(4) {
+grid-column: 2;
+grid-row: 2;
+}
+
+.faq-item:nth-child(5) {
+grid-column: 3;
+grid-row: 2;
+}
+
+/* ========================= FAQ ITEM ========================= */
+.faq-item {
+width: 336px;
+min-height: 48px;
+border: 1px solid #eadfce;
+border-radius: 8px;
+background-color: #fffdf9;
+overflow: hidden;
+}
+
+/* ========================= FAQ SUMMARY ========================= */
+.faq-item summary {
+width: 100%;
+height: 48px;
+padding: 0 16px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 16px;
+font-weight: 500;
+color: #594437;
+cursor: pointer;
+list-style: none;
+}
+
+/* ========================= FAQ DEFAULT MARKER REMOVE ========================= */
+.faq-item summary::-webkit-details-marker {
+display: none;
+}
+
+/* ========================= FAQ ARROW ========================= */
+.faq-arrow {
+font-size: 18px;
+font-weight: 700;
+line-height: 1;
+color: #5a4031;
+position: relative;
+top: -8px;
+transition: transform 0.3s;
+}
+
+/* ========================= FAQ OPEN ARROW ========================= */
+.faq-item[open] .faq-arrow {
+transform: rotate(180deg);
+}
+
+/* ========================= FAQ ANSWER ========================= */
+.faq-answer {
+padding: 0 16px 16px;
+}
+
+/* ========================= FAQ ANSWER TEXT ========================= */
+.faq-answer p {
+font-size: 16px;
+font-weight: 400;
+line-height: 1.6;
+color: #8b8179;
+}
+
+/* ========================= FAQ ITEM HOVER ========================= */
+.faq-item:hover {
+border-color: #cdb9a6;
+}
+
+/* ========================= BANNER SECTION ========================= */
+#banner {
+width: 100%;
+background-color: #ffffff;
+}
+
+/* ========================= BANNER INNER ========================= */
+.banner-inner {
+width: 1280px;
+height: 396px;
+margin: 0 auto;
+background-color: #ffffff;
+}
+
+/* ========================= BANNER BOX ========================= */
+.banner-box {
+position: relative;
+width: 1280px;
+height: 350px;
+margin: 0 auto;
+overflow: hidden;
+}
+
+/* ========================= BANNER BACKGROUND IMAGE ========================= */
+.banner-bg {
+position: absolute;
+top: 0;
+left: 0;
+width: 1280px;
+height: 350px;
+object-fit: cover;
+z-index: 1;
+}
+
+/* ========================= BANNER CONTENT ========================= */
+.banner-content {
+position: absolute;
+top: 104px;
+left: 376px;
+z-index: 2;
+}
+
+/* ========================= BANNER TITLE ========================= */
+.banner-title {
+margin-bottom: 16px;
+font-size: 40px;
+font-weight: 700;
+line-height: 1.3;
+letter-spacing: -2px;
+color: #ffffff;
+white-space: nowrap;
+}
+
+/* ========================= BANNER SUB TITLE ========================= */
+.banner-sub-title {
+font-size: 24px;
+font-weight: 500;
+line-height: 1.4;
+letter-spacing: -1px;
+color: #ffffff;
+white-space: nowrap;
+}
+
+/* ========================= BANNER BUTTON GROUP ========================= */
+.banner-btn-group {
+position: absolute;
+right: 112px;
+bottom: 58px;
+display: flex;
+align-items: center;
+gap: 8px;
+z-index: 3;
+}
+
+/* ========================= BANNER BUTTON ========================= */
+.banner-btn {
+padding: 8px 16px;
+border-radius: 8px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 8px;
+font-size: 16px;
+font-weight: 500;
+line-height: 1;
+white-space: nowrap;
+}
+
+/* ========================= BANNER BUTTON ICON ========================= */
+.banner-btn img {
+width: 16px;
+height: 16px;
+object-fit: contain;
+flex-shrink: 0;
+}
+
+/* ========================= BANNER PRIMARY BUTTON ========================= */
+.banner-btn-primary {
+background-color: #df8b25;
+color: #ffffff;
+}
+
+/* ========================= BANNER SECONDARY BUTTON ========================= */
+.banner-btn-secondary {
+border: 1px solid #ffffff;
+background-color: rgba(0, 0, 0, 0.15);
+color: #ffffff;
+}
+
+
+/* =========================
+   BANNER SECONDARY BUTTON ICON
+========================= */
+.banner-btn-secondary img {
+filter: brightness(0) invert(1);
+}
+
+
+/* ========================= FOOTER SECTION ========================= */
+#footer {
+width: 100%;
+height: 417px;
+margin-top: 100px;
+background-color: #553220;
+color: #ffffff;
+}
+
+
+/* ========================= FOOTER INNER ========================= */
+.footer-inner {
+width: 1280px;
+height: 337px;
+margin: 0 auto;
+}
+
+
+/* ========================= FOOTER CONTENT ========================= */
+.footer-content {
+width: 1280px;
+height: 337px;
+margin: 0 auto;
+padding: 64px 150px 53px;
+display: flex;
+align-items: flex-start;
+}
+
+
+/* ========================= FOOTER BRAND ========================= */
+.footer-brand {
+width: 300px;
+height: 220px;
+flex-shrink: 0;
+}
+
+
+/* ========================= FOOTER LOGO ========================= */
+.footer-logo {
+display: block;
+width: 150px;
+margin-bottom: 20px;
+}
+
+
+/* ========================= FOOTER LOGO IMAGE ========================= */
+.footer-logo img {
+width: 100%;
+height: auto;
+object-fit: contain;
+}
+
+
+/* ========================= FOOTER DESCRIPTION ========================= */
+.footer-description {
+margin-bottom: 20px;
+font-size: 12px;
+font-weight: 400;
+line-height: 1.7;
+color: #f1e8e1;
+}
+
+
+/* ========================= FOOTER SNS ========================= */
+.footer-sns {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+
+/* ========================= FOOTER SNS BUTTON ========================= */
+.footer-sns-btn {
+width: 32px;
+height: 32px;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+flex-shrink: 0;
+}
+
+
+/* ========================= FOOTER SNS IMAGE ========================= */
+.footer-sns-btn img {
+width: 100%;
+height: 100%;
+object-fit: contain;
+}
+
+/* ========================= FOOTER MENU ========================= */
+.footer-menu {
+margin-left: auto;
+display: flex;
+align-items: flex-start;
+}
+
+/* ========================= FOOTER COLUMN ========================= */
+.footer-column {
+width: 180px;
+height: 220px;
+padding-left: 40px;
+padding-right: 0;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+justify-content: flex-start;
+flex-shrink: 0;
+}
+
+/* ========================= FOOTER COLUMN DIVIDER ========================= */
+.footer-column + .footer-column {
+border-left: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+/* ========================= FOOTER TITLE ========================= */
+.footer-title {
+margin: 0 0 20px 0;
+font-size: 16px;
+font-weight: 500;
+line-height: 1;
+color: #ffffff;
+white-space: nowrap;
+}
+
+/* ========================= FOOTER LIST ========================= */
+.footer-column ul {
+width: 100%;
+margin: 0;
+padding: 0;
+}
+
+/* ========================= FOOTER LIST ITEM ========================= */
+.footer-column li {
+width: 100%;
+font-size: 12px;
+font-weight: 400;
+line-height: 1.5;
+color: #f1e8e1;
+white-space: nowrap;
+}
+
+/* ========================= FOOTER LIST ITEM GAP ========================= */
+.footer-column li + li {
+margin-top: 14px;
+}
+
+/* ========================= FOOTER LINK ========================= */
+.footer-column a {
+display: block;
+width: 100%;
+font-size: 12px;
+font-weight: 400;
+color: #f1e8e1;
+white-space: nowrap;
+}
+
+/* ========================= FOOTER TEXT ========================= */
+.footer-column span {
+white-space: nowrap;
+}
+
+/* ========================= DOWNLOAD COLUMN ========================= */
+.footer-column:last-child {
+width: 220px;
+padding-left: 40px;
+}
+
+/* ========================= FOOTER LINK HOVER ========================= */
+.footer-column a:hover {
+font-weight: 700;
+color: #ffffff;
+}
+
+
+/* ========================= FOOTER SNS HOVER ========================= */
+.footer-sns-btn {
+transition: transform 0.3s;
+}
+
+.footer-sns-btn:hover {
+transform: translateY(-2px);
+}
+
+
+/* ========================= FOOTER BOTTOM ========================= */
+.footer-bottom {
+width: 100%;
+height: 80px;
+background-color: #321d13;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+/* ========================= FOOTER COPYRIGHT ========================= */
+.footer-bottom p {
+font-size: 12px;
+font-weight: 400;
+color: #ffffff;
+}
+
+/* ========================= FAQ SECOND ROW POSITION ========================= */
+.faq-item:nth-child(4) {
+grid-column: 1;
+grid-row: 2;
+}
+
+.faq-item:nth-child(5) {
+grid-column: 2;
+grid-row: 2;
+}

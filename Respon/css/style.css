@@ -1,0 +1,87 @@
+@charset "utf-8";
+body{
+
+}
+/* 글자안넣음 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* PC기기일때 */
+.wrap{
+    width: 1000px;
+    margin: 0 auto;
+}
+.red{
+    width: 100%;
+    height: 150px;
+    background: red;
+}
+.duo{display: flex;
+
+}
+.blue{
+    width: 50%;
+    height: 120px;
+    background: blue;
+}
+
+.green{
+    width: 50%;
+    height: 120px;
+    background: green;
+
+}
+
+
+/* 노트북일때 해상도 설정*/
+@media ( min-width:992px ) and ( max-width:1119px ){
+    .wrap{
+        width: 100%;
+    }
+ body{   padding: 0 24;
+    }
+}
+
+
+/* 태블릿 기기일때 */
+@media ( min-width:768px ) and ( max-width:991px){
+ .wrap{
+    width: 100%;
+ }
+.blue{
+    height: 240px;
+}
+.green{
+    height: 240px;
+}
+
+}
+/* 항상기준은 PC레이아웃으로 기준으로 변경된것만 코딩 */
+
+
+
+/* 모바일 기기일때 */
+@media ( min-width:320px ) and (max-width:767px){
+/* 웹브라우져 꽉차고 모바일하나씩 보여주고 
+다들 두배로 늘어남 */
+.wrap{
+    width: 100%;
+}
+.red{
+    height: 300px;
+}
+.duo{
+    flex-direction: column;
+}
+.blue{
+    width: 100%;
+    height: 240px;
+}
+.green{
+    width: 100%;
+    height: 240px;
+}
+}

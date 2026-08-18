@@ -1241,3 +1241,1194 @@ grid-row: 2;
 grid-column: 2;
 grid-row: 2;
 }
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   320px ~ 767px
+========================================================= */
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+
+/* =========================
+   MOBILE BASIC
+========================= */
+
+body {
+width: 100%;
+overflow-x: hidden;
+}
+
+#header,
+#hero,
+#intro,
+#best-menu,
+#howtouse,
+#benefit,
+#store,
+#faq,
+#banner,
+#footer {
+width: 100%;
+}
+
+
+/* =========================
+   MOBILE HEADER
+========================= */
+
+#header {
+height: 60px;
+background-color: #ffffff;
+}
+
+.header-inner {
+width: 100%;
+height: 60px;
+margin: 0;
+padding: 0 24px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #fbfaf6;
+}
+
+.logo {
+flex-shrink: 0;
+}
+
+.logo img {
+width: 100px;
+height: auto;
+}
+
+.gnb {
+display: none;
+}
+
+.franchise-btn {
+display: none;
+}
+
+/* 모바일 햄버거 메뉴 */
+.header-inner::after {
+content: "☰";
+display: block;
+font-size: 22px;
+font-weight: 700;
+line-height: 1;
+color: #523323;
+}
+
+
+/* =========================
+   MOBILE HERO SECTION
+========================= */
+
+#hero {
+background-color: #ffffff;
+}
+
+.hero-inner {
+width: 100%;
+height: 520px;
+margin: 0;
+position: relative;
+overflow: hidden;
+background-color: #f6ede2;
+}
+
+.hero-bg {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 520px;
+object-fit: cover;
+object-position: center;
+}
+
+.hero-content {
+position: absolute;
+top: 48px;
+left: 24px;
+width: calc(100% - 48px);
+z-index: 2;
+}
+
+.hero-badge {
+padding: 7px 12px;
+margin-bottom: 18px;
+border-radius: 100px;
+font-size: 11px;
+}
+
+.hero-title {
+margin-bottom: 20px;
+font-size: 34px;
+font-weight: 800;
+line-height: 1.12;
+}
+
+.hero-title .title-line,
+.hero-title .title-point {
+white-space: normal;
+}
+
+.hero-sub-title {
+margin-bottom: 6px;
+font-size: 16px;
+line-height: 1.4;
+}
+
+.hero-text {
+margin-bottom: 24px;
+font-size: 13px;
+line-height: 1.5;
+}
+
+.hero-btn-group {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.hero-btn {
+height: 40px;
+padding: 0 12px;
+gap: 6px;
+font-size: 12px;
+}
+
+.hero-btn img {
+width: 14px;
+height: 14px;
+}
+
+
+/* =========================
+   MOBILE INTRO SECTION
+========================= */
+
+#intro {
+background-color: #ffffff;
+}
+
+.intro-inner {
+width: 100%;
+height: auto;
+margin: 0;
+padding: 48px 24px 56px;
+background-color: #f7e7cf;
+}
+
+.intro-top {
+text-align: center;
+}
+
+.intro-logo {
+width: 44px;
+height: 44px;
+margin: 0 auto 16px;
+}
+
+.intro-title {
+margin-bottom: 20px;
+font-size: 26px;
+line-height: 1.3;
+}
+
+.intro-description {
+font-size: 12px;
+line-height: 1.8;
+word-break: keep-all;
+}
+
+.intro-feature {
+width: 100%;
+height: auto;
+margin: 36px auto 0;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+}
+
+.intro-item {
+width: 100%;
+height: 150px;
+}
+
+.intro-item + .intro-item {
+border-left: none;
+}
+
+.intro-item:nth-child(even) {
+border-left: 1px solid #e4ceb1;
+}
+
+.intro-icon {
+width: 48px;
+height: 48px;
+margin-bottom: 12px;
+}
+
+.intro-item-title {
+margin-bottom: 4px;
+font-size: 13px;
+}
+
+.intro-item-text {
+font-size: 12px;
+}
+
+
+/* =========================
+   MOBILE BEST SECTION
+========================= */
+
+#best-menu {
+background-color: #ffffff;
+}
+
+.best-inner {
+width: 100%;
+height: auto;
+margin: 0;
+padding: 48px 24px 56px;
+background-color: #fbfaf6;
+}
+
+.best-top {
+width: 100%;
+margin-bottom: 36px;
+position: relative;
+}
+
+.best-title {
+font-size: 26px;
+text-align: center;
+}
+
+.best-more {
+top: 7px;
+right: 0;
+gap: 4px;
+font-size: 11px;
+}
+
+.best-more .arrow {
+font-size: 11px;
+}
+
+.best-list {
+width: 100%;
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 16px;
+}
+
+
+/* =========================
+   MOBILE MENU CARD
+========================= */
+
+.menu-card {
+width: 100%;
+height: auto;
+min-height: 260px;
+padding: 12px;
+flex-shrink: 0;
+}
+
+.menu-thumb {
+width: 100%;
+height: auto;
+aspect-ratio: 1 / 1;
+margin: 0 auto 14px;
+overflow: hidden;
+}
+
+.menu-thumb img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.menu-name {
+margin-bottom: 7px;
+font-size: 13px;
+}
+
+.menu-desc {
+min-height: 30px;
+margin-bottom: 10px;
+font-size: 10px;
+line-height: 1.4;
+}
+
+.menu-price {
+font-size: 13px;
+}
+
+.menu-badge {
+padding: 4px 7px;
+font-size: 9px;
+}
+
+/* 마지막 카드 가운데 */
+.menu-card:nth-child(5) {
+grid-column: 1 / 3;
+width: calc((100% - 16px) / 2);
+justify-self: center;
+}
+
+/* =========================================================
+   MOBILE HOW TO USE
+   가로 스와이프
+========================================================= */
+
+#howtouse {
+width: 100%;
+background-color: #ffffff;
+}
+
+/* =========================
+   HOW TO USE INNER
+========================= */
+
+.howtouse-inner {
+width: 100%;
+height: auto;
+margin: 0;
+padding: 48px 0 56px;
+background-color: #f7e7cf;
+}
+
+/* =========================
+   HOW TO USE TITLE
+========================= */
+
+.howtouse-title {
+margin-bottom: 32px;
+padding: 0 24px;
+font-size: 26px;
+text-align: center;
+}
+
+/* =========================
+   HOW TO USE HORIZONTAL SCROLL
+========================= */
+
+.howtouse-list {
+width: 100%;
+max-width: 100%;
+
+padding: 0 24px 12px;
+
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+justify-content: flex-start;
+align-items: center;
+
+gap: 8px;
+
+overflow-x: auto;
+overflow-y: hidden;
+
+-webkit-overflow-scrolling: touch;
+overscroll-behavior-x: contain;
+
+scrollbar-width: none;
+-ms-overflow-style: none;
+}
+
+/* 스크롤 기능은 유지하고 막대만 숨김 */
+.howtouse-list::-webkit-scrollbar {
+display: none;
+}
+
+/* =========================
+   HOW TO USE CARD
+========================= */
+
+.howtouse-card {
+width: 227px;
+min-width: 227px;
+max-width: 227px;
+height: 120px;
+
+padding: 24px;
+
+display: flex;
+align-items: center;
+gap: 8px;
+
+border-radius: 8px;
+background-color: #ffffff;
+
+/* 절대 줄어들지 않음 */
+flex: 0 0 227px;
+}
+
+/* =========================
+   STEP NUMBER
+========================= */
+
+.step-number {
+width: 24px;
+height: 24px;
+object-fit: contain;
+flex: 0 0 24px;
+}
+
+/* =========================
+   STEP ICON
+========================= */
+
+.step-icon {
+width: 48px;
+height: 48px;
+object-fit: contain;
+flex: 0 0 48px;
+}
+
+/* =========================
+   STEP TEXT
+========================= */
+
+.step-text {
+flex: 1;
+min-width: 0;
+}
+
+.step-text h3 {
+margin-bottom: 6px;
+font-size: 13px;
+line-height: 1.2;
+white-space: nowrap;
+}
+
+.step-text p {
+font-size: 10px;
+line-height: 1.4;
+white-space: nowrap;
+}
+
+/* =========================
+   HOW TO USE ARROW
+========================= */
+
+.how-arrow {
+width: 16px;
+min-width: 16px;
+height: 16px;
+object-fit: contain;
+flex: 0 0 16px;
+}
+/* =========================
+   MOBILE BENEFIT SECTION
+========================= */
+
+#benefit {
+background-color: #ffffff;
+}
+
+.benefit-inner {
+width: 100%;
+height: auto;
+margin: 0;
+padding: 48px 24px 56px;
+background-color: #fbfaf6;
+}
+
+.benefit-title {
+margin-bottom: 36px;
+font-size: 26px;
+text-align: center;
+}
+
+.benefit-list {
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.benefit-card {
+width: 100%;
+height: auto;
+min-height: 160px;
+padding: 24px 0;
+}
+
+.benefit-card + .benefit-card {
+border-left: none;
+border-top: 1px solid #eadfce;
+}
+
+.benefit-icon {
+width: 56px;
+height: 56px;
+margin-bottom: 14px;
+}
+
+.benefit-card-title {
+margin-bottom: 8px;
+font-size: 18px;
+}
+
+.benefit-card-text {
+font-size: 12px;
+}
+
+
+/* =========================
+   MOBILE STORE SECTION
+========================= */
+
+#store {
+background-color: #ffffff;
+}
+
+.store-inner {
+width: 100%;
+height: auto;
+margin: 0;
+padding: 48px 24px 56px;
+background-color: #f7e7cf;
+}
+
+.store-title {
+margin-bottom: 32px;
+font-size: 26px;
+text-align: center;
+}
+
+.store-content {
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.store-card {
+width: 100%;
+height: auto;
+
+padding: 40px 24px;
+
+display: flex;
+flex-direction: column;
+
+gap: 28px;
+
+border-radius: 8px;
+background-color: #ffffff;
+}
+
+.store-info-area {
+width: 100%;
+}
+
+.store-heading {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 24px;
+}
+
+.store-name {
+font-size: 20px;
+line-height: 1.3;
+white-space: normal;
+}
+
+.store-status {
+font-size: 11px;
+}
+
+.store-info-list {
+margin: 0;
+}
+
+.store-info-item {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.store-info-item + .store-info-item {
+margin-top: 16px;
+}
+
+.store-info-item p {
+font-size: 12px;
+line-height: 1.5;
+white-space: normal;
+}
+
+.store-btn-group {
+width: 100%;
+height: auto;
+display: flex;
+gap: 8px;
+}
+
+.store-btn {
+width: auto;
+height: 40px;
+padding: 0 16px;
+font-size: 12px;
+flex: 1;
+}
+
+.primary-store-btn,
+.secondary-store-btn {
+width: auto;
+}
+
+
+/* =========================
+   MOBILE STORE MAP
+========================= */
+
+.store-map-wrap {
+width: 100%;
+height: 280px;
+border-radius: 8px;
+overflow: hidden;
+}
+
+.store-map {
+width: 100%;
+height: 100%;
+}
+
+
+/* =========================
+   MOBILE FAQ SECTION
+========================= */
+
+#faq {
+background-color: #ffffff;
+}
+
+.faq-inner {
+width: 100%;
+height: auto;
+margin: 0;
+padding: 48px 24px 56px;
+background-color: #fbfaf6;
+}
+
+.faq-top {
+width: 100%;
+margin-bottom: 32px;
+position: relative;
+}
+
+.faq-title {
+font-size: 26px;
+text-align: center;
+}
+
+.faq-more {
+top: 8px;
+right: 0;
+font-size: 11px;
+gap: 4px;
+}
+
+.faq-more span {
+font-size: 11px;
+}
+
+.faq-list {
+width: 100%;
+margin: 0;
+
+display: flex;
+flex-direction: column;
+
+gap: 12px;
+}
+
+.faq-item {
+width: 100%;
+min-height: 48px;
+}
+
+/* 데스크탑 위치값 해제 */
+.faq-item:nth-child(4),
+.faq-item:nth-child(5) {
+grid-column: auto;
+grid-row: auto;
+}
+
+.faq-item summary {
+width: 100%;
+height: 48px;
+
+padding: 0 40px 0 16px;
+
+position: relative;
+
+display: flex;
+align-items: center;
+
+font-size: 12px;
+}
+
+.faq-arrow {
+position: absolute;
+right: 16px;
+top: 50%;
+
+font-size: 14px;
+line-height: 1;
+
+transform: translateY(-60%);
+}
+
+.faq-item[open] .faq-arrow {
+transform: translateY(-40%) rotate(180deg);
+}
+
+.faq-answer {
+padding: 0 16px 16px;
+}
+
+.faq-answer p {
+font-size: 12px;
+line-height: 1.6;
+}
+
+
+/* =========================================================
+   MOBILE BANNER SECTION
+========================================================= */
+
+#banner {
+width: 100%;
+background-color: #ffffff;
+}
+
+.banner-inner {
+width: 100%;
+height: auto;
+
+margin: 0;
+
+padding: 0 24px 64px;
+
+background-color: #ffffff;
+}
+
+
+/* =========================
+   MOBILE BANNER BOX
+========================= */
+
+.banner-box {
+position: relative;
+
+width: 100%;
+height: auto;
+
+/* 원본 1280 × 350 비율 유지 */
+aspect-ratio: 1280 / 350;
+
+margin: 0 auto;
+
+overflow: hidden;
+}
+
+
+/* =========================
+   MOBILE BANNER BACKGROUND
+========================= */
+
+.banner-bg {
+position: absolute;
+
+top: 0;
+left: 0;
+
+width: 100%;
+height: 100%;
+
+/* 이미지 전체 노출 */
+object-fit: fill;
+
+z-index: 1;
+}
+
+
+/* =========================
+   MOBILE BANNER CONTENT
+========================= */
+
+.banner-content {
+position: absolute;
+
+top: 26%;
+left: 29%;
+right: 3%;
+
+padding: 0;
+
+z-index: 2;
+}
+
+
+/* =========================
+   MOBILE BANNER TITLE
+========================= */
+
+.banner-title {
+margin-bottom: 4px;
+
+font-size: clamp(10px, 3.2vw, 17px);
+font-weight: 700;
+
+line-height: 1.2;
+letter-spacing: -0.4px;
+
+color: #ffffff;
+
+white-space: nowrap;
+
+transform: none;
+}
+
+
+/* =========================
+   MOBILE BANNER SUB TITLE
+========================= */
+
+.banner-sub-title {
+font-size: clamp(7px, 1.9vw, 11px);
+font-weight: 500;
+
+line-height: 1.3;
+letter-spacing: 0;
+
+color: #ffffff;
+
+white-space: nowrap;
+}
+
+
+/* =========================
+   MOBILE BANNER BUTTON GROUP
+========================= */
+
+.banner-btn-group {
+position: absolute;
+
+right: 7%;
+bottom: 15%;
+
+display: flex;
+align-items: center;
+
+gap: 4px;
+
+z-index: 3;
+}
+
+
+/* =========================
+   MOBILE BANNER BUTTON
+========================= */
+
+.banner-btn {
+width: auto;
+height: auto;
+
+padding: 4px 7px;
+
+border-radius: 4px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+gap: 4px;
+
+font-size: clamp(6px, 1.4vw, 9px);
+font-weight: 500;
+
+line-height: 1;
+
+white-space: nowrap;
+}
+
+
+/* =========================
+   MOBILE BANNER BUTTON ICON
+========================= */
+
+.banner-btn img {
+width: 9px;
+height: 9px;
+
+object-fit: contain;
+
+filter: brightness(0) invert(1);
+}
+
+.banner-btn-primary {
+background-color: #df8b25;
+color: #ffffff;
+}
+
+.banner-btn-secondary {
+border: 1px solid #ffffff;
+background-color: rgba(0, 0, 0, 0.15);
+color: #ffffff;
+}
+
+
+/* =========================
+   MOBILE FOOTER SECTION
+========================= */
+
+#footer {
+width: 100%;
+height: auto;
+
+margin-top: 0;
+
+background-color: #553220;
+color: #ffffff;
+}
+
+.footer-inner {
+width: 100%;
+height: auto;
+
+margin: 0;
+}
+
+
+/* =========================
+   MOBILE FOOTER CONTENT
+========================= */
+
+.footer-content {
+width: 100%;
+height: auto;
+
+margin: 0;
+
+padding: 48px 24px;
+
+display: flex;
+flex-direction: column;
+
+align-items: stretch;
+}
+
+
+/* =========================
+   MOBILE FOOTER BRAND
+========================= */
+
+.footer-brand {
+width: 100%;
+height: auto;
+
+margin-bottom: 40px;
+
+text-align: center;
+}
+
+.footer-logo {
+width: 120px;
+margin: 0 auto 14px;
+}
+
+.footer-logo img {
+width: 100%;
+height: auto;
+}
+
+.footer-description {
+margin-bottom: 18px;
+
+font-size: 10px;
+line-height: 1.6;
+}
+
+.footer-sns {
+display: flex;
+justify-content: center;
+
+gap: 10px;
+}
+
+.footer-sns-btn {
+width: 28px;
+height: 28px;
+}
+
+
+/* =========================
+   MOBILE FOOTER MENU
+========================= */
+
+.footer-menu {
+width: 100%;
+
+margin-left: 0;
+
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+
+column-gap: 0;
+row-gap: 32px;
+}
+
+.footer-column,
+.footer-column:last-child {
+width: 100%;
+height: auto;
+
+min-height: 0;
+
+padding: 0 20px;
+
+display: flex;
+flex-direction: column;
+
+align-items: flex-start;
+}
+
+.footer-column + .footer-column {
+border-left: none;
+}
+
+.footer-column:nth-child(even) {
+border-left: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.footer-title {
+margin: 0 0 14px;
+
+font-size: 14px;
+line-height: 1.2;
+}
+
+.footer-column ul {
+width: 100%;
+}
+
+.footer-column li {
+width: 100%;
+
+font-size: 10px;
+line-height: 1.5;
+
+white-space: normal;
+}
+
+.footer-column li + li {
+margin-top: 10px;
+}
+
+.footer-column a,
+.footer-column span {
+font-size: 10px;
+white-space: normal;
+}
+
+
+/* =========================
+   MOBILE FOOTER BOTTOM
+========================= */
+
+.footer-bottom {
+width: 100%;
+height: 80px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+background-color: #321d13;
+}
+
+.footer-bottom p {
+font-size: 10px;
+
+text-align: center;
+
+color: #ffffff;
+}
+
+}
+
+응. 모바일에서만 **푸터 메뉴의 제목 4개만 남기고, 아래 리스트 내용은 전부 숨기면 돼.**
+데스크탑은 그대로 두고, 모바일 `@media` 안에 아래만 추가해.
+
+```css
+/* =========================
+   MOBILE FOOTER MENU
+   제목만 표시
+========================= */
+
+.footer-menu {
+width: 100%;
+margin-left: 0;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 24px 0;
+}
+
+.footer-column,
+.footer-column:last-child {
+width: 100%;
+height: auto;
+min-height: 0;
+padding: 0 20px;
+}
+
+/* 회사정보 / 이용안내 / 고객센터 / 다운로드 제목 */
+.footer-title {
+margin: 0;
+font-size: 16px;
+font-weight: 500;
+line-height: 1.2;
+color: #ffffff;
+white-space: nowrap;
+}
+
+/* 모바일에서는 제목 아래 내용 전부 숨김 */
+.footer-column ul {
+display: none;
+}
+
+/* 모바일에서는 세로 구분선 제거 */
+.footer-column + .footer-column,
+.footer-column:nth-child(even) {
+border-left: none;
+}
+```
+
+그러면 모바일 푸터는 딱 이렇게만 보여.
+
+```text
+회사정보        이용 안내
+
+고객센터        다운로드
+```
+
+`회사 소개`, `매장 찾기`, `전화번호`, `카페온24 앱으로` 같은 **나머지 내용은 모바일에서만 전부 사라지고**, 데스크탑에서는 그대로 유지돼.
+
+.howtouse-list {
+cursor: grab;
+}
+
+.howtouse-list:active {
+cursor: grabbing;
+}

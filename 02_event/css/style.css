@@ -1,0 +1,52 @@
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕";
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    margin-bottom: 26px;
+}
+
+ol{
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+button{
+    width: 50px;
+    height: 20px;
+    /* 손모양으로 변경하는 모양 */
+    cursor: pointer;
+}
+
+hr{
+    margin: 30px 0;
+}
+
+.parent{
+    display: flex;
+     gap: 22px;
+}
+
+.parent div{
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+}
+
+.parent .box1{
+    background: #ffcc00;
+}
+
+.parent .box2{
+    background: #47c2fb;
+}
+
+.parent .box3{
+    background: #fd6f7d;
+}

@@ -1,0 +1,90 @@
+@charset "utf-8";
+
+
+body {
+    font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+}
+
+
+/* 제목 */
+h1 {
+    font-size: 32px;
+}
+
+
+/* 버튼 영역 */
+.btn-area {
+    margin-bottom: 16px;
+}
+
+
+/* 구분선 */
+hr {
+    margin-bottom: 10px;
+}
+
+
+/* =========================
+   부모 박스
+========================= */
+
+.parent {
+    width: 640px;
+
+    border: 5px solid #cccccc;
+
+    display: flex;
+
+    gap: 20px;
+}
+
+
+/* 첫 번째 부모와
+   두 번째 부모 사이 간격 */
+.parent1 {
+    margin-bottom: 50px;
+}
+
+
+/* =========================
+   자식 박스 공통
+========================= */
+
+.box {
+    width: 200px;
+    height: 200px;
+
+    flex-shrink: 0;
+}
+
+
+/* fadeIn / fadeOut */
+.box1 {
+    background-color: red;
+}
+
+
+/* fadeToggle */
+.box2 {
+    background-color: green;
+}
+
+
+/* slideUp / slideDown */
+.box3 {
+    background-color: #ffcc00;
+}
+
+
+/* slideToggle */
+.box4 {
+    background-color: #c8ff00;
+}
+
+
+/* animate */
+.box5 {
+    background-color: #12bfe7;
+
+    position: relative;
+}

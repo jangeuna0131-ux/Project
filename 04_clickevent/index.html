@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>jQuery 애니메이션 관련 메서드</title>
+
+    <!-- CSS 연결 -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <h1>[ jQuery 애니메이션 관련 메서드 ]</h1>
+
+    <ol>
+        <li>$("대상").fadeIn();</li>
+        <li>$("대상").fadeOut();</li>
+        <li>$("대상").fadeToggle();</li>
+        <li>$("대상").slideUp();</li>
+        <li>$("대상").slideDown();</li>
+        <li>$("대상").slideToggle();</li>
+        <li>$("대상").animate();</li>
+    </ol>
+
+
+    <!-- 버튼 영역 -->
+    <div class="btn-area">
+
+        <button id="fadeIn">fadeIn</button>
+        <button id="fadeOut">fadeOut</button>
+        <button id="fadeToggle">fadeToggle</button>
+
+        <button id="slideUp">slideUp</button>
+        <button id="slideDown">slideDown</button>
+        <button id="slideToggle">slideToggle</button>
+
+        <button id="ani1">ani1</button>
+        <button id="ani2">ani2</button>
+
+    </div>
+
+
+    <hr>
+
+
+    <!-- 첫 번째 부모 -->
+    <div class="parent parent1">
+
+        <div class="box box1">
+            fadeIn / fadeOut
+        </div>
+
+        <div class="box box2">
+            fadeToggle
+        </div>
+
+    </div>
+
+
+    <!-- 두 번째 부모 -->
+    <div class="parent parent2">
+
+        <div class="box box3">
+            slideUp / slideDown
+        </div>
+
+        <div class="box box4">
+            slideToggle
+        </div>
+
+        <div class="box box5">
+            Animation
+        </div>
+
+    </div>
+
+
+    <!-- jQuery 라이브러리 -->
+    <script src="./js/jquery-4.0.0.js"></script>
+
+    <!-- 내가 만든 jQuery -->
+    <script src="./js/script.js"></script>
+
+</body>
+</html>

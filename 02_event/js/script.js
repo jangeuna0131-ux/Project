@@ -30,8 +30,8 @@ $("#btn4").click(function(){
 // small버튼을 클릭하면 box3의 크기를 200X200으로 설정
 
 $("#btn5").click(function(){
-        $(".box3").width(100)
-        $(".box3").height(100)
+        $(".box3").width(200)
+        $(".box3").height(200)
     })
 
 })

@@ -1,0 +1,699 @@
+@charset "utf-8";
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    color: #222222;
+}
+
+
+ul,
+li {
+    list-style: none;
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+img {
+    display: block;
+}
+
+
+button {
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+
+
+/* =========================
+   MAIN VISUAL
+========================= */
+
+.main-visual {
+
+    position: relative;
+
+    width: 100%;
+
+    min-width: 1100px;
+
+    height: 100vh;
+
+    min-height: 700px;
+
+
+    /* =========================
+       실제 배경 이미지 파일명으로 수정
+    ========================= */
+
+    background-image:
+        url("../imges/mainslide_img01.jpg");
+
+    background-repeat: no-repeat;
+
+    background-position: center center;
+
+    background-size: cover;
+
+}
+
+
+
+/* =========================
+   HEADER
+
+   1100 × 66
+   top 38
+========================= */
+
+.header {
+
+    width: 1100px;
+
+    height: 66px;
+
+
+    /* position으로 배치 */
+    position: absolute;
+
+    top: 38px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+
+    background-color: #ffffff;
+
+
+    display: flex;
+
+    align-items: center;
+
+
+    z-index: 1000;
+
+}
+
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+    width: 170px;
+
+    height: 66px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.logo a {
+
+    display: block;
+
+}
+
+
+.logo img {
+
+    width: 110px;
+
+    height: auto;
+
+}
+
+
+
+/* =========================
+   GNB
+========================= */
+
+.gnb {
+
+    height: 66px;
+
+    flex: 1;
+
+}
+
+
+.gnb-list {
+
+    width: 100%;
+
+    height: 66px;
+
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+
+/* =========================
+   1단 메뉴
+========================= */
+
+.gnb-item {
+
+    position: relative;
+
+    height: 66px;
+
+    flex: 1;
+
+}
+
+
+.main-menu {
+
+    width: 100%;
+
+    height: 66px;
+
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+
+    /* 요청사항 */
+    font-size: 18px;
+
+    font-weight: 400;
+
+    color: #333333;
+
+
+    position: relative;
+
+
+    transition: 0.2s;
+
+}
+
+
+
+/* 메뉴 사이 세로 선 */
+
+.gnb-item::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 18px;
+
+
+    width: 1px;
+
+    height: 28px;
+
+
+    background-color: #dddddd;
+
+}
+
+
+
+/* =========================
+   1단 MENU HOVER
+========================= */
+
+.gnb-item:hover > .main-menu {
+
+    color: #0074b9;
+
+}
+
+
+
+/* 아래 파란 선 */
+
+.main-menu::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 14px;
+
+    left: 50%;
+
+
+    width: 0;
+
+    height: 2px;
+
+
+    background-color: #0074b9;
+
+
+    transform: translateX(-50%);
+
+
+    transition: 0.25s;
+
+}
+
+
+.gnb-item:hover > .main-menu::after {
+
+    width: 54px;
+
+}
+
+
+
+/* =========================
+   2단 메뉴
+========================= */
+
+.sub-menu {
+
+    /* 요청 사이즈 */
+    width: 206px;
+
+
+    position: absolute;
+
+    top: 66px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+
+    background-color: #ffffff;
+
+
+    /* 처음에는 숨김 */
+    display: none;
+
+
+    z-index: 2000;
+
+}
+
+
+
+/* 주메뉴 hover시 보이기 */
+
+.gnb-item:hover > .sub-menu {
+
+    display: block;
+
+}
+
+
+
+/* =========================
+   2단 메뉴 LI
+========================= */
+
+.sub-menu li {
+
+    width: 206px;
+
+    text-align: center;
+
+}
+
+
+.sub-menu li a {
+
+    width: 206px;
+
+    height: 42px;
+
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+
+    font-size: 14px;
+
+    color: #555555;
+
+
+    background-color: #ffffff;
+
+
+    transition: 0.2s;
+
+}
+
+
+
+/* =========================
+   2단 메뉴 HOVER
+========================= */
+
+.sub-menu li a:hover {
+
+    background-color: #0878b8;
+
+    color: #ffffff;
+
+}
+
+
+
+/* =========================
+   ENG
+========================= */
+
+.language {
+
+    width: 70px;
+
+    height: 66px;
+
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.language a {
+
+    padding: 3px 7px;
+
+
+    border: 1px solid #dddddd;
+
+
+    /* 요청사항 */
+    font-size: 12px;
+
+
+    color: #999999;
+
+}
+
+
+
+/* =========================
+   VISUAL INNER
+========================= */
+
+.visual-inner {
+
+    width: 1100px;
+
+    height: 100%;
+
+
+    margin: 0 auto;
+
+
+    position: relative;
+
+}
+
+
+
+/* =========================
+   VISUAL TEXT
+========================= */
+
+.visual-text {
+
+    position: absolute;
+
+    left: 55px;
+
+    top: 31%;
+
+}
+
+
+
+/* 큰 제목 */
+
+.visual-text h2 {
+
+    font-size: 31px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    color: #202020;
+
+}
+
+
+
+/* 두 번째 문장 */
+
+.visual-text strong {
+
+    display: block;
+
+
+    margin-top: 4px;
+
+
+    font-size: 27px;
+
+    line-height: 1.5;
+
+
+    font-weight: 400;
+
+    color: #222222;
+
+}
+
+
+
+/* 작은 설명 */
+
+.visual-desc {
+
+    margin-top: 20px;
+
+}
+
+
+.visual-desc p {
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    color: #555555;
+
+}
+
+
+
+/* =========================
+   기업정보 버튼
+========================= */
+
+.company-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    width: 130px;
+
+    height: 42px;
+
+
+    margin-top: 18px;
+
+
+    border: 1px solid rgba(0, 0, 0, 0.5);
+
+
+    font-size: 14px;
+
+    color: #333333;
+
+
+    transition: 0.2s;
+
+}
+
+
+.company-btn:hover {
+
+    background-color: #333333;
+
+    color: #ffffff;
+
+}
+
+
+
+/* =========================
+   SCROLL INFO
+========================= */
+
+.scroll-info {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 135px;
+
+
+    transform: translateX(-50%);
+
+
+    height: 42px;
+
+
+    padding: 0 18px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+
+    border-radius: 22px;
+
+
+    background-color: rgba(0, 0, 0, 0.45);
+
+
+    font-size: 12px;
+
+    color: #ffffff;
+
+}
+
+
+.mouse-icon {
+
+    font-size: 15px;
+
+}
+
+
+
+/* =========================
+   PAGINATION
+========================= */
+
+.pagination {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 60px;
+
+
+    transform: translateX(-50%);
+
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+}
+
+
+
+/* 점 */
+
+.dot {
+
+    width: 11px;
+
+    height: 11px;
+
+
+    border-radius: 50%;
+
+
+    background-color: rgba(255, 255, 255, 0.45);
+
+}
+
+
+.dot.active {
+
+    background-color: #ffffff;
+
+}
+
+
+
+/* 재생 */
+
+.play-btn {
+
+    margin-left: 12px;
+
+
+    font-size: 12px;
+
+    color: #ffffff;
+
+
+    cursor: pointer;
+
+}

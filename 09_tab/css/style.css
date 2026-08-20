@@ -1,0 +1,207 @@
+@charset "utf-8";
+
+
+/* ========================================
+   BODY
+======================================== */
+
+body {
+
+    font-family: "Noto Sans KR", sans-serif;
+
+}
+
+
+
+/* ========================================
+   초기화
+======================================== */
+
+/* 여백 초기화 */
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+/* 하이퍼링크 밑줄 초기화 */
+a {
+
+    text-decoration: none;
+
+}
+
+
+/* 목록 앞 동그라미 초기화 */
+li {
+
+    list-style: none;
+
+}
+
+
+
+/* ========================================
+   SECTION
+======================================== */
+
+section {
+
+    width: 100%;
+
+    padding: 170px 0 120px;
+
+    /* background: gold; */
+
+}
+
+
+
+/* ========================================
+   INNER
+======================================== */
+
+section .inner {
+
+    width: 1140px;
+
+    margin: 0 auto;
+
+    /* background: pink; */
+
+}
+
+
+
+/* ========================================
+   TITLE
+======================================== */
+
+section .inner h2 {
+
+    font-size: 50px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+}
+
+
+
+/* ========================================
+   DESCRIPTION
+======================================== */
+
+section .inner p {
+
+    margin-top: 30px;
+
+    margin-bottom: 45px;
+
+    font-size: 23px;
+
+    font-weight: 400;
+
+    text-align: center;
+
+}
+
+
+
+/* ========================================
+   TAB MENU
+======================================== */
+
+section .inner .tab {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+    margin-bottom: 60px;
+
+}
+
+
+
+/* ========================================
+   TAB BUTTON
+======================================== */
+
+section .inner .tab li a {
+
+    /*
+        a태그는 기본적으로 inline 요소라서
+        width, height 적용이 어려움.
+
+        block 요소로 변경.
+    */
+    display: block;
+
+    width: 140px;
+
+    height: 45px;
+
+    border: 1px solid #5b5b5b;
+
+    border-radius: 999px;
+
+    text-align: center;
+
+
+    /*
+        버튼 높이와 line-height를 동일하게 주어
+        글자를 세로 중앙 정렬
+    */
+    line-height: 45px;
+
+    font-size: 22px;
+
+    font-weight: 500;
+
+    color: #111;
+
+}
+
+
+
+/* ========================================
+   TAB ACTIVE
+
+   하나의 버튼의 두 가지 상태값 표현
+
+   HTML의
+   <li class="on">
+   을 선택
+======================================== */
+
+section .inner .tab li.on a {
+
+    background: #ff6400;
+
+    color: #fff;
+
+    border: none;
+
+}
+
+
+section .inner .list{
+    display: flex;
+    justify-content: center;
+    gap: 300px;
+}
+
+section .inner .list li a h3{
+    text-align: center;
+    font-size: 15px;
+    color: #6a6a6a;
+    font-weight: 500;
+}

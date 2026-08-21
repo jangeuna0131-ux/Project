@@ -10,27 +10,66 @@ const recommendSwiper = new Swiper(".recommend-swiper", {
     /* 카드 사이 간격 */
     spaceBetween: 24,
 
-    /* 좌우 버튼은 1개씩 이동 */
+    /* 한 번에 1개씩 이동 */
     slidesPerGroup: 1,
 
-    /* 무한 반복 */
+
+    /* ========================================
+       무한 반복
+    ======================================== */
+
+    /*
+        마지막 슬라이드 다음에도
+        첫 번째 슬라이드가 자연스럽게 이어짐
+    */
     loop: true,
 
-    /* 슬라이드 이동 속도 */
-    speed: 700,
 
-    /* 기본 autoplay는 사용하지 않음 */
-    autoplay: false,
+    /*
+        원본 슬라이드 6개를 기준으로
+        loop용 복제 슬라이드 생성
+    */
+    loopedSlides: 6,
+
+    /*
+        앞뒤 복제 슬라이드 추가
+    */
+    loopAdditionalSlides: 3,
+
+
+    /* ========================================
+       슬라이드 이동 속도
+       설화수처럼 조금 빠르게
+    ======================================== */
+    speed: 600,
+
+
+    /* ========================================
+       자동 슬라이드
+    ======================================== */
+    autoplay: {
+
+        /* 3초마다 1개씩 이동 */
+        delay: 3000,
+
+        /* 항상 다음 방향 */
+        reverseDirection: false,
+
+        /* 버튼을 눌러도 자동재생 유지 */
+        disableOnInteraction: false
+
+    },
 
 
     /* ========================================
        좌우 버튼
-       클릭할 때는 1개씩 이동
     ======================================== */
     navigation: {
 
+        /* 오른쪽 = 다음 */
         nextEl: ".recommend-next",
 
+        /* 왼쪽 = 이전 */
         prevEl: ".recommend-prev"
 
     },
@@ -51,42 +90,6 @@ const recommendSwiper = new Swiper(".recommend-swiper", {
 
 
 /* ========================================
-   자동 슬라이드
-   3초마다 3개씩 이동
-======================================== */
-
-let autoTimer;
-
-let isPaused = false;
-
-
-function startAutoSlide() {
-
-    autoTimer = setInterval(function () {
-
-        if (isPaused === false) {
-
-            /*
-                현재 위치에서
-                다음 상품 3개만큼 이동
-            */
-            recommendSwiper.slideToLoop(
-                (recommendSwiper.realIndex + 3) % 6,
-                700
-            );
-
-        }
-
-    }, 3000);
-
-}
-
-
-/* 자동 슬라이드 시작 */
-startAutoSlide();
-
-
-/* ========================================
    정지 / 재생 버튼
 ======================================== */
 
@@ -94,38 +97,64 @@ const controlBtn =
     document.querySelector(".recommend-control-btn");
 
 
+/* 처음에는 자동재생 중 */
+let isPaused = false;
+
+
+/* ========================================
+   정지 / 재생 버튼 클릭
+======================================== */
+
 controlBtn.addEventListener("click", function () {
 
-    /* 재생 중 → 정지 */
+    /* ========================================
+       재생 중 → 정지
+    ======================================== */
     if (isPaused === false) {
 
-        isPaused = true;
+        /* 자동재생 정지 */
+        recommendSwiper.autoplay.stop();
 
-        clearInterval(autoTimer);
 
+        /* 재생 아이콘으로 변경 */
         controlBtn.classList.add("play");
 
+
+        /* 접근성 문구 변경 */
         controlBtn.setAttribute(
             "aria-label",
             "슬라이드 재생"
         );
 
+
+        /* 정지 상태 */
+        isPaused = true;
+
     }
 
 
-    /* 정지 중 → 재생 */
+    /* ========================================
+       정지 중 → 다시 재생
+    ======================================== */
     else {
 
-        isPaused = false;
+        /* 자동재생 다시 시작 */
+        recommendSwiper.autoplay.start();
 
-        startAutoSlide();
 
+        /* 정지 아이콘으로 변경 */
         controlBtn.classList.remove("play");
 
+
+        /* 접근성 문구 변경 */
         controlBtn.setAttribute(
             "aria-label",
             "슬라이드 정지"
         );
+
+
+        /* 재생 상태 */
+        isPaused = false;
 
     }
 

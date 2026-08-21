@@ -279,3 +279,29 @@ $(function () {
 
 
 });
+
+$(function () {
+
+    // =========================================
+    // 탭 메뉴 클릭 기능
+    // =========================================
+    $(".tab li").click(function () {
+
+        // 사용자가 클릭한 탭의 순번 구하기
+        let num = $(this).index();
+
+        // 모든 탭의 on 제거
+        $(".tab li").removeClass("on");
+
+        // 클릭한 탭에 on 추가
+        $(this).addClass("on");
+
+        // 모든 상품 리스트 숨기기
+        $(".brand_list").removeClass("on");
+
+        // 클릭한 탭 순번과 같은 상품 리스트 보여주기
+        $(".brand_list").eq(num).addClass("on");
+
+    });
+
+});

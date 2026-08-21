@@ -1,0 +1,361 @@
+@charset "utf-8";
+
+
+/* ========================================
+   기본 설정
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+body {
+    font-family: Arial, "Noto Sans KR", sans-serif;
+    color: #111;
+}
+
+
+/* 스크린리더 전용 */
+.blind {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+
+    border: 0;
+}
+
+
+/* ========================================
+   설화수 추천 SECTION
+======================================== */
+
+.recommend {
+    width: 100%;
+    height: 950px;
+
+    padding-top: 90px;
+
+    overflow: hidden;
+}
+
+
+/* inner 1440px */
+.recommend .inner {
+    width: 1440px;
+    height: 100%;
+
+    margin: 0 auto;
+
+    position: relative;
+}
+
+
+/* ========================================
+   섹션 제목
+======================================== */
+
+.recommend h2 {
+    margin-bottom: 28px;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+/* ========================================
+   Swiper 영역
+======================================== */
+
+.recommend-swiper {
+    width: 100%;
+    height: 600px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* ========================================
+   각각의 슬라이드
+======================================== */
+
+.recommend-swiper .swiper-slide {
+    height: 600px;
+}
+
+
+/* 상품 카드 */
+.product-card {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ========================================
+   상품 이미지
+======================================== */
+
+.product-img {
+    width: 100%;
+    height: 455px;
+
+    background-color: #f3f3f3;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+
+/* 1. 탄력크림 EX */
+.product-img01 {
+    background-image:
+        url("../images/6b9f3559cc14821dcf2c20ddef61342b.jpg");
+}
+
+
+/* 2. 자정기미코렉터 */
+.product-img02 {
+    background-image:
+        url("../images/9294c878fba51f049347d2125d4d1833.jpg");
+}
+
+
+/* 3. 퍼펙팅 쿠션 에어리 */
+.product-img03 {
+    background-image:
+        url("../images/6cf3b992749064be16b9a491737e8878.jpg");
+}
+
+
+/* 4. 윤조아이세럼 */
+.product-img04 {
+    background-image:
+        url("../images/bc086dd83d1c6e0a85d4e180d0fd12e7.jpg");
+}
+
+
+/* 5. 여윤팩 */
+.product-img05 {
+    background-image:
+        url("../images/5473f3bb2934a891190776f9269f1385.jpg");
+}
+
+
+/* 6. 순행클렌징폼 */
+.product-img06 {
+    background-image:
+        url("../images/a68d687638f4e1d036afa9484b866cce.jpg");
+}
+
+
+/* ========================================
+   상품 텍스트
+======================================== */
+
+.product-text {
+    padding-top: 18px;
+
+    text-align: center;
+}
+
+
+/* 상품명 */
+.product-text h3 {
+    margin-bottom: 8px;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+/* 영문 상품명 */
+.product-text p {
+    margin-bottom: 15px;
+
+    font-size: 18px;
+    font-weight: 400;
+
+    color: #444;
+}
+
+
+/* 가격 */
+.product-text strong {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+/* ========================================
+   Swiper 좌우 버튼
+======================================== */
+
+.recommend-swiper .recommend-prev,
+.recommend-swiper .recommend-next {
+    position: absolute;
+
+    /* 상품 이미지 높이 455px의 정중앙 */
+    top: 227.5px !important;
+
+    width: 68px !important;
+    height: 68px !important;
+
+    min-width: 68px;
+    min-height: 68px;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translateY(-50%) !important;
+
+    box-sizing: border-box !important;
+
+    border: 0;
+
+    background-color: rgba(255, 255, 255, 0.4);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    overflow: hidden;
+
+    font-size: 0;
+
+    z-index: 20;
+
+    cursor: pointer;
+}
+
+
+/* ========================================
+   Swiper 기본 화살표 제거
+======================================== */
+
+.recommend-swiper .recommend-prev::after,
+.recommend-swiper .recommend-next::after {
+    content: none !important;
+    display: none !important;
+}
+
+
+/* ========================================
+   이전 버튼
+======================================== */
+
+.recommend-swiper .recommend-prev {
+    left: 0 !important;
+
+    background-image:
+        url("../images/20210324-main-kv-arr-l.png");
+}
+
+
+/* ========================================
+   다음 버튼
+======================================== */
+
+.recommend-swiper .recommend-next {
+    right: 0 !important;
+
+    background-image:
+        url("../images/20210324-main-kv-arr-r.png");
+}
+
+/* ========================================
+   진행 막대 영역
+======================================== */
+
+.pagination-container {
+    width: 100%;
+
+    margin-top: 34px;
+}
+
+
+.pagination-container__inner {
+    width: 440px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+}
+
+
+/* ========================================
+   Swiper Progress Bar
+======================================== */
+
+.recommend-swiper-pagination {
+    position: static !important;
+
+    width: 400px !important;
+    height: 3px !important;
+
+    background-color: #d5d5d5;
+}
+
+
+/* 실제 진행되는 검은 막대 */
+.recommend-swiper-pagination
+.swiper-pagination-progressbar-fill {
+
+    background-color: #111;
+}
+
+
+/* ========================================
+   재생 / 정지 버튼
+======================================== */
+
+.recommend-control-btn {
+    flex-shrink: 0;
+
+    width: 22px;
+    height: 22px;
+
+    background-image:
+        url("../images/다운로드.svg");
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+
+/* 재생 상태 */
+.recommend-control-btn.play {
+    background-image:
+        url("../images/재생 (1).svg");
+}
+
+

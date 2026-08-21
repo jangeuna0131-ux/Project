@@ -1677,3 +1677,93 @@ button {
 
     cursor: pointer;
 }
+
+/* ==========================================================
+   2DEPTH에 마우스가 들어오면
+   기존 1DEPTH 밑줄 전부 제거
+========================================================== */
+
+.header:has(.depth2:hover)
+.gnb > li .main-menu::after {
+    opacity: 0;
+
+    transform: scaleX(0);
+}
+
+
+/* ==========================================================
+   회사소개 2DEPTH에 마우스를 올렸을 때
+   회사소개 밑줄만 표시
+========================================================== */
+
+.header:has(.depth2-menu:nth-of-type(1):hover)
+.gnb > li:nth-child(1) .main-menu::after {
+    opacity: 1;
+
+    transform: scaleX(1);
+}
+
+
+/* ==========================================================
+   홍보관 2DEPTH에 마우스를 올렸을 때
+   홍보관 밑줄만 표시
+========================================================== */
+
+.header:has(.depth2-menu:nth-of-type(2):hover)
+.gnb > li:nth-child(2) .main-menu::after {
+    opacity: 1;
+
+    transform: scaleX(1);
+}
+
+
+/* ==========================================================
+   지속가능경영 2DEPTH에 마우스를 올렸을 때
+   지속가능경영 밑줄만 표시
+========================================================== */
+
+.header:has(.depth2-menu:nth-of-type(3):hover)
+.gnb > li:nth-child(3) .main-menu::after {
+    opacity: 1;
+
+    transform: scaleX(1);
+}
+
+
+/* ==========================================================
+   브랜드 2DEPTH에 마우스를 올렸을 때
+   브랜드 밑줄만 표시
+========================================================== */
+
+.header:has(.depth2-menu:nth-of-type(4):hover)
+.gnb > li:nth-child(4) .main-menu::after {
+    opacity: 1;
+
+    transform: scaleX(1);
+}
+
+
+/* ==========================================================
+   제품 2DEPTH에 마우스를 올렸을 때
+   제품 밑줄만 표시
+========================================================== */
+
+.header:has(.depth2-menu:nth-of-type(5):hover)
+.gnb > li:nth-child(5) .main-menu::after {
+    opacity: 1;
+
+    transform: scaleX(1);
+}
+
+
+/* ==========================================================
+   고객지원 2DEPTH에 마우스를 올렸을 때
+   고객지원 밑줄만 표시
+========================================================== */
+
+.header:has(.depth2-menu:nth-of-type(6):hover)
+.gnb > li:nth-child(6) .main-menu::after {
+    opacity: 1;
+
+    transform: scaleX(1);
+}

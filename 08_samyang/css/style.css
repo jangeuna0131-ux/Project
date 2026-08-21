@@ -62,7 +62,183 @@ button {
 }
 
 
+/* ==========================================================
+   POPUP 전체 영역
+========================================================== */
 
+.popup-wrap {
+    /* 화면을 기준으로 고정 */
+    position: fixed;
+
+    /* 화면 전체 사용 */
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    /* 화면 정중앙 배치 */
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    /* 다른 콘텐츠보다 위에 표시 */
+    z-index: 99999;
+
+    /* 뒤쪽 화면을 살짝 어둡게 */
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+
+
+/* ==========================================================
+   POPUP BOX
+
+   요청사항
+   가로 : 424px
+========================================================== */
+
+.popup-box {
+    position: relative;
+
+    width: 424px;
+
+    background-color: #fff;
+
+    /* 팝업 바깥쪽 검은 영역 */
+    border: 6px solid #333;
+}
+
+
+
+/* ==========================================================
+   POPUP IMAGE 영역
+========================================================== */
+
+.popup-img {
+    width: 100%;
+
+    overflow: hidden;
+}
+
+
+
+/* 팝업 이미지 */
+.popup-img img {
+    width: 100%;
+    height: auto;
+
+    display: block;
+}
+
+
+
+/* ==========================================================
+   오른쪽 위 X 버튼
+========================================================== */
+
+.popup-x {
+    position: absolute;
+
+    top: -14px;
+    right: -14px;
+
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid #222;
+
+    border-radius: 50%;
+
+    background-color: #fff;
+
+    color: #222;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+
+
+/* ==========================================================
+   POPUP 하단 영역
+========================================================== */
+
+.popup-bottom {
+    width: 100%;
+    height: 30px;
+
+    padding: 0 8px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #fff;
+}
+
+
+
+/* ==========================================================
+   오늘 하루 보지 않기
+========================================================== */
+
+.popup-today {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+
+
+/* 체크박스 */
+.popup-today input {
+    width: 13px;
+    height: 13px;
+
+    cursor: pointer;
+}
+
+
+
+/* ==========================================================
+   하단 닫기 버튼
+========================================================== */
+
+.popup-close {
+    border: 0;
+
+    background-color: transparent;
+
+    color: #333;
+
+    font-family: "Noto Sans KR", sans-serif;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
 /* ==========================================================
    HEADER
 
@@ -71,7 +247,8 @@ button {
 ========================================================== */
 
 .header {
-    position: relative;
+    position: sticky;
+    top: 0;
 
     width: 100%;
     height: 111px;
@@ -1766,4 +1943,186 @@ button {
     opacity: 1;
 
     transform: scaleX(1);
+}
+
+/* ========================================
+   TOP 버튼
+   스크롤 내렸을 때 오른쪽 아래 표시
+======================================== */
+
+.top-btn {
+    position: fixed;
+
+    /* 화면 오른쪽 아래 */
+    right: 40px;
+    bottom: 40px;
+
+    width: 46px;
+    height: 46px;
+
+    border: 0;
+    border-radius: 50%;
+
+    /* 삼양 주황색 */
+    background-color: #ff6400;
+
+    /* 처음에는 숨기기 */
+    opacity: 0;
+    visibility: hidden;
+
+    /* 버튼 안 내용 가운데 정렬 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    z-index: 99999;
+
+    transition: 0.3s;
+}
+
+
+/* ========================================
+   스크롤을 내렸을 때
+   JS에서 on 클래스가 붙으면 나타남
+======================================== */
+
+.top-btn.on {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* ========================================
+   위쪽 화살표
+======================================== */
+
+.top-arrow {
+    width: 0;
+    height: 0;
+
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 6px solid #fff;
+
+    margin-bottom: 3px;
+}
+
+
+/* ========================================
+   TOP 글자
+======================================== */
+
+.top-text {
+    color: #fff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-align: center;
+}
+
+
+/* ========================================
+   TOP 버튼 hover
+======================================== */
+
+.top-btn:hover {
+    background-color: #e85700;
+}
+
+
+/* ========================================
+   TOP 버튼 최종 위치 강제 수정
+   화면 오른쪽 아래
+======================================== */
+
+.top-btn {
+    position: fixed !important;
+
+    /* ★ 가운데 정렬 완전히 제거 */
+    left: auto !important;
+    transform: none !important;
+
+    /* ★ 오른쪽 아래로 이동 */
+    right: 40px !important;
+    bottom: 40px !important;
+
+    width: 46px;
+    height: 46px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background-color: #ff6400;
+
+    /* 처음에는 숨김 */
+    opacity: 0;
+    visibility: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    z-index: 99999;
+
+    transition: 0.3s;
+}
+
+
+/* ========================================
+   스크롤했을 때 TOP 버튼 표시
+======================================== */
+
+.top-btn.on {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* ========================================
+   위 화살표
+======================================== */
+
+.top-arrow {
+    width: 0;
+    height: 0;
+
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 6px solid #fff;
+
+    margin-bottom: 3px;
+}
+
+
+/* ========================================
+   TOP 글자
+======================================== */
+
+.top-text {
+    color: #fff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-align: center;
+}
+
+
+/* ========================================
+   TOP 버튼 hover
+======================================== */
+
+.top-btn:hover {
+    background-color: #e85700;
 }

@@ -37,6 +37,150 @@
     <link rel="stylesheet"
           href="./css/style.css">
 
+
+    <!-- ==========================================================
+         POPUP + TOP 버튼 전용 CSS
+         기존 style.css와 별개로 동작 보장
+    ========================================================== -->
+    <style>
+        /* ========================================
+           POPUP 전체 화면 영역
+        ======================================== */
+        .popup-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.25);
+            z-index: 99998;
+        }
+
+        /* 팝업 박스 : 요청 사이즈 424px */
+        .popup-box {
+            position: relative;
+            width: 424px;
+            background-color: #fff;
+            border: 6px solid #333;
+        }
+
+        /* 팝업 이미지 */
+        .popup-img {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .popup-img img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* 오른쪽 위 X 버튼 */
+        .popup-x {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #222;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #222;
+            font-size: 21px;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* 팝업 하단 */
+        .popup-bottom {
+            width: 100%;
+            min-height: 32px;
+            padding: 0 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .popup-today {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #777;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .popup-close {
+            border: 0;
+            background: transparent;
+            color: #333;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* ========================================
+           TOP 버튼
+           화면 아래 가운데 / 삼양 주황색
+        ======================================== */
+        .top-btn {
+            position: fixed;
+            left: 50%;
+            bottom: 40px;
+            transform: translateX(-50%);
+            width: 46px;
+            height: 46px;
+            border: 0;
+            border-radius: 50%;
+            background-color: #ff6400;
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 99999;
+            transition: opacity 0.25s ease, visibility 0.25s ease, background-color 0.2s ease;
+        }
+
+        /* 스크롤 300px 이상일 때 표시 */
+        .top-btn.on {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 위 화살표 */
+        .top-arrow {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 6px solid #fff;
+            margin-bottom: 3px;
+        }
+
+        /* TOP 글자 */
+        .top-text {
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .top-btn:hover {
+            background-color: #e85700;
+        }
+    </style>
+
 </head>
 
 
@@ -1362,6 +1506,106 @@
 
 
     <!-- ==========================================================
+         POPUP 시작
+    ========================================================== -->
+    <div class="popup-wrap">
+
+        <div class="popup-box">
+
+
+            <!-- ========================================
+                 팝업 오른쪽 위 X 버튼
+            ========================================= -->
+            <button type="button"
+                    class="popup-x"
+                    aria-label="팝업 닫기">
+
+                ×
+
+            </button>
+
+
+            <!-- ========================================
+                 팝업 이미지
+
+                 이미지 파일명은 내 컴퓨터에서 변경 가능
+                 예) ./images/popup_i_P4.jpg
+            ========================================= -->
+            <div class="popup-img">
+
+                <img src="./images/popup_i_P4.jpg"
+                     alt="프로모션 팝업">
+
+            </div>
+            <!-- 팝업 이미지 끝 -->
+
+
+            <!-- ========================================
+                 팝업 하단 영역
+            ========================================= -->
+            <div class="popup-bottom">
+
+
+                <!-- 오늘 하루 보지 않기 -->
+                <label class="popup-today">
+
+                    <input type="checkbox"
+                           id="todayClose">
+
+                    <span>
+                        하루 동안 이 창을 열지 않음
+                    </span>
+
+                </label>
+
+
+                <!-- 닫기 버튼 -->
+                <button type="button"
+                        class="popup-close">
+
+                    [닫기]
+
+                </button>
+
+
+            </div>
+            <!-- 팝업 하단 끝 -->
+
+
+        </div>
+
+    </div>
+    <!-- ==========================================================
+         POPUP 끝
+    ========================================================== -->
+
+
+
+    <!-- ==========================================================
+         TOP 버튼 시작
+
+         중요 : POPUP 밖에 독립적으로 배치
+    ========================================================== -->
+    <button type="button"
+            class="top-btn"
+            aria-label="맨 위로 이동">
+
+        <!-- 위쪽 화살표 -->
+        <span class="top-arrow"></span>
+
+        <!-- TOP 글자 -->
+        <span class="top-text">
+            TOP
+        </span>
+
+    </button>
+    <!-- ==========================================================
+         TOP 버튼 끝
+    ========================================================== -->
+
+
+
+    <!-- ==========================================================
          jQuery Google Library
     ========================================================== -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -1379,6 +1623,118 @@
          내가 만든 JavaScript
     ========================================================== -->
     <script src="./js/script.js"></script>
+
+
+    <!-- ==========================================================
+         POPUP + TOP 버튼 동작
+
+         외부 script.js에 같은 기능이 없어도
+         이 HTML 자체에서 정상 동작하도록 처리
+    ========================================================== -->
+    <script>
+        $(function () {
+
+
+            // ========================================
+            // TOP 버튼
+            // ========================================
+
+            // 처음 로딩 시 현재 스크롤 위치 확인
+            function checkTopButton() {
+
+                if ($(window).scrollTop() > 300) {
+
+                    $(".top-btn").addClass("on");
+
+                } else {
+
+                    $(".top-btn").removeClass("on");
+
+                }
+
+            }
+
+
+            // 페이지 로딩 직후 한 번 실행
+            checkTopButton();
+
+
+            // 스크롤할 때 TOP 버튼 보이기 / 숨기기
+            $(window).on("scroll.topButton", function () {
+
+                checkTopButton();
+
+            });
+
+
+            // TOP 버튼 클릭 시 맨 위로 부드럽게 이동
+            $(".top-btn").on("click.topButton", function () {
+
+                $("html, body").stop().animate({
+
+                    scrollTop: 0
+
+                }, 500);
+
+            });
+
+
+
+            // ========================================
+            // POPUP
+            // ========================================
+
+            // 오늘 날짜를 YYYY-MM-DD 형식으로 만들기
+            let now = new Date();
+
+            let today =
+                now.getFullYear() + "-" +
+                String(now.getMonth() + 1).padStart(2, "0") + "-" +
+                String(now.getDate()).padStart(2, "0");
+
+
+            // 오늘 하루 닫기로 저장된 날짜 가져오기
+            let popupCloseDate = localStorage.getItem("popupCloseDate");
+
+
+            // 저장된 날짜가 오늘과 다르면 팝업 보여주기
+            if (popupCloseDate === today) {
+
+                $(".popup-wrap").hide();
+
+            } else {
+
+                $(".popup-wrap").show();
+
+            }
+
+
+            // 오른쪽 위 X 버튼 클릭
+            $(".popup-x").on("click.popup", function () {
+
+                $(".popup-wrap").hide();
+
+            });
+
+
+            // 하단 [닫기] 버튼 클릭
+            $(".popup-close").on("click.popup", function () {
+
+                // 체크되어 있으면 오늘 날짜 저장
+                if ($("#todayClose").is(":checked")) {
+
+                    localStorage.setItem("popupCloseDate", today);
+
+                }
+
+                // 팝업 닫기
+                $(".popup-wrap").hide();
+
+            });
+
+
+        });
+    </script>
 
 
 </body>

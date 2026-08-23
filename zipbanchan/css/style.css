@@ -2211,3 +2211,19 @@ input {
 .mobile-footer-menu {
     display: none !important;
 }
+
+/* ==================================================
+   DESKTOP INNER 1200px 통일
+================================================== */
+
+#header .inner,
+.best-inner,
+.howtouse-inner,
+.benefit-inner,
+.banner-inner,
+.md-inner,
+.footer-inner {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -1924,6 +1924,18 @@ input {
 
     color: #111111;
 }
+/* ==================================================
+   FOOTER SECTION
+================================================== */
+
+#footer {
+    width: 100%;
+
+    background-color: #ffffff;
+
+    box-sizing: border-box;
+}
+
 
 /* ==================================================
    FOOTER SECTION
@@ -1933,76 +1945,103 @@ input {
     width: 100%;
 
     background-color: #ffffff;
-}
 
-
-/* =========================
-   FOOTER INNER
-========================= */
-
-.footer-inner {
-    width: 1280px;
-
-    margin: 0 auto;
-
-    /* 위 상품 영역과 footer 글자 사이 */
-    padding-top: 97px;
-
-    /* footer 마지막 글자와 끝 사이 */
-    padding-bottom: 170px;
+    /* footer 아래 여백 */
+    padding-bottom: 128px;
 
     box-sizing: border-box;
 }
 
 
-/* =========================
-   FOOTER CONTENT
-   전체 묶음 가운데 정렬
-========================= */
+/* ==================================================
+   FOOTER INNER
 
-.footer-content {
-    /*
-       왼쪽 225
-       + 가운데 185
-       + 오른쪽 495
-       = 905px
-    */
-    width: 905px;
+   위 HEADER / BEST / BENEFIT와 동일
+   INNER = 1280px
+================================================== */
+
+.footer-inner {
+    width: 1280px;
+    height: 200px;
 
     margin: 0 auto;
 
     display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+
+/* ==================================================
+   FOOTER CONTENT
+
+   실제 내용 영역 = 1200px
+
+   LEFT 385
+   GAP 40
+   RIGHT 775
+
+   385 + 40 + 775 = 1200
+================================================== */
+
+/* ==================================================
+   FOOTER CONTENT
+   피그마 원본 위치 맞춤
+================================================== */
+
+.footer-content {
+    width: 1200px;
+    height: 125px;
+
+    display: flex;
     align-items: flex-start;
 
-    gap: 185px;
+    gap: 40px;
+
+    /* 위 MD 상품 시작선과 맞추기 */
+    position: relative;
+    left: 28px;
+
+    box-sizing: border-box;
 }
 
-
-/* =========================
+/* ==================================================
    FOOTER LEFT
-========================= */
+   고객센터
+   385 × 125
+================================================== */
 
 .footer-left {
-    width: 225px;
+    width: 385px;
+    height: 125px;
 
     flex-shrink: 0;
+
+    box-sizing: border-box;
 }
 
 
-/* =========================
+/* ==================================================
    FOOTER RIGHT
-========================= */
+   집반찬연구소
+   775 × 125
+================================================== */
 
 .footer-right {
-    width: 495px;
+    width: 775px;
+    height: 125px;
 
     flex-shrink: 0;
+
+    box-sizing: border-box;
 }
 
 
-/* =========================
+/* ==================================================
    FOOTER 기본 글자
-========================= */
+================================================== */
 
 .footer-left,
 .footer-right {
@@ -2016,11 +2055,10 @@ input {
 
 
 /* =========================
-   FOOTER 제목
+   FOOTER 왼쪽 제목
 ========================= */
 
-.footer-left h2,
-.footer-right h2 {
+.footer-left h2 {
     margin: 0;
 
     font-size: 12px;
@@ -2033,8 +2071,26 @@ input {
 
 
 /* =========================
-   전화번호
+   FOOTER 오른쪽 제목
+   집반찬연구소
 ========================= */
+
+.footer-right h2 {
+    margin: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1.35;
+
+    color: #777777;
+
+}
+
+
+/* ==================================================
+   전화번호
+================================================== */
 
 .footer-tel {
     margin: 0;
@@ -2044,9 +2100,9 @@ input {
 }
 
 
-/* =========================
+/* ==================================================
    이메일
-========================= */
+================================================== */
 
 .footer-email {
     margin: 0;
@@ -2056,9 +2112,9 @@ input {
 }
 
 
-/* =========================
+/* ==================================================
    고객센터 운영시간
-========================= */
+================================================== */
 
 .footer-time {
     margin-top: 18px;
@@ -2075,10 +2131,9 @@ input {
 }
 
 
-/* =========================
+/* ==================================================
    오른쪽 회사정보
-   제목 아래 한 칸
-========================= */
+================================================== */
 
 .footer-company {
     margin-top: 16px;
@@ -2095,9 +2150,9 @@ input {
 }
 
 
-/* =========================
+/* ==================================================
    FOOTER 링크
-========================= */
+================================================== */
 
 .footer-left a,
 .footer-right a {
@@ -2109,10 +2164,9 @@ input {
 }
 
 
-/* =========================
-   회사소개 / 이용약관 /
-   개인정보처리방침
-========================= */
+/* ==================================================
+   회사소개 / 이용약관 / 개인정보처리방침
+================================================== */
 
 .footer-policy {
     margin-top: 16px;
@@ -2132,9 +2186,9 @@ input {
 }
 
 
-/* =========================
+/* ==================================================
    COPYRIGHT
-========================= */
+================================================== */
 
 .footer-copy {
     margin: 3px 0 0;
@@ -2145,1237 +2199,15 @@ input {
     color: #c0c0c0;
 }
 
+
 /* ==================================================
-   MOBILE FOOTER
-   데스크탑에서는 숨김
+   사용하지 않는 모바일 푸터 메뉴 숨김
+
+   회사정보 / 이용안내 /
+   고객센터 / 다운로드
+   → 현재 시안에는 없음
 ================================================== */
 
 .mobile-footer-menu {
-    display: none;
-}
-
-
-/* ==================================================
-   MOBILE RESPONSIVE
-   320px ~ 767px
-================================================== */
-
-@media screen and (min-width: 320px) and (max-width: 767px) {
-
-
-    /* =========================
-       MOBILE 기본 설정
-    ========================= */
-
-    html,
-    body {
-        width: 100%;
-
-        overflow-x: hidden;
-    }
-
-
-    body {
-        min-width: 320px;
-    }
-
-
-    img {
-        max-width: 100%;
-    }
-
-
-
-    /* ==================================================
-       MOBILE HEADER
-    ================================================== */
-
-    #header {
-        width: 100%;
-        height: 70px;
-    }
-
-
-    #header .inner {
-        width: 100%;
-        height: 70px;
-
-        padding: 0 16px;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        position: relative;
-    }
-
-
-    /* =========================
-       모바일 로고
-    ========================= */
-
-    .logo {
-        position: static;
-
-        transform: none;
-
-        margin: 0;
-    }
-
-
-    .logo img {
-        width: 100px;
-        height: auto;
-    }
-
-
-    /* =========================
-       모바일 검색창
-
-       입력창은 숨기고
-       검색 아이콘만 표시
-    ========================= */
-
-    .search-box {
-        width: 36px;
-        height: 36px;
-
-        position: absolute;
-
-        right: 56px;
-        left: auto;
-        top: 17px;
-
-        border: none;
-
-        background-color: transparent;
-    }
-
-
-    .search-box input {
-        display: none;
-    }
-
-
-    .search-button {
-        width: 36px;
-        height: 36px;
-
-        margin: 0;
-
-        border-radius: 8px;
-    }
-
-
-    .search-button img {
-        width: 18px;
-        height: 18px;
-    }
-
-
-
-    /* =========================
-       모바일 오른쪽 메뉴
-    ========================= */
-
-    .right-area {
-        width: auto;
-
-        position: static;
-    }
-
-
-    /* 로그인 / 회원가입 / 내정보 숨김 */
-
-    .member-menu {
-        display: none;
-    }
-
-
-    /* 전화주문 / 브랜드 /
-       반찬보기 글자 숨김 */
-
-    .quick-menu {
-        gap: 0;
-    }
-
-
-    .quick-menu li {
-        display: none;
-    }
-
-
-    /* 장바구니만 표시 */
-
-    .quick-menu li:last-child {
-        display: block;
-    }
-
-
-    .quick-menu li:last-child span {
-        display: none;
-    }
-
-
-    .quick-menu li:last-child a {
-        width: 36px;
-        height: 36px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-
-    .quick-menu img {
-        width: 22px;
-        height: 22px;
-    }
-
-
-
-    /* ==================================================
-       MOBILE MAIN BANNER
-    ================================================== */
-
-    .main-banner {
-        width: 100%;
-        height: 250px;
-
-        overflow: hidden;
-    }
-
-
-    .main-banner a {
-        width: 100%;
-        height: 100%;
-    }
-
-
-    .main-banner img {
-        width: 100%;
-        height: 250px;
-
-        object-fit: cover;
-        object-position: center;
-    }
-
-
-
-    /* ==================================================
-       MOBILE BEST SECTION
-    ================================================== */
-
-    .best-section {
-        width: 100%;
-
-        height: auto;
-        min-height: 0;
-
-        padding-bottom: 70px;
-    }
-
-
-    .best-inner {
-        width: 100%;
-        height: auto;
-
-        padding: 0 16px;
-    }
-
-
-    .best-content {
-        width: 100%;
-    }
-
-
-
-    /* =========================
-       MOBILE BEST 제목
-    ========================= */
-
-    .best-title {
-        width: 100%;
-        height: auto;
-
-        padding: 40px 0 30px;
-    }
-
-
-    .best-title h2 {
-        font-size: 24px;
-
-        line-height: 1.2;
-    }
-
-
-    .best-title p {
-        margin-top: 10px;
-
-        font-size: 13px;
-
-        line-height: 1.4;
-    }
-
-
-
-    /* =========================
-       MOBILE BEST 상품 목록
-       2열
-    ========================= */
-
-    .best-list {
-        width: 100%;
-
-        margin: 0;
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        column-gap: 8px;
-        row-gap: 40px;
-    }
-
-
-
-    /* =========================
-       MOBILE BEST 카드
-    ========================= */
-
-    .best-item {
-        width: 100%;
-        height: auto;
-    }
-
-
-    .best-item > a {
-        width: 100%;
-        height: auto;
-    }
-
-
-
-    /* =========================
-       MOBILE BEST 이미지
-    ========================= */
-
-    .best-image {
-        width: 100%;
-        height: auto;
-
-        aspect-ratio: 1 / 1;
-    }
-
-
-    .best-image img {
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-    }
-
-
-
-    /* =========================
-       MOBILE BEST 상품 정보
-    ========================= */
-
-    .best-info {
-        width: 100%;
-
-        padding-top: 10px;
-    }
-
-
-    /* 배지가 없는 상품도
-       모바일에서 자리 맞춤 */
-
-    .best-info.no-badge {
-        padding-top: 31px;
-    }
-
-
-
-    /* 신제품 / 인기 */
-
-    .badge {
-        margin-bottom: 5px;
-
-        padding: 2px 3px;
-
-        font-size: 9px;
-    }
-
-
-
-    /* 상품 제목 */
-
-    .best-info h3 {
-        margin-bottom: 5px;
-
-        font-size: 13px;
-
-        line-height: 1.3;
-    }
-
-
-
-    /* 상품 설명 */
-
-    .best-info .description {
-        margin-bottom: 5px;
-
-        font-size: 10px;
-
-        line-height: 1.35;
-    }
-
-
-
-    /* 할인율 / 가격 */
-
-    .price-box {
-        gap: 2px;
-
-        flex-wrap: wrap;
-    }
-
-
-    .price-box .discount,
-    .price-box .price {
-        font-size: 14px;
-    }
-
-
-
-    /* 기존 가격 */
-
-    .best-info .original-price {
-        margin-top: 3px;
-
-        font-size: 10px;
-    }
-
-
-
-    /* ==================================================
-       MOBILE HOW TO USE SECTION
-       집밥 한 끼
-    ================================================== */
-
-    .howtouse-section {
-        width: 100%;
-
-        height: auto;
-
-        margin-top: 0;
-
-        padding: 0 16px 70px;
-    }
-
-
-    .howtouse-inner {
-        width: 100%;
-        height: auto;
-
-        margin: 0;
-    }
-
-
-
-    /* =========================
-       MOBILE HOW TO USE 제목
-    ========================= */
-
-    .howtouse-title {
-        width: 100%;
-
-        margin: 0;
-
-        padding: 30px 0 24px;
-
-        text-align: center;
-    }
-
-
-    .howtouse-title h2 {
-        margin: 0 0 12px;
-
-        font-size: 24px;
-
-        line-height: 1.2;
-    }
-
-
-    .howtouse-title p {
-        margin: 0;
-
-        font-size: 12px;
-
-        line-height: 1.4;
-    }
-
-
-
-    /* =========================
-       MOBILE HOW TO USE 상품
-       모바일 시안처럼 2열
-    ========================= */
-
-    .howtouse-list {
-        width: 100%;
-
-        margin: 0;
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        column-gap: 8px;
-        row-gap: 36px;
-    }
-
-
-    .howtouse-card {
-        width: 100%;
-        height: auto;
-    }
-
-
-    .howtouse-card > a {
-        width: 100%;
-        height: auto;
-    }
-
-
-
-    /* 이미지 */
-
-    .howtouse-image {
-        width: 100%;
-        height: auto;
-
-        aspect-ratio: 1 / 1;
-    }
-
-
-    .howtouse-image img {
-        width: 100%;
-        height: 100%;
-    }
-
-
-
-    /* 모바일에서는 hover 확대 해제 */
-
-    .howtouse-card:hover .howtouse-image img {
-        transform: none;
-    }
-
-
-
-    /* 할인 동그라미 */
-
-    .circle-discount {
-        top: 8px;
-        left: 8px;
-
-        width: 36px;
-        height: 36px;
-
-        font-size: 11px;
-    }
-
-
-
-    /* 잠금 */
-
-    .lock-icon {
-        right: 6px;
-        bottom: 6px;
-
-        transform: scale(0.7);
-
-        transform-origin: right bottom;
-    }
-
-
-
-    /* 상품 정보 */
-
-    .howtouse-info {
-        width: 100%;
-
-        padding-top: 10px;
-    }
-
-
-    .product-badge {
-        margin-bottom: 5px;
-
-        font-size: 9px;
-    }
-
-
-    .howtouse-info h3 {
-        margin-bottom: 5px;
-
-        font-size: 13px;
-    }
-
-
-    .howtouse-info .description {
-        margin-bottom: 5px;
-
-        font-size: 10px;
-    }
-
-
-    .howtouse-price {
-        gap: 2px;
-
-        flex-wrap: wrap;
-    }
-
-
-    .howtouse-price .discount,
-    .howtouse-price .price {
-        font-size: 14px;
-    }
-
-
-    .howtouse-info .original-price {
-        margin-top: 3px;
-
-        font-size: 10px;
-    }
-
-
-
-    /* ==================================================
-       MOBILE GUIDE SECTION
-
-       중요!!!
-       세로 스크롤 X
-       가로 스크롤 O
-    ================================================== */
-
-    .guide-section {
-        width: 100%;
-
-        overflow: hidden;
-    }
-
-
-    .guide-section .guide-inner {
-        width: 100%;
-
-        padding: 0 16px;
-    }
-
-
-    .guide-section .guide-list {
-        width: 100%;
-
-        display: flex;
-
-        flex-wrap: nowrap;
-
-        gap: 12px;
-
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        padding-bottom: 10px;
-
-        scroll-snap-type: x mandatory;
-
-        -webkit-overflow-scrolling: touch;
-
-        scrollbar-width: thin;
-    }
-
-
-    .guide-section .guide-card {
-        flex: 0 0 80%;
-
-        scroll-snap-align: start;
-    }
-
-
-    /* Chrome / Edge 스크롤바 */
-
-    .guide-section .guide-list::-webkit-scrollbar {
-        height: 5px;
-    }
-
-
-    .guide-section .guide-list::-webkit-scrollbar-thumb {
-        background-color: #cccccc;
-
-        border-radius: 10px;
-    }
-
-
-    .guide-section .guide-list::-webkit-scrollbar-track {
-        background-color: #f3f3f3;
-    }
-
-
-
-    /* ==================================================
-       MOBILE BENEFIT SECTION
-       고객 추천 반찬
-    ================================================== */
-
-    .benefit-section {
-        width: 100%;
-
-        height: auto;
-
-        padding: 50px 16px;
-    }
-
-
-    .benefit-inner {
-        width: 100%;
-        height: auto;
-
-        padding: 0;
-    }
-
-
-
-    /* 제목 */
-
-    .benefit-title h2 {
-        font-size: 24px;
-    }
-
-
-
-    /* =========================
-       추천 탭
-       가로 스크롤
-    ========================= */
-
-    .benefit-tabs {
-        width: 100%;
-        height: auto;
-
-        margin: 24px 0 30px;
-
-        display: flex;
-
-        justify-content: flex-start;
-
-        flex-wrap: nowrap;
-
-        gap: 8px;
-
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        padding-bottom: 8px;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-
-    .benefit-tab {
-        width: auto;
-        min-width: 100px;
-        height: 40px;
-
-        padding: 0 14px;
-
-        flex: 0 0 auto;
-
-        font-size: 13px;
-    }
-
-
-
-    /* =========================
-       메인 내용 세로 배치
-    ========================= */
-
-    .benefit-content {
-        width: 100%;
-
-        margin: 0;
-
-        display: block;
-    }
-
-
-    .benefit-main-image {
-        width: 100%;
-        height: auto;
-
-        aspect-ratio: 1 / 1;
-
-        margin-bottom: 16px;
-    }
-
-
-    .benefit-main-image img {
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-    }
-
-
-    .benefit-basket {
-        width: 100%;
-    }
-
-
-    .basket-header {
-        width: 100%;
-        height: auto;
-
-        min-height: 110px;
-
-        padding: 16px;
-    }
-
-
-    .basket-header-text h3 {
-        font-size: 16px;
-    }
-
-
-    .basket-header-text p {
-        font-size: 11px;
-    }
-
-
-    .basket-header > img {
-        width: 75px;
-        height: 75px;
-    }
-
-
-
-    /* =========================
-       추천 상품
-       가로 스크롤
-    ========================= */
-
-    .basket-products {
-        width: 100%;
-
-        margin-top: 12px;
-
-        display: flex;
-
-        gap: 10px;
-
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        padding-bottom: 10px;
-
-        scroll-snap-type: x mandatory;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-
-    .basket-product {
-        width: 130px;
-        height: auto;
-
-        flex: 0 0 130px;
-
-        scroll-snap-align: start;
-    }
-
-
-    .basket-product > a {
-        width: 130px;
-        height: auto;
-    }
-
-
-    .basket-button {
-        width: 100%;
-        height: 44px;
-
-        margin-top: 20px;
-
-        font-size: 14px;
-    }
-
-
-
-    /* ==================================================
-       MOBILE BANNER SECTION
-       3개 배너 가로 스크롤
-    ================================================== */
-
-    .banner-section {
-        width: 100%;
-        height: auto;
-
-        padding: 24px 0;
-    }
-
-
-    .banner-inner {
-        width: 100%;
-        height: auto;
-
-        padding: 0 16px;
-    }
-
-
-    .banner-list {
-        width: 100%;
-
-        margin: 0;
-
-        display: flex;
-
-        gap: 12px;
-
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        padding-bottom: 8px;
-
-        scroll-snap-type: x mandatory;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-
-    .banner-item {
-        width: 85%;
-        height: auto;
-
-        flex: 0 0 85%;
-
-        aspect-ratio: 400 / 150;
-
-        scroll-snap-align: start;
-    }
-
-
-    .banner-item img {
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-    }
-
-
-
-    /* ==================================================
-       MOBILE MD 추천반찬
-    ================================================== */
-
-    .md-section {
-        width: 100%;
-
-        height: auto;
-
-        padding: 40px 16px 70px;
-    }
-
-
-    .md-inner {
-        width: 100%;
-        height: auto;
-
-        padding: 0;
-    }
-
-
-
-    /* 제목 */
-
-    .md-title h2 {
-        font-size: 24px;
-    }
-
-
-    .md-title p {
-        margin-top: 10px;
-
-        font-size: 13px;
-
-        font-weight: 400;
-    }
-
-
-
-    /* =========================
-       MD 카테고리 버튼
-       가로 스크롤
-    ========================= */
-
-    .md-tabs {
-        width: 100%;
-
-        margin: 24px 0 30px;
-
-        display: flex;
-
-        justify-content: flex-start;
-
-        flex-wrap: nowrap;
-
-        gap: 8px;
-
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        padding-bottom: 8px;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-
-    .md-tab {
-        width: auto;
-        min-width: max-content;
-        height: 38px;
-
-        padding: 0 14px;
-
-        flex: 0 0 auto;
-
-        font-size: 12px;
-    }
-
-
-
-    /* =========================
-       MD 상품 2열
-    ========================= */
-
-    .md-product-list {
-        width: 100%;
-
-        margin: 0;
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        column-gap: 8px;
-        row-gap: 36px;
-    }
-
-
-    .md-card {
-        width: 100%;
-        height: auto;
-    }
-
-
-    .md-card > a {
-        width: 100%;
-        height: auto;
-    }
-
-
-    .md-card-image {
-        width: 100%;
-        height: auto;
-
-        aspect-ratio: 1 / 1;
-    }
-
-
-    .md-card-image img {
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-    }
-
-
-    .md-card-info {
-        padding-top: 12px;
-    }
-
-
-    .md-badge {
-        font-size: 9px;
-    }
-
-
-    .md-card-info h3 {
-        margin-top: 5px;
-
-        font-size: 13px;
-    }
-
-
-    .md-card-info p {
-        margin-top: 5px;
-
-        font-size: 10px;
-    }
-
-
-    .md-price-box {
-        margin-top: 5px;
-    }
-
-
-    .md-price-box .discount,
-    .md-price-box .price {
-        font-size: 14px;
-    }
-
-
-
-    /* ==================================================
-       MOBILE FOOTER
-
-       회사정보
-       이용안내
-       고객센터
-       다운로드
-
-       제목 4개만 표시
-    ================================================== */
-
-    #footer {
-        width: 100%;
-        height: auto;
-
-        margin: 0;
-
-        padding: 0 16px 30px;
-
-        background-color: #ffffff;
-    }
-
-
-    .footer-inner {
-        width: 100%;
-        height: auto;
-
-        margin: 0;
-
-        padding: 0;
-    }
-
-
-    /* 데스크탑 footer 정보 전부 숨김 */
-
-    .footer-content {
-        display: none;
-    }
-
-
-    /* 모바일 메뉴만 표시 */
-
-    .mobile-footer-menu {
-        width: 100%;
-
-        display: block;
-
-        border-top: 1px solid #dddddd;
-    }
-
-
-    .mobile-footer-menu a {
-        width: 100%;
-        height: 52px;
-
-        display: flex;
-        align-items: center;
-
-        border-bottom: 1px solid #eeeeee;
-
-        font-size: 14px;
-        font-weight: 700;
-
-        color: #222222;
-    }
-
-
-
-    /* ==================================================
-       MOBILE 공통 가로 스크롤
-    ================================================== */
-
-    .benefit-tabs,
-    .basket-products,
-    .banner-list,
-    .md-tabs,
-    .guide-section .guide-list {
-        overscroll-behavior-x: contain;
-
-        scrollbar-width: thin;
-    }
-
-
-    .benefit-tabs::-webkit-scrollbar,
-    .basket-products::-webkit-scrollbar,
-    .banner-list::-webkit-scrollbar,
-    .md-tabs::-webkit-scrollbar {
-        height: 5px;
-    }
-
-
-    .benefit-tabs::-webkit-scrollbar-thumb,
-    .basket-products::-webkit-scrollbar-thumb,
-    .banner-list::-webkit-scrollbar-thumb,
-    .md-tabs::-webkit-scrollbar-thumb {
-        background-color: #cccccc;
-
-        border-radius: 10px;
-    }
-
-
-}/* =========================
-   모바일 가로 스크롤
-   스크롤바는 숨김
-========================= */
-
-.guide-section .guide-list,
-.benefit-tabs,
-.basket-products,
-.banner-list,
-.md-tabs {
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    /* 줄바꿈 금지 */
-    flex-wrap: nowrap;
-
-    /* 모바일에서 부드럽게 스크롤 */
-    -webkit-overflow-scrolling: touch;
-
-    /* Firefox 스크롤바 숨김 */
-    scrollbar-width: none;
-
-    /* 구버전 Edge / IE */
-    -ms-overflow-style: none;
-}
-
-
-/* =========================
-   Chrome / Edge / Safari
-   스크롤바 숨김
-========================= */
-
-.guide-section .guide-list::-webkit-scrollbar,
-.benefit-tabs::-webkit-scrollbar,
-.basket-products::-webkit-scrollbar,
-.banner-list::-webkit-scrollbar,
-.md-tabs::-webkit-scrollbar {
-    display: none;
+    display: none !important;
 }

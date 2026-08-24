@@ -1,0 +1,12 @@
+<svg id="close_s_H16_" data-name="close_s(H16)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_4599" data-name="사각형 4599" width="16" height="16" transform="translate(306.002 402)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="ic_close_s_H16">
+    <g id="마스크_그룹_143" data-name="마스크 그룹 143" transform="translate(-306.002 -402)" clip-path="url(#clip-path)">
+      <path id="합치기_125" data-name="합치기 125" d="M11073.642,14854.5l-4.95,4.951-.705-.709,4.948-4.948-4.948-4.949.705-.708,4.95,4.95,4.95-4.95.705.708-4.948,4.949,4.948,4.948-.705.709Z" transform="translate(15168.107 -10663.328) rotate(90)" fill="#999"/>
+    </g>
+  </g>
+</svg>

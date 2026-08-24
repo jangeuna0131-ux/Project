@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="카카오톡" transform="translate(0)">
+    <g id="카카오톡-2" data-name="카카오톡" transform="translate(0 0)">
+      <circle id="Bg" cx="20" cy="20" r="20" transform="translate(0 0)" fill="#fae100"/>
+      <g id="logo" transform="translate(10.718 11.231)">
+        <path id="Path_13717" data-name="Path 13717" d="M62.382,69.741c-5.285,0-9.57,3.392-9.57,7.576,0,2.723,1.815,5.11,4.54,6.446-.2.748-.725,2.711-.83,3.13-.13.521.19.514.4.375.165-.11,2.622-1.784,3.682-2.506a12.078,12.078,0,0,0,1.776.131c5.285,0,9.57-3.392,9.57-7.576s-4.284-7.576-9.57-7.576" transform="translate(-52.812 -69.741)" fill="#2a1617"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="페이스북" transform="translate(-0.266)">
+    <g id="페이스북-2" data-name="페이스북" transform="translate(0 0)">
+      <circle id="Bg" cx="20" cy="20" r="20" transform="translate(0.266 0)" fill="#435993"/>
+      <g id="logo" transform="translate(15.059 10.466)">
+        <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" d="M10.57,10.788l.5-3.471H7.959V5.065A1.681,1.681,0,0,1,9.785,3.19H11.2V.234A16.128,16.128,0,0,0,8.69,0C6.129,0,4.456,1.662,4.456,4.672V7.317H1.609v3.471H4.456v8.391h3.5V10.788Z" transform="translate(-1.609)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

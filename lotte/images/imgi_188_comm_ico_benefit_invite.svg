@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="ic_level_invite" transform="translate(-43 -327.07)">
+    <rect id="사각형_5804" data-name="사각형 5804" width="36" height="36" rx="4" transform="translate(43 327.07)" fill="none"/>
+    <g id="invitation" transform="translate(46.083 317.105)">
+      <path id="패스_15280" data-name="패스 15280" d="M3.744,19.836,1.133,21.313A2.38,2.38,0,0,0,0,23.363V39.4a2.293,2.293,0,0,0,2.228,2.353H27.636A2.294,2.294,0,0,0,29.865,39.4V23.363a2.364,2.364,0,0,0-.781-2.05c-.944-.661-2.752-1.954-2.752-1.954" transform="translate(0 -0.511)" fill="none" stroke="#000" stroke-width="1.5"/>
+      <g id="그룹_3853" data-name="그룹 3853" transform="translate(0.001 30.559)">
+        <path id="패스_15281" data-name="패스 15281" d="M318.309,312.612a.476.476,0,0,1,.553-.775l11.192,7.99V321" transform="translate(-300.189 -311.749)" fill="#fff" opacity="0.1"/>
+        <path id="패스_15282" data-name="패스 15282" d="M11.754,312.612a.476.476,0,0,0-.553-.775L.009,319.828V321" transform="translate(-0.009 -311.749)" fill="#fff" opacity="0.1"/>
+      </g>
+      <path id="패스_15285" data-name="패스 15285" d="M79.79,57.708v8.922l-7.674,6.129-2.6-2.077a1.81,1.81,0,0,0-2.3,0l-2.6,2.077-7.672-6.127,0,0V57.708a1.375,1.375,0,0,1,1.292-1.445H78.5A1.375,1.375,0,0,1,79.79,57.708Z" transform="translate(-53.432 -41.336)" fill="none" stroke="#000" stroke-width="1.5"/>
+      <path id="패스_15290" data-name="패스 15290" d="M142.3,220.278H129.91a.7.7,0,1,1,0-1.381H142.3a.7.7,0,1,1,0,1.381Z" transform="translate(-121.17 -200.155)"/>
+      <path id="패스_15313" data-name="패스 15313" d="M8.485,38.373,4.962,41.442" transform="translate(0.117 -4.12)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="1.5" opacity="0.3"/>
+      <path id="패스_15314" data-name="패스 15314" d="M4.962,38.373l3.524,3.069" transform="translate(15.876 -4.12)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="1.5" opacity="0.3"/>
+      <path id="패스_15315" data-name="패스 15315" d="M136.772,220.278H129.91a.7.7,0,1,1,0-1.381h6.862a.7.7,0,1,1,0,1.381Z" transform="translate(-121.17 -196.473)"/>
+    </g>
+  </g>
+</svg>

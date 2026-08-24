@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="ic_card_w_h24" transform="translate(-245 -1464.817)">
+    <rect id="area" width="24" height="24" transform="translate(245 1464.817)" fill="none" opacity="0.1"/>
+    <rect id="사각형_5793" data-name="사각형 5793" width="20" height="24" rx="3" transform="translate(247 1464.817)" fill="#c2c7cc"/>
+    <line id="선_113" data-name="선 113" x2="2" transform="translate(256 1468.817)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+    <path id="합치기_163" data-name="합치기 163" d="M10.289.545,8.909,5.017,7.529.545A.808.808,0,0,0,6.748,0a.8.8,0,0,0-.777.545L4.591,5.017,3.207.545a.818.818,0,0,0-1-.514A.748.748,0,0,0,1.65.958L2.28,3H.809A.783.783,0,0,0,0,3.751.781.781,0,0,0,.809,4.5H2.743L3.811,7.956a.829.829,0,0,0,1.557,0l1.38-4.477,1.38,4.477a.832.832,0,0,0,1.561,0L10.755,4.5h1.933a.785.785,0,0,0,.813-.749A.787.787,0,0,0,12.687,3h-1.47L11.846.958A.742.742,0,0,0,11.291.03.91.91,0,0,0,11.07,0,.807.807,0,0,0,10.289.545Z" transform="translate(250.5 1473.817)" fill="#fff"/>
+  </g>
+</svg>

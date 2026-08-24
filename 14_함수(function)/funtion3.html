@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 함수를 사용하지 않고 프로그램
+        for(let i=1;i<=5;i++){
+            document.write("여기는 부산입니다<br>")
+        }
+        for(let j=1;j<=5;j++){
+            document.write("여기는 서울입니다<br>")
+
+        }
+        for(let k=1;k<=5;k++){
+            document.write("여기는 제주입니다<br>")
+        }
+
+
+        // 함수를 선언할때
+        document.write("<hr>")
+        
+        // 함수를 만듬
+        function city(doci){
+            for(let i=1;i<=5;i++){
+                document.write("여기는" + doci + "입니다<br>")
+            }
+        }
+
+        // 함수를 실행할때
+        city("부산")
+        city("서울")
+        city("제주")
+    </script>
+</body>
+</html>

@@ -41,6 +41,54 @@
   <link rel="stylesheet"
         href="./css/style.css" />
 
+
+  <!-- 페이지 내 메뉴 클릭 시 해당 섹션으로 부드럽게 이동 -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .quick-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      width: 100%;
+      background: rgba(247, 243, 238, 0.96);
+      border-bottom: 1px solid rgba(120, 86, 72, 0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .quick-nav a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 8px 4px;
+      color: #6f5145;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .quick-nav a:active,
+    .quick-nav a:focus-visible {
+      background: #eee5df;
+      outline: none;
+    }
+
+    #invitation,
+    #gallery,
+    #contact,
+    #location {
+      scroll-margin-top: 56px;
+    }
+  </style>
+
 </head>
 
 
@@ -112,6 +160,14 @@
       </a>
 
     </section>
+
+    <!-- QUICK NAVIGATION -->
+    <nav class="quick-nav" aria-label="청첩장 빠른 이동">
+      <a href="#invitation">초대글</a>
+      <a href="#gallery">갤러리</a>
+      <a href="#contact">연락하기</a>
+      <a href="#location">오시는 길</a>
+    </nav>
 
 
 
@@ -342,68 +398,78 @@
              id="gallery">
 
       <div class="section-heading">
-
-        <span>
-          GALLERY
-        </span>
-
-        <h2>
-          우리의 순간들
-        </h2>
-
+        <span>GALLERY</span>
+        <h2>우리의 순간들</h2>
       </div>
 
+      <div class="gallery-slider" aria-label="웨딩 사진 슬라이드">
 
-      <div class="gallery-grid"
-           id="gallery-grid">
+        <div class="gallery-viewport">
+          <div class="gallery-track" id="gallery-track">
 
+            <button class="gallery-slide"
+                    type="button"
+                    data-index="0"
+                    aria-label="웨딩 갤러리 사진 1 크게 보기">
+              <img src="./images/couple01.png"
+                   alt="웨딩 갤러리 사진 1"
+                   loading="lazy" />
+            </button>
 
-        <!-- 사진 1 -->
-        <button class="gallery-item reveal"
-                type="button"
-                data-index="0">
+            <button class="gallery-slide"
+                    type="button"
+                    data-index="1"
+                    aria-label="웨딩 갤러리 사진 2 크게 보기">
+              <img src="./images/couple02.png"
+                   alt="웨딩 갤러리 사진 2"
+                   loading="lazy" />
+            </button>
 
-          <img src="./images/couple01.png"
-               alt="웨딩 갤러리 사진 1"
-               loading="lazy" />
+            <button class="gallery-slide"
+                    type="button"
+                    data-index="2"
+                    aria-label="웨딩 갤러리 사진 3 크게 보기">
+              <img src="./images/couple03.png"
+                   alt="웨딩 갤러리 사진 3"
+                   loading="lazy" />
+            </button>
 
-        </button>
+            <button class="gallery-slide"
+                    type="button"
+                    data-index="3"
+                    aria-label="웨딩 갤러리 사진 4 크게 보기">
+              <img src="./images/couple04.png"
+                   alt="웨딩 갤러리 사진 4"
+                   loading="lazy" />
+            </button>
 
+          </div>
 
-        <!-- 사진 2 -->
-        <button class="gallery-item reveal"
-                type="button"
-                data-index="1">
+          <button class="gallery-arrow gallery-arrow--prev"
+                  id="gallery-prev"
+                  type="button"
+                  aria-label="이전 사진">‹</button>
 
-          <img src="./images/couple02.png"
-               alt="웨딩 갤러리 사진 2"
-               loading="lazy" />
+          <button class="gallery-arrow gallery-arrow--next"
+                  id="gallery-next"
+                  type="button"
+                  aria-label="다음 사진">›</button>
+        </div>
 
-        </button>
+        <div class="gallery-pagination"
+             id="gallery-pagination"
+             aria-label="갤러리 사진 선택">
+          <button class="gallery-dot active" type="button" data-slide="0" aria-label="1번 사진으로 이동" aria-current="true"></button>
+          <button class="gallery-dot" type="button" data-slide="1" aria-label="2번 사진으로 이동"></button>
+          <button class="gallery-dot" type="button" data-slide="2" aria-label="3번 사진으로 이동"></button>
+          <button class="gallery-dot" type="button" data-slide="3" aria-label="4번 사진으로 이동"></button>
+        </div>
 
-
-        <!-- 사진 3 -->
-        <button class="gallery-item reveal"
-                type="button"
-                data-index="2">
-
-          <img src="./images/couple03.png"
-               alt="웨딩 갤러리 사진 3"
-               loading="lazy" />
-
-        </button>
-
-
-        <!-- 사진 4 -->
-        <button class="gallery-item reveal"
-                type="button"
-                data-index="3">
-
-          <img src="./images/couple04.png"
-               alt="웨딩 갤러리 사진 4"
-               loading="lazy" />
-
-        </button>
+        <p class="gallery-counter" aria-live="polite">
+          <span id="gallery-current">1</span>
+          <span aria-hidden="true"> / </span>
+          <span id="gallery-total">4</span>
+        </p>
 
       </div>
 

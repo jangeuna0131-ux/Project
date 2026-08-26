@@ -277,195 +277,259 @@ function initAccount() {
 }
 
 // ===============================
-// 7. Gallery Modal
+// 7. Gallery Slider + Modal
 // ===============================
 function initGallery() {
+  const track = $("#gallery-track");
+  const slides = $$(".gallery-slide");
+  const prevButton = $("#gallery-prev");
+  const nextButton = $("#gallery-next");
+  const dots = $$(".gallery-dot");
+  const currentText = $("#gallery-current");
+  const totalText = $("#gallery-total");
+
+  // 확대 모달
   const modal = $("#gallery-modal");
-  const image = $("#modal-image");
-  const count = $("#modal-count");
+  const modalImage = $("#modal-image");
+  const modalCount = $("#modal-count");
+
   let currentIndex = 0;
 
-  function render() {
-    image.src = galleryImages[currentIndex];
-    image.alt = `확대된 웨딩 사진 ${currentIndex + 1}`;
-    count.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+  // 모바일 스와이프용
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+
+  // ===============================
+  // 슬라이드 화면 갱신
+  // ===============================
+  function updateSlider() {
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    // 하단 점 표시 변경
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === currentIndex);
+    });
+
+    // 현재 번호
+    currentText.textContent = currentIndex + 1;
+    totalText.textContent = slides.length;
   }
 
-  function open(index) {
+
+  // ===============================
+  // 이전 사진
+  // ===============================
+  function prevSlide() {
+    currentIndex =
+      (currentIndex - 1 + slides.length) % slides.length;
+
+    updateSlider();
+  }
+
+
+  // ===============================
+  // 다음 사진
+  // ===============================
+  function nextSlide() {
+    currentIndex =
+      (currentIndex + 1) % slides.length;
+
+    updateSlider();
+  }
+
+
+  // 이전 버튼
+  prevButton.addEventListener("click", prevSlide);
+
+  // 다음 버튼
+  nextButton.addEventListener("click", nextSlide);
+
+
+  // ===============================
+  // 하단 점 클릭
+  // ===============================
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      currentIndex = Number(dot.dataset.slide);
+
+      updateSlider();
+    });
+  });
+
+
+  // ===============================
+  // 모바일 손가락 Swipe
+  // ===============================
+  track.addEventListener(
+    "touchstart",
+    (event) => {
+      touchStartX =
+        event.changedTouches[0].clientX;
+    },
+    { passive: true }
+  );
+
+
+  track.addEventListener(
+    "touchend",
+    (event) => {
+      touchEndX =
+        event.changedTouches[0].clientX;
+
+      const distance =
+        touchStartX - touchEndX;
+
+
+      // 오른쪽 → 왼쪽
+      // 다음 사진
+      if (distance > 50) {
+        nextSlide();
+      }
+
+
+      // 왼쪽 → 오른쪽
+      // 이전 사진
+      if (distance < -50) {
+        prevSlide();
+      }
+    },
+    { passive: true }
+  );
+
+
+  // ===============================
+  // 확대 Modal
+  // ===============================
+  function renderModal() {
+    modalImage.src =
+      galleryImages[currentIndex];
+
+    modalImage.alt =
+      `확대된 웨딩 사진 ${currentIndex + 1}`;
+
+    modalCount.textContent =
+      `${currentIndex + 1} / ${galleryImages.length}`;
+  }
+
+
+  // 모달 열기
+  function openModal(index) {
     currentIndex = index;
-    render();
+
+    updateSlider();
+    renderModal();
+
     modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow =
+      "hidden";
   }
 
-  function close() {
+
+  // 모달 닫기
+  function closeModal() {
     modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    document.body.style.overflow =
+      "";
   }
 
-  $$(".gallery-item").forEach((button) => {
-    button.addEventListener("click", () => open(Number(button.dataset.index)));
+
+  // 사진 클릭하면 확대
+  slides.forEach((slide) => {
+    slide.addEventListener("click", () => {
+      openModal(
+        Number(slide.dataset.index)
+      );
+    });
   });
 
-  $("#modal-close").addEventListener("click", close);
-  $("#modal-prev").addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-    render();
-  });
-  $("#modal-next").addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % galleryImages.length;
-    render();
-  });
 
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) close();
-  });
+  // 모달 닫기
+  $("#modal-close").addEventListener(
+    "click",
+    closeModal
+  );
 
-  document.addEventListener("keydown", (event) => {
-    if (!modal.classList.contains("open")) return;
-    if (event.key === "Escape") close();
-    if (event.key === "ArrowLeft") $("#modal-prev").click();
-    if (event.key === "ArrowRight") $("#modal-next").click();
-  });
-}
 
-// ===============================
-// 8. Google Sheets 방명록
-// ===============================
-function renderGuestbook(items) {
-  const list = $("#guestbook-list");
-  list.replaceChildren();
+  // 모달 이전 사진
+  $("#modal-prev").addEventListener(
+    "click",
+    () => {
+      currentIndex =
+        (currentIndex - 1 + galleryImages.length)
+        % galleryImages.length;
 
-  if (!items.length) {
-    const empty = document.createElement("p");
-    empty.className = "guestbook-empty";
-    empty.textContent = "아직 첫 축하 메시지를 기다리고 있어요.";
-    list.appendChild(empty);
-    return;
-  }
-
-  items.forEach((item) => {
-    const card = document.createElement("article");
-    card.className = "guestbook-card";
-
-    const top = document.createElement("div");
-    top.className = "guestbook-card__top";
-
-    const name = document.createElement("strong");
-    name.textContent = escapeText(item.name || "익명");
-
-    const time = document.createElement("time");
-    time.textContent = escapeText(item.createdAt || "");
-
-    const message = document.createElement("p");
-    message.textContent = escapeText(item.message || "");
-
-    top.append(name, time);
-    card.append(top, message);
-    list.appendChild(card);
-  });
-}
-
-async function loadGuestbook() {
-  const list = $("#guestbook-list");
-
-  if (!CONFIG.googleAppsScriptUrl) {
-    list.innerHTML = '<p class="guestbook-empty">Google Apps Script URL을 연결하면 실제 방명록이 표시됩니다.</p>';
-    return;
-  }
-
-  list.innerHTML = '<p class="guestbook-loading">방명록을 불러오고 있습니다...</p>';
-
-  try {
-    const response = await fetch(`${CONFIG.googleAppsScriptUrl}?action=list&ts=${Date.now()}`);
-    if (!response.ok) throw new Error("load failed");
-    const result = await response.json();
-    renderGuestbook(Array.isArray(result.items) ? result.items : []);
-  } catch (error) {
-    console.error(error);
-    list.innerHTML = '<p class="guestbook-empty">방명록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p>';
-  }
-}
-
-function initGuestbook() {
-  const form = $("#guestbook-form");
-  const nameInput = $("#guest-name");
-  const messageInput = $("#guest-message");
-  const submit = $("#guestbook-submit");
-  const messageCount = $("#message-count");
-  const formMessage = $("#form-message");
-
-  messageInput.addEventListener("input", () => {
-    messageCount.textContent = messageInput.value.length;
-  });
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const name = nameInput.value.trim();
-    const message = messageInput.value.trim();
-
-    if (!name) {
-      formMessage.textContent = "이름을 입력해주세요.";
-      nameInput.focus();
-      return;
+      updateSlider();
+      renderModal();
     }
-    if (name.length > 20) {
-      formMessage.textContent = "이름은 20자 이하로 입력해주세요.";
-      return;
+  );
+
+
+  // 모달 다음 사진
+  $("#modal-next").addEventListener(
+    "click",
+    () => {
+      currentIndex =
+        (currentIndex + 1)
+        % galleryImages.length;
+
+      updateSlider();
+      renderModal();
     }
-    if (!message) {
-      formMessage.textContent = "축하 메시지를 입력해주세요.";
-      messageInput.focus();
-      return;
+  );
+
+
+  // 검은 배경 클릭하면 닫기
+  modal.addEventListener(
+    "click",
+    (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
     }
-    if (message.length > 200) {
-      formMessage.textContent = "축하 메시지는 200자 이하로 작성해주세요.";
-      return;
+  );
+
+
+  // 키보드 조작
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (!modal.classList.contains("open")) {
+        return;
+      }
+
+      // ESC
+      if (event.key === "Escape") {
+        closeModal();
+      }
+
+      // 왼쪽 방향키
+      if (event.key === "ArrowLeft") {
+        $("#modal-prev").click();
+      }
+
+      // 오른쪽 방향키
+      if (event.key === "ArrowRight") {
+        $("#modal-next").click();
+      }
     }
-    if (!CONFIG.googleAppsScriptUrl) {
-      formMessage.textContent = "Google Apps Script URL을 먼저 연결해주세요.";
-      return;
-    }
+  );
 
-    submit.disabled = true;
-    submit.textContent = "등록 중...";
-    formMessage.textContent = "";
 
-    try {
-      const body = new URLSearchParams({
-        action: "create",
-        name,
-        message
-      });
-
-      const response = await fetch(CONFIG.googleAppsScriptUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body
-      });
-
-      if (!response.ok) throw new Error("submit failed");
-      const result = await response.json();
-      if (!result.ok) throw new Error(result.message || "submit failed");
-
-      form.reset();
-      messageCount.textContent = "0";
-      formMessage.textContent = "축하 메시지가 등록되었습니다.";
-      showToast("축하 메시지가 등록되었습니다.");
-      await loadGuestbook();
-    } catch (error) {
-      console.error(error);
-      formMessage.textContent = "메시지를 등록하지 못했습니다. 잠시 후 다시 시도해주세요.";
-    } finally {
-      submit.disabled = false;
-      submit.textContent = "축하 메시지 남기기";
-    }
-  });
-
-  loadGuestbook();
+  // 처음 화면
+  updateSlider();
 }
 
 // ===============================
@@ -477,6 +541,302 @@ document.addEventListener("DOMContentLoaded", () => {
   initAccount();
   initGallery();
   initGuestbook();
+
   updateCountdown();
   setInterval(updateCountdown, 1000);
 });
+// ===============================
+// 8. Google Sheets 방명록
+// ===============================
+
+function renderGuestbook(items) {
+  const list = $("#guestbook-list");
+
+  list.replaceChildren();
+
+  if (!items.length) {
+    const empty = document.createElement("p");
+
+    empty.className = "guestbook-empty";
+    empty.textContent =
+      "아직 첫 축하 메시지를 기다리고 있어요.";
+
+    list.appendChild(empty);
+
+    return;
+  }
+
+  items.forEach((item) => {
+    const card =
+      document.createElement("article");
+
+    card.className = "guestbook-card";
+
+
+    const top =
+      document.createElement("div");
+
+    top.className =
+      "guestbook-card__top";
+
+
+    const name =
+      document.createElement("strong");
+
+    name.textContent =
+      escapeText(item.name || "익명");
+
+
+    const time =
+      document.createElement("time");
+
+    time.textContent =
+      escapeText(item.createdAt || "");
+
+
+    const message =
+      document.createElement("p");
+
+    message.textContent =
+      escapeText(item.message || "");
+
+
+    top.append(name, time);
+
+    card.append(top, message);
+
+    list.appendChild(card);
+  });
+}
+
+
+// ===============================
+// 방명록 불러오기
+// ===============================
+
+async function loadGuestbook() {
+  const list = $("#guestbook-list");
+
+  if (!CONFIG.googleAppsScriptUrl) {
+    list.innerHTML =
+      '<p class="guestbook-empty">Google Apps Script URL을 연결하면 실제 방명록이 표시됩니다.</p>';
+
+    return;
+  }
+
+
+  list.innerHTML =
+    '<p class="guestbook-loading">방명록을 불러오고 있습니다...</p>';
+
+
+  try {
+    const response = await fetch(
+      `${CONFIG.googleAppsScriptUrl}?action=list&ts=${Date.now()}`
+    );
+
+
+    if (!response.ok) {
+      throw new Error("load failed");
+    }
+
+
+    const result =
+      await response.json();
+
+
+    renderGuestbook(
+      Array.isArray(result.items)
+        ? result.items
+        : []
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    list.innerHTML =
+      '<p class="guestbook-empty">방명록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p>';
+  }
+}
+
+
+// ===============================
+// 방명록 등록
+// ===============================
+
+function initGuestbook() {
+  const form =
+    $("#guestbook-form");
+
+  const nameInput =
+    $("#guest-name");
+
+  const messageInput =
+    $("#guest-message");
+
+  const submit =
+    $("#guestbook-submit");
+
+  const messageCount =
+    $("#message-count");
+
+  const formMessage =
+    $("#form-message");
+
+
+  // 글자수 표시
+  messageInput.addEventListener(
+    "input",
+    () => {
+      messageCount.textContent =
+        messageInput.value.length;
+    }
+  );
+
+
+  // 등록
+  form.addEventListener(
+    "submit",
+    async (event) => {
+
+      event.preventDefault();
+
+
+      const name =
+        nameInput.value.trim();
+
+      const message =
+        messageInput.value.trim();
+
+
+      if (!name) {
+        formMessage.textContent =
+          "이름을 입력해주세요.";
+
+        nameInput.focus();
+
+        return;
+      }
+
+
+      if (name.length > 20) {
+        formMessage.textContent =
+          "이름은 20자 이하로 입력해주세요.";
+
+        return;
+      }
+
+
+      if (!message) {
+        formMessage.textContent =
+          "축하 메시지를 입력해주세요.";
+
+        messageInput.focus();
+
+        return;
+      }
+
+
+      if (message.length > 200) {
+        formMessage.textContent =
+          "축하 메시지는 200자 이하로 작성해주세요.";
+
+        return;
+      }
+
+
+      if (!CONFIG.googleAppsScriptUrl) {
+        formMessage.textContent =
+          "Google Apps Script URL을 먼저 연결해주세요.";
+
+        return;
+      }
+
+
+      submit.disabled = true;
+
+      submit.textContent =
+        "등록 중...";
+
+      formMessage.textContent = "";
+
+
+      try {
+
+        const body =
+          new URLSearchParams({
+            action: "create",
+            name,
+            message
+          });
+
+
+        const response =
+          await fetch(
+            CONFIG.googleAppsScriptUrl,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/x-www-form-urlencoded;charset=UTF-8"
+              },
+
+              body
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error(
+            "submit failed"
+          );
+        }
+
+
+        const result =
+          await response.json();
+
+
+        if (!result.ok) {
+          throw new Error(
+            result.message ||
+            "submit failed"
+          );
+        }
+
+
+        form.reset();
+
+        messageCount.textContent =
+          "0";
+
+        formMessage.textContent =
+          "축하 메시지가 등록되었습니다.";
+
+        showToast(
+          "축하 메시지가 등록되었습니다."
+        );
+
+
+        await loadGuestbook();
+
+      } catch (error) {
+
+        console.error(error);
+
+        formMessage.textContent =
+          "메시지를 등록하지 못했습니다. 잠시 후 다시 시도해주세요.";
+
+      } finally {
+
+        submit.disabled = false;
+
+        submit.textContent =
+          "축하 메시지 남기기";
+      }
+    }
+  );
+
+
+  loadGuestbook();
+}

@@ -79,6 +79,108 @@
     document.write(`영어=${sungjuk['eng']}<br>`)
     document.write(`수학=${sungjuk['mat']}<br>`)
     document.write(`과학=${sungjuk['sci']}<br>`)
+
+   
+
+
+// 출력할 때 반복문 사용
+// 배열에서 반복문 사용
+
+// 학생 점수를 배열에 저장
+const scores = [100, 90, 80, 70];
+
+// 과목 이름을 배열에 저장
+const subjects = ["국어", "영어", "수학", "과학"];
+
+document.write("<hr>");
+
+// 반복문 사용하여 for 출력
+for(let i = 0; i < scores.length; i++){
+    document.write(`${subjects[i]} = ${scores[i]}<br>`);
+}
+
+// 객체에서 반복문 사용
+const jumsus = {
+    국어: 100,
+    영어: 90,
+    수학: 80,
+    과학: 70
+};
+
+document.write("<hr>");
+
+// 객체 data를 사용하여 출력
+for(let subject in jumsus){
+    document.write(`${subject} = ${jumsus[subject]}<br>`);
+}
+
+// 1. 배열 만들기
+const book = [
+    "미드나잇 라이브러리",
+    "매트 헤이그",
+    "14,220원",
+    "2021-04-28",
+    "408",
+    "9791191056556"
+];
+
+ document.write("<hr>"); 
+
+document.write(`책 제목 : ${book[0]}<br>`);
+document.write(`저자 : ${book[1]}<br>`);
+document.write(`가격 : ${book[2]}<br>`);
+document.write(`출간일 : ${book[3]}<br>`);
+document.write(`페이지 수 : ${book[4]}<br>`);
+document.write(`ISBN : ${book[5]}<br>`);
+
+
+document.write("<hr>");
+
+
+// 2. 객체 만들기
+const bookData = {
+    "책 제목": "미드나잇 라이브러리",
+    "저자": "매트 헤이그",
+    "가격": "14,220원",
+    "출간일": "2021-04-28",
+    "페이지 수": "408",
+    "ISBN": "9791191056556"
+};
+document.write(`책 제목 : ${bookData["책 제목"]}<br>`); 
+document.write(`저자 : ${bookData["저자"]}<br>`); 
+document.write(`가격 : ${bookData["가격"]}<br>`); 
+document.write(`출간일 : ${bookData["출간일"]}<br>`); 
+document.write(`페이지 수 : ${bookData["페이지 수"]}<br>`); 
+document.write(`ISBN : ${bookData["ISBN"]}<br>`); 
+document.write("<hr>");
+
+
+// 3. 배열 + 반복문
+const bookName = [
+    "책 제목",
+    "저자",
+    "가격",
+    "출간일",
+    "페이지 수",
+    "ISBN"
+];
+
+for(let i = 0; i < book.length; i++){
+    document.write(`${bookName[i]} : ${book[i]}<br>`);
+}
+
+
+document.write("<hr>");
+
+
+// 4. 객체 + 반복문
+for(let key in bookData){
+    document.write(`${key} : ${bookData[key]}<br>`);
+}
+
+
+
+
     </script>
 </body>
 </html>

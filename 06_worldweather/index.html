@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="한글과 영문으로 전 세계 도시 날씨를 확인하는 WORLD WEATHER 앱">
+  <title>WORLD WEATHER</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">GLOBAL WEATHER</p>
+        <h1>WORLD WEATHER</h1>
+      </div>
+
+      <div class="top-actions">
+        <button id="unitBtn" class="chip" type="button" aria-label="섭씨 화씨 전환">
+          <span id="unitLabel">°C</span>
+        </button>
+        <button id="locationBtn" class="icon-btn" type="button" aria-label="현재 위치">
+          <span aria-hidden="true">⌖</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="search-area">
+      <form id="searchForm" class="search-form" autocomplete="off">
+        <label class="sr-only" for="cityInput">도시명 검색</label>
+        <span class="search-symbol" aria-hidden="true">⌕</span>
+        <input
+          id="cityInput"
+          type="search"
+          placeholder="도시 검색 · 김포, 서울, London, 도쿄..."
+          maxlength="80"
+          aria-controls="searchPanel"
+          aria-expanded="false"
+        >
+        <button type="submit" class="search-btn">검색</button>
+
+        <div id="searchPanel" class="search-panel" hidden>
+          <section id="candidateWrap" hidden>
+            <div class="search-panel-title">검색 결과</div>
+            <div id="candidateList"></div>
+          </section>
+
+          <section id="recentWrap" hidden>
+            <div class="search-panel-head">
+              <div class="search-panel-title">최근 검색</div>
+              <button id="clearRecentBtn" class="ghost-btn" type="button">전체 삭제</button>
+            </div>
+            <div id="recentList"></div>
+          </section>
+        </div>
+      </form>
+
+      <p id="statusBox" class="status-box" role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <!-- 4개의 화면 탭 -->
+    <nav class="tabbar" aria-label="날씨 앱 메뉴">
+      <button class="tab-btn is-active" type="button" data-tab="today" aria-selected="true">
+        <span class="tab-icon" aria-hidden="true">☀</span>
+        <span>오늘</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="forecast" aria-selected="false">
+        <span class="tab-icon" aria-hidden="true">▤</span>
+        <span>예보</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="details" aria-selected="false">
+        <span class="tab-icon" aria-hidden="true">◫</span>
+        <span>상세</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="cities" aria-selected="false">
+        <span class="tab-icon" aria-hidden="true">★</span>
+        <span>저장도시</span>
+      </button>
+    </nav>
+
+    <main class="tab-content">
+      <!-- TAB 1: 오늘 -->
+      <section id="tab-today" class="tab-panel is-active" data-panel="today">
+        <article class="hero card">
+          <div class="hero-main">
+            <div class="place-line">
+              <span class="dot"></span>
+              <span id="countryName">대한민국</span>
+            </div>
+
+            <h2 id="cityName">김포</h2>
+            <p id="localDate" class="muted">날씨를 불러오면 현지 시간이 표시됩니다.</p>
+
+            <div class="temp-row">
+              <strong id="currentTemp" class="current-temp">--°</strong>
+              <div class="condition-block">
+                <span id="weatherEmoji" class="weather-emoji" aria-hidden="true">🌤️</span>
+                <strong id="weatherDescription">날씨 대기 중</strong>
+                <span id="feelsLike" class="muted">체감온도 --°</span>
+              </div>
+            </div>
+
+            <div class="high-low">
+              <span id="todayHigh">최고 --°</span>
+              <span class="divider-dot">•</span>
+              <span id="todayLow">최저 --°</span>
+            </div>
+          </div>
+
+          <button id="favoriteBtn" class="favorite-btn" type="button" aria-pressed="false">
+            <span aria-hidden="true">☆</span>
+            <span class="favorite-text">즐겨찾기</span>
+          </button>
+        </article>
+
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">QUICK VIEW</p>
+              <h3>지금 꼭 볼 정보</h3>
+            </div>
+          </div>
+
+          <div class="quick-grid">
+            <article class="mini-card card">
+              <span class="mini-icon">💧</span>
+              <span>습도</span>
+              <strong id="quickHumidity">--%</strong>
+            </article>
+            <article class="mini-card card">
+              <span class="mini-icon">💨</span>
+              <span>바람</span>
+              <strong id="quickWind">-- m/s</strong>
+            </article>
+            <article class="mini-card card">
+              <span class="mini-icon">🌅</span>
+              <span>일출</span>
+              <strong id="quickSunrise">--:--</strong>
+            </article>
+            <article class="mini-card card">
+              <span class="mini-icon">🌇</span>
+              <span>일몰</span>
+              <strong id="quickSunset">--:--</strong>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <!-- TAB 2: 예보 -->
+      <section id="tab-forecast" class="tab-panel" data-panel="forecast" hidden>
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">NEXT HOURS</p>
+              <h3>시간대별 날씨</h3>
+            </div>
+            <span class="muted small">3시간 간격</span>
+          </div>
+
+          <div id="hourlyForecast" class="hourly-list">
+            <div class="empty-state">도시를 검색하면 시간대별 예보가 표시됩니다.</div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">5 DAY FORECAST</p>
+              <h3>5일 날씨</h3>
+            </div>
+          </div>
+
+          <div id="dailyForecast" class="daily-list card">
+            <div class="empty-state">도시를 검색하면 5일 예보가 표시됩니다.</div>
+          </div>
+        </section>
+      </section>
+
+      <!-- TAB 3: 상세 -->
+      <section id="tab-details" class="tab-panel" data-panel="details" hidden>
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">WEATHER DETAILS</p>
+              <h3>상세 날씨</h3>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            <article class="detail-card card">
+              <span class="detail-icon">💧</span>
+              <span class="muted">습도</span>
+              <strong id="humidity">--%</strong>
+              <small>현재 상대습도</small>
+            </article>
+
+            <article class="detail-card card">
+              <span class="detail-icon">💨</span>
+              <span class="muted">바람</span>
+              <strong id="windSpeed">-- m/s</strong>
+              <small id="windDirection">풍향 --</small>
+            </article>
+
+            <article class="detail-card card">
+              <span class="detail-icon">🌡️</span>
+              <span class="muted">체감온도</span>
+              <strong id="detailFeelsLike">--°</strong>
+              <small>실제 체감 기준</small>
+            </article>
+
+            <article class="detail-card card">
+              <span class="detail-icon">👁️</span>
+              <span class="muted">가시거리</span>
+              <strong id="visibility">-- km</strong>
+              <small>수평 가시거리</small>
+            </article>
+
+            <article class="detail-card card">
+              <span class="detail-icon">🧭</span>
+              <span class="muted">기압</span>
+              <strong id="pressure">-- hPa</strong>
+              <small>현재 기압</small>
+            </article>
+
+            <article class="detail-card card">
+              <span class="detail-icon">☁️</span>
+              <span class="muted">구름</span>
+              <strong id="cloudiness">--%</strong>
+              <small>현재 운량</small>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">SUN CYCLE</p>
+              <h3>일출 · 일몰</h3>
+            </div>
+          </div>
+
+          <article class="sun-card card">
+            <div>
+              <span class="muted">일출</span>
+              <strong id="sunrise">--:--</strong>
+            </div>
+            <div class="sun-line" aria-hidden="true">
+              <span>☀️</span>
+            </div>
+            <div class="sunset-box">
+              <span class="muted">일몰</span>
+              <strong id="sunset">--:--</strong>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <!-- TAB 4: 저장도시 -->
+      <section id="tab-cities" class="tab-panel" data-panel="cities" hidden>
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">MY CITIES</p>
+              <h3>즐겨찾는 도시</h3>
+            </div>
+          </div>
+
+          <div id="favoriteCities" class="favorite-grid">
+            <div class="empty-state card">
+              오늘 탭에서 ☆ 버튼을 눌러 도시를 저장하세요.
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">RECENT</p>
+              <h3>최근 검색</h3>
+            </div>
+          </div>
+
+          <div id="recentCitiesPanel" class="recent-cities-grid">
+            <div class="empty-state card">최근 검색한 도시가 없습니다.</div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>WORLD WEATHER</strong>
+      <span>Weather data by OpenWeather</span>
+    </footer>
+  </div>
+
+  <!-- 로딩 오버레이: [hidden] CSS로 무조건 숨김 -->
+  <div id="loadingOverlay" class="loading-overlay" hidden>
+    <div class="loading-card">
+      <span class="spinner" aria-hidden="true"></span>
+      <strong>날씨 정보를 불러오는 중...</strong>
+      <span>OpenWeather에서 최신 데이터를 가져오고 있습니다.</span>
+    </div>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

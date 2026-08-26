@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체data</title>
+</head>
+<body>
+    <script>
+        // 배열 data 선언
+        let jumsu = [100, 90, 80, 70];
+
+        console.log(jumsu);
+
+        document.write(jumsu[2] + "<br>");
+
+        document.write(`국어점수 = ${jumsu[0]}<br>`);
+        document.write(`영어점수 = ${jumsu[1]}<br>`);
+        document.write(`수학점수 = ${jumsu[2]}<br>`);
+        document.write(`과학점수 = ${jumsu[3]}<br>`);
+
+        document.write("<hr>");
+
+        // 객체를 배열 안에 저장
+        let score = [
+            {
+                no: 1,
+                name: "홍길동",
+                kor: 100,
+                eng: 90,
+                mat: 80,
+                sci: 70
+            },
+            {
+                no: 2,
+                name: "김철수",
+                kor: 90,
+                eng: 80,
+                mat: 70,
+                sci: 60
+            }
+        ];
+
+        document.write(`번호 = ${score[0].no}<br>`);
+        document.write(`이름 = ${score[0].name}<br>`);
+        document.write(`국어점수 = ${score[0].kor}<br>`);
+        document.write(`영어점수 = ${score[0].eng}<br>`);
+        document.write(`수학점수 = ${score[0].mat}<br>`);
+        document.write(`과학점수 = ${score[0].sci}<br>`);
+
+    // 객체를 선언
+    const car = {
+        color:"검정",
+        cc:3000,
+        make:"현대 자동차",
+    }
+
+
+
+
+    document.write("<hr>")
+    document.write(`색상=${car.color}<br>`)
+    document.write(`배기량=${car.cc}<br>`)
+    document.write(`제조사=${car.make}<br>`)
+
+
+    console.log(car)
+
+    // 객체를 선언한다
+    const sungjuk = {
+        kor:100,
+        eng:90,
+        mat:80,
+        sci:70,
+    }
+
+    document.write("<hr>")
+    document.write(`국어=${sungjuk['kor']}<br>`)
+    document.write(`영어=${sungjuk['eng']}<br>`)
+    document.write(`수학=${sungjuk['mat']}<br>`)
+    document.write(`과학=${sungjuk['sci']}<br>`)
+    </script>
+</body>
+</html>
